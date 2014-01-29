@@ -1,0 +1,11 @@
+im trunk-Verz.:
+make ./bin/searchText
+make MinDicString
+
+something.lex in utf-8 anlegen, keys sortiert nach unicode-codepoints:
+$> LC_ALL=C sort -t'#' -k1,1 sth.list > sorted.lex
+
+$>./bin/compileMDString sorted.lex sorted.mds
+
+$>./bin/searchText sorted.mds < text.txt > occurences.txt
+
