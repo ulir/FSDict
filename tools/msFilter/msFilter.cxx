@@ -1,9 +1,9 @@
-#include "csl/Getopt/Getopt.h"
-#include "csl/MSMatch/MSMatch.h"
-#include "csl/ResultSet/ResultSet.h"
-#include "csl/Global.h"
-#include "csl/Stopwatch.h"
-using namespace csl;
+#include "fsdict/Getopt/Getopt.h"
+#include "fsdict/MSMatch/MSMatch.h"
+#include "fsdict/ResultSet/ResultSet.h"
+#include "fsdict/Global.h"
+#include "fsdict/Stopwatch.h"
+using namespace fsdict;
 
 
 /**
@@ -42,14 +42,14 @@ int main( int argc, char const** argv ) {
 	// set the last byte to 0. So we can recognize when an overlong string was read by getline().
 	bytesIn[Global::lengthOfLongStr - 1] = 0; 
 
-	csl::Stopwatch watch;
+	fsdict::Stopwatch watch;
 	watch.start();
 
 	size_t nrOfQueries = 0;
 	while( std::cin.getline( ( char* ) bytesIn, Global::lengthOfLongStr ) ) {
 	  try {
  	    if ( bytesIn[Global::lengthOfLongStr-1] != 0 ) {
-		throw exceptions::badInput( "csl::msFilter: Maximum length of input line violated (set by Global::lengthOfLongStr)" );
+		throw exceptions::badInput( "fsdict::msFilter: Maximum length of input line violated (set by Global::lengthOfLongStr)" );
 	    }
 	    mbstowcs( query, (char*)bytesIn, Global::lengthOfLongStr );
 

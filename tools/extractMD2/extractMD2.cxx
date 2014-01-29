@@ -1,9 +1,9 @@
 #include<iostream>
-#include "csl/Getopt/Getopt.h"
-#include "csl/Alphabet/Alphabet.h"
-#include "csl/MinDic2/MinDic2.h"
+#include "fsdict/Getopt/Getopt.h"
+#include "fsdict/Alphabet/Alphabet.h"
+#include "fsdict/MinDic2/MinDic2.h"
 
-using namespace csl;
+using namespace fsdict;
 
 int main( int argc, const char** argv ) {
     std::locale::global( std::locale("") ); // set the environment's default locale

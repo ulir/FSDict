@@ -1,14 +1,14 @@
-project(csl)
+project(fsdict)
 
 cmake_minimum_required(VERSION 2.6)
 
 
 
-ADD_CUSTOM_TARGET(MinDic DEPENDS csl compileMD lookupMD extractMD   )
-ADD_CUSTOM_TARGET(FBDic DEPENDS csl compileFBDic lookupFBDic extractFBDic   )
-#ADD_CUSTOM_TARGET(DictSearch DEPENDS csl MinDic FBDic)
+ADD_CUSTOM_TARGET(MinDic DEPENDS fsdict compileMD lookupMD extractMD   )
+ADD_CUSTOM_TARGET(FBDic DEPENDS fsdict compileFBDic lookupFBDic extractFBDic   )
+#ADD_CUSTOM_TARGET(DictSearch DEPENDS fsdict MinDic FBDic)
 
-ADD_CUSTOM_TARGET(Vaam DEPENDS csl MinDic FBDic )
+ADD_CUSTOM_TARGET(Vaam DEPENDS fsdict MinDic FBDic )
 
 
 
@@ -25,12 +25,12 @@ SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 
 #SET(CMAKE_VERBOSE_MAKEFILE true)
 
-SET( COMPILE_DEFINITIONS ${COMPILE_DEFINITIONS} CSL_ROOTDIR='"${csl_SOURCE_DIR}/"' )
+SET( COMPILE_DEFINITIONS ${COMPILE_DEFINITIONS} FSDICT_ROOTDIR='"${fsdict_SOURCE_DIR}/"' )
 
 ENABLE_TESTING()
 
 
-include_directories (${csl_SOURCE_DIR})
+include_directories (${fsdict_SOURCE_DIR})
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules/")
 FIND_PACKAGE( CPPUNIT )
@@ -43,6 +43,6 @@ ENDIF( CPPUNIT_FOUND )
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 
-add_subdirectory(csl)
+add_subdirectory(fsdict)
 add_subdirectory(tools)
 

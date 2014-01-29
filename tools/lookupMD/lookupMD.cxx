@@ -1,17 +1,17 @@
 #include<cstdlib>
-#include "csl/MinDic/MinDic.h"
-#include "csl/FBDic/FBDic.h"
-#include "csl/Getopt/Getopt.h"
+#include "fsdict/MinDic/MinDic.h"
+#include "fsdict/FBDic/FBDic.h"
+#include "fsdict/Getopt/Getopt.h"
 #include<errno.h>
 
-using namespace csl;
+using namespace fsdict;
 
 int main( int argc, char const** argv ) {
     std::locale::global( std::locale("") ); // set the environment's default locale
 
     try {
 
-        csl::Getopt options;
+        fsdict::Getopt options;
         options.getOptionsAsSpecified( argc, argv );
 
 	if(argc != 2) {
@@ -21,16 +21,16 @@ int main( int argc, char const** argv ) {
 
 
 
-	csl::MinDic<> const* minDic = 0;
-	csl::FBDic<>* fbdic = 0; // this one is loaded in case a fbdic is passed to the program
+	fsdict::MinDic<> const* minDic = 0;
+	fsdict::FBDic<>* fbdic = 0; // this one is loaded in case a fbdic is passed to the program
 
 	// In case a .fbdic file is passed, open it and use the FWDic
 	if( ( options.getArgument( 0 ).size() >= 5 ) && options.getArgument( 0 ).substr( options.getArgument( 0 ).size() - 5 ) == "fbdic" ) {
-	    fbdic= new csl::FBDic<>( options.getArgument( 0 ).c_str() );
+	    fbdic= new fsdict::FBDic<>( options.getArgument( 0 ).c_str() );
 	    minDic = &( fbdic->getFWDic() );
 	}
 	else {
-	    minDic = new csl::MinDic<>( options.getArgument( 0 ).c_str() );
+	    minDic = new fsdict::MinDic<>( options.getArgument( 0 ).c_str() );
 	}
 	
 
@@ -39,7 +39,7 @@ int main( int argc, char const** argv ) {
 	while( std::getline( std::wcin, query ).good() ) {
 	    // is this really necessary ??
 	    if ( query.length() > Global::lengthOfLongStr ) {
-		throw exceptions::badInput( "csl::lookupMD: Maximum length of input line violated (set by Global::lengthOfLongStr)" );
+		throw exceptions::badInput( "fsdict::lookupMD: Maximum length of input line violated (set by Global::lengthOfLongStr)" );
 	    }
 	    
 	    int ann = 0;
@@ -49,7 +49,7 @@ int main( int argc, char const** argv ) {
 	    else std::wcout<<std::endl;
 	}
 	if( errno == EILSEQ ) {
-	    throw exceptions::badInput( "csl::lookupMD: Input encoding error" );
+	    throw exceptions::badInput( "fsdict::lookupMD: Input encoding error" );
 	}
 	
     } catch( exceptions::cslException ex ) {

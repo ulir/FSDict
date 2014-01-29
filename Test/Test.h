@@ -1,5 +1,5 @@
 
-namespace csl {
+namespace fsdict {
 
     class Test {
     public:
@@ -12,4 +12,4 @@ namespace csl {
     };
 
 
-} // namespace csl
+} // namespace fsdict

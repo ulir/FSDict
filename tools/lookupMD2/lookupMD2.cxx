@@ -1,8 +1,8 @@
 #include<cstdlib>
-#include "csl/MinDic2/MinDic2.h"
+#include "fsdict/MinDic2/MinDic2.h"
 #include<errno.h>
 
-using namespace csl;
+using namespace fsdict;
 
 int main( int argc, char** argv ) {
     std::locale::global( std::locale("") ); // set the environment's default locale
@@ -22,7 +22,7 @@ int main( int argc, char** argv ) {
 	while( std::getline( std::wcin, query ).good() ) {
 	    // is this really necessary ??
 	    if ( query.length() > Global::lengthOfLongStr ) {
-		throw exceptions::badInput( "csl::lookupMD2: Maximum length of input line violated (set by Global::lengthOfLongStr)" );
+		throw exceptions::badInput( "fsdict::lookupMD2: Maximum length of input line violated (set by Global::lengthOfLongStr)" );
 	    }
 	    
 	    int ann = 0;
@@ -32,7 +32,7 @@ int main( int argc, char** argv ) {
 	    else std::wcout<<std::endl;
 	}
 	if( errno == EILSEQ ) {
-	    throw exceptions::badInput( "csl::lookupMD2: Input encodig error" );
+	    throw exceptions::badInput( "fsdict::lookupMD2: Input encodig error" );
 	}
 	
     } catch( exceptions::cslException ex ) {

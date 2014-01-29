@@ -1,7 +1,7 @@
-#include <csl/Global.h>
-#include <csl/MinDicString/MinDicString.h>
+#include <fsdict/Global.h>
+#include <fsdict/MinDicString/MinDicString.h>
 
-using namespace csl;
+using namespace fsdict;
 
 int main( int argc, char** argv ) {
     setlocale(LC_CTYPE, "de_DE.UTF-8");  /*Setzt das Default Encoding für das Programm */
@@ -23,7 +23,7 @@ int main( int argc, char** argv ) {
 
 	while( std::cin.getline( ( char* ) bytesIn, Global::lengthOfLongStr ) ) {
  	    if ( bytesIn[Global::lengthOfLongStr-1] != 0 ) {
-		throw exceptions::badInput( "csl::MinDic::compileDic:Maximum length of input line violated (set by Global::lengthOfLongStr)" );
+		throw exceptions::badInput( "fsdict::MinDic::compileDic:Maximum length of input line violated (set by Global::lengthOfLongStr)" );
 	    }
 	    mbstowcs( query, (char*)bytesIn, Global::lengthOfLongStr );
 	    

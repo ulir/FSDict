@@ -1,10 +1,10 @@
 /**
 @page msFilter_manual msFilter Manual
 
-msFilter is a command line tool that uses csl::MSMatch to perform approximate search on dictionaries. 
+msFilter is a command line tool that uses fsdict::MSMatch to perform approximate search on dictionaries. 
 The underlying technology uses Universal Levenshtein Automata as described in the following publication:<br>
 "S. Mihov and K. Schulz. Fast approximate search in large dictionaries. Computational Linguistics, 30, 2004."<br>
-Please refer to the class documentation of csl::LevDEA and csl::MSMatch for details.
+Please refer to the class documentation of fsdict::LevDEA and fsdict::MSMatch for details.
 
 @section msFilter_manual_compilation Compilation of the dictionary into binary file
 Before using msFilter to perform approximate search in a dictionary, this dictionary has to be compiled into a binary file

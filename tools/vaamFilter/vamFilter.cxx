@@ -1,9 +1,9 @@
 #include<iostream>
-#include "csl/Vaam/Vam.h"
-#include "csl/Getopt/Getopt.h"
-#include "csl/Stopwatch.h"
+#include "fsdict/Vaam/Vam.h"
+#include "fsdict/Getopt/Getopt.h"
+#include "fsdict/Stopwatch.h"
 
-//#define CSL_VAMFILTER_PRINTNONE true
+//#define FSDICT_VAMFILTER_PRINTNONE true
 
 /**
  * Vam
@@ -13,9 +13,9 @@
  * It is invoked with a distance bound \c k, a compiled minimized dictionary \c dic
  * and a file containing a set of patterns \c P.
  * 
- * Please consult the documentation of class csl::Vam for details.
+ * Please consult the documentation of class fsdict::Vam for details.
  *
- * @see csl::Vam
+ * @see fsdict::Vam
  * @author Ulrich Reffle, <uli@cis.uni-muenchen.de>
  * 
  */
@@ -23,7 +23,7 @@ int main(int argc, const char** argv ) {
 
 	try {
 
-    std::locale::global( CSL_UTF8_LOCALE );
+    std::locale::global( FSDICT_UTF8_LOCALE );
     Getopt opt( argc, argv );
 
     if( opt.getArgumentCount() < 2 ) {
@@ -31,21 +31,21 @@ int main(int argc, const char** argv ) {
 	exit( 1 );
     }
 
-    csl::MinDic<> baseDic;
+    fsdict::MinDic<> baseDic;
     baseDic.loadFromFile( opt.getArgument( 0 ).c_str() );
 
-    csl::Vam vam( baseDic, opt.getArgument( 1 ).c_str() );
+    fsdict::Vam vam( baseDic, opt.getArgument( 1 ).c_str() );
 
     if( opt.hasOption( "maxNrOfPatterns" ) ) {
 	vam.setMaxNrOfPatterns( atoi( opt.getOption( "maxNrOfPatterns" ).c_str() ) );
     }
 
 
-    std::vector< csl::Interpretation > answers;
+    std::vector< fsdict::Interpretation > answers;
 
     std::wstring query;
 
-    csl::Stopwatch watch;
+    fsdict::Stopwatch watch;
 
     while( std::wcin >> query ) {
 	watch.start();
@@ -53,15 +53,15 @@ int main(int argc, const char** argv ) {
 	vam.query( query, &answers );
 
 	if( answers.empty() ) {
-#ifndef CSL_VAMFILTER_PRINTNONE
+#ifndef FSDICT_VAMFILTER_PRINTNONE
 	    std::wcout<<query<<":NONE"<<std::endl;
 #endif
 	}
 	else {
 	    // all interpretations of the query in one line
 	    
-#ifndef CSL_VAMFILTER_PRINTNONE
-	    for( std::vector< csl::Interpretation >::const_iterator it = answers.begin(); it!= answers.end(); ++it ) {
+#ifndef FSDICT_VAMFILTER_PRINTNONE
+	    for( std::vector< fsdict::Interpretation >::const_iterator it = answers.begin(); it!= answers.end(); ++it ) {
 		it->print();
 		if( it + 1  != answers.end() ) std::wcout<<"|";
 	    }
@@ -72,7 +72,7 @@ int main(int argc, const char** argv ) {
 //	std::wcout<<watch.readMilliseconds()<<" ms"<<std::endl;
     }
 	
-	} catch( csl::exceptions::cslException ex ) {
+	} catch( fsdict::exceptions::cslException ex ) {
 		std::wcout<<"Caught exception: "<<ex.what()<< std::endl;
 		return 0;
 	}

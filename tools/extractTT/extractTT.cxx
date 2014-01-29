@@ -1,9 +1,9 @@
 #include<iostream>
-#include "csl/Getopt/Getopt.h"
-#include "csl/Alphabet/Alphabet.h"
-#include "csl/TransTable/TransTable.h"
+#include "fsdict/Getopt/Getopt.h"
+#include "fsdict/Alphabet/Alphabet.h"
+#include "fsdict/TransTable/TransTable.h"
 
-using namespace csl;
+using namespace fsdict;
 
 int main( int argc, const char** argv ) {
     setlocale(LC_CTYPE, "de_DE.UTF-8");  /*Setzt das Default Encoding für das Programm */

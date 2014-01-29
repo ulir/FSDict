@@ -1,8 +1,8 @@
-#include <csl/Global.h>
-#include <csl/FBDicString/FBDicString.h>
-#include <csl/Getopt/Getopt.h>
+#include <fsdict/Global.h>
+#include <fsdict/FBDicString/FBDicString.h>
+#include <fsdict/Getopt/Getopt.h>
 
-using namespace csl;
+using namespace fsdict;
 int main( int argc, const char** argv ) {
 
     std::locale::global( std::locale( "" ) );
@@ -27,14 +27,14 @@ int main( int argc, const char** argv ) {
 	
 
     }
-    catch( csl::exceptions::cslException exc ) {
+    catch( fsdict::exceptions::cslException exc ) {
 	std::wstring wide_what;
-	csl::CSLLocale::string2wstring( exc.what(), wide_what );
-	std::wcerr << "csl::compileFBDString: caught cslException and aborted: " << wide_what << std::endl;
+	fsdict::CSLLocale::string2wstring( exc.what(), wide_what );
+	std::wcerr << "fsdict::compileFBDString: caught cslException and aborted: " << wide_what << std::endl;
 	return 1;
     }
     catch( std::exception exc ) {
-	std::wcerr << "csl::compileFBDString: caught std::exception. Aborted." << std::endl;
+	std::wcerr << "fsdict::compileFBDString: caught std::exception. Aborted." << std::endl;
 	return 1;
     }
 

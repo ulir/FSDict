@@ -1,15 +1,15 @@
 #include<iostream>
-#include "csl/Getopt/Getopt.h"
-#include "csl/Alphabet/Alphabet.h"
-#include "csl/MinDic/MinDic.h"
-#include "csl/FBDic/FBDic.h"
+#include "fsdict/Getopt/Getopt.h"
+#include "fsdict/Alphabet/Alphabet.h"
+#include "fsdict/MinDic/MinDic.h"
+#include "fsdict/FBDic/FBDic.h"
 
-using namespace csl;
+using namespace fsdict;
 
 int main( int argc, const char** argv ) {
     std::locale::global( std::locale("") ); // set the environment's default locale
 
-    csl::Getopt options( argc, argv );
+    fsdict::Getopt options( argc, argv );
 
 
     if( options.getArgumentCount() != 1 ) {
@@ -24,16 +24,16 @@ int main( int argc, const char** argv ) {
     }
     try {
 
-	csl::MinDic<> const* minDic = 0;
-	csl::FBDic<>* fbdic = 0; // this one is loaded in case a fbdic is passed to the program
+	fsdict::MinDic<> const* minDic = 0;
+	fsdict::FBDic<>* fbdic = 0; // this one is loaded in case a fbdic is passed to the program
 
 	// In case a .fbdic file is passed, open it and use the FWDic
 	if( ( options.getArgument( 0 ).size() >= 5 ) && options.getArgument( 0 ).substr( options.getArgument( 0 ).size() - 5 ) == "fbdic" ) {
-	    fbdic= new csl::FBDic<>( options.getArgument( 0 ).c_str() );
+	    fbdic= new fsdict::FBDic<>( options.getArgument( 0 ).c_str() );
 	    minDic = &( fbdic->getFWDic() );
 	}
 	else {
-	    minDic = new csl::MinDic<>( options.getArgument( 0 ).c_str() );
+	    minDic = new fsdict::MinDic<>( options.getArgument( 0 ).c_str() );
 	}
       
 	if( options.hasOption( "dot" ) ) {

@@ -1,6 +1,6 @@
-#include "csl/MinDic/MinDic.h"
-#include "csl/Getopt/Getopt.h"
-#include "csl/Global.h"
+#include "fsdict/MinDic/MinDic.h"
+#include "fsdict/Getopt/Getopt.h"
+#include "fsdict/Global.h"
 #include<iostream>
 
 
@@ -18,9 +18,9 @@ void printHelp() {
 int main(int argc, char const** argv) {
     std::locale::global( std::locale( "" ) );
 
-    csl::Getopt options;
-    options.specifyOption( "help", csl::Getopt::VOID );
-    options.specifyOption( "stdin", csl::Getopt::VOID );
+    fsdict::Getopt options;
+    options.specifyOption( "help", fsdict::Getopt::VOID );
+    options.specifyOption( "stdin", fsdict::Getopt::VOID );
     options.getOptionsAsSpecified( argc, argv );
 
     if( options.hasOption( "help" ) ) {
@@ -40,7 +40,7 @@ int main(int argc, char const** argv) {
 	}
 
 	try {
-	    csl::MinDic< int > t;
+	    fsdict::MinDic< int > t;
 
 	    t.initConstruction();
 	    
@@ -53,7 +53,7 @@ int main(int argc, char const** argv) {
 		t.addToken( line.c_str(), annotation );
 	    }
 	    if( errno == EILSEQ ) { // catch encoding error
-		throw csl::exceptions::badInput( "MinDic::compileDic: Encoding error in input sequence." );
+		throw fsdict::exceptions::badInput( "MinDic::compileDic: Encoding error in input sequence." );
 	    }
 	    t.finishConstruction();
 	    
@@ -63,7 +63,7 @@ int main(int argc, char const** argv) {
 	    //   t.printCells();
 	    return EXIT_SUCCESS;
 	    
-	} catch ( csl::exceptions::cslException ex ) {
+	} catch ( fsdict::exceptions::cslException ex ) {
 	    std::wcout<<"compileMD failed: "<<ex.what()<<std::endl;
 	    return EXIT_FAILURE;
 	} catch ( std::exception ex ) {
@@ -91,7 +91,7 @@ int main(int argc, char const** argv) {
 		}
 	    }
 
-	    csl::MinDic< int > t;
+	    fsdict::MinDic< int > t;
 	    t.compileDic( inFile.c_str() );
 	    
 	    t.writeToFile( outFile.c_str() );

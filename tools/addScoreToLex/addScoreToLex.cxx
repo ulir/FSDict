@@ -1,9 +1,9 @@
 #include<cstdlib>
-#include "csl/MinDic/MinDic.h"
+#include "fsdict/MinDic/MinDic.h"
 #include<errno.h>
-#include<csl/Getopt/Getopt.h>
+#include<fsdict/Getopt/Getopt.h>
 
-using namespace csl;
+using namespace fsdict;
 
 int main( int argc, char const** argv ) {
     std::locale::global( std::locale("") ); // set the environment's default locale
@@ -45,7 +45,7 @@ int main( int argc, char const** argv ) {
 	    }
 	}
 	if( errno == EILSEQ ) {
-	    throw exceptions::badInput( "csl::lookupMD: Input encodig error" );
+	    throw exceptions::badInput( "fsdict::lookupMD: Input encodig error" );
 	}
 	
     } catch( exceptions::cslException ex ) {

@@ -1,8 +1,8 @@
 
 #include<cstdlib>
-#include <csl/TransTable/TransTable.h>
+#include <fsdict/TransTable/TransTable.h>
 
-using namespace csl;
+using namespace fsdict;
 
 int main( int argc, char** argv ) {
 //    setlocale(LC_CTYPE, "de_DE.UTF-8");  /*Setzt das Default Encoding für das Programm */
@@ -23,7 +23,7 @@ int main( int argc, char** argv ) {
 	while( std::getline( std::wcin, query ).good() ) {
 	    // is this really necessary ??
 	    if ( query.length() > Global::lengthOfLongStr ) {
-		throw exceptions::badInput( "csl::compileMD: Maximum length of input line violated (set by Global::lengthOfLongStr)" );
+		throw exceptions::badInput( "fsdict::compileMD: Maximum length of input line violated (set by Global::lengthOfLongStr)" );
 	    }
 	    
 	    size_t ann = 0;

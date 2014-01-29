@@ -1,9 +1,9 @@
 #include<iostream>
-#include <csl/Getopt/Getopt.h>
-#include <csl/Alphabet/Alphabet.h>
-#include <csl/FBDic/FBDic.h>
+#include <fsdict/Getopt/Getopt.h>
+#include <fsdict/Alphabet/Alphabet.h>
+#include <fsdict/FBDic/FBDic.h>
 
-using namespace csl;
+using namespace fsdict;
 
 int main( int argc, const char** argv ) {
     std::locale::global( std::locale( "" ) );

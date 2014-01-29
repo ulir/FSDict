@@ -1,19 +1,19 @@
-#include "csl/MinDic2/MinDic2.h"
-#include "csl/Getopt/Getopt.h"
-#include "csl/Global.h"
+#include "fsdict/MinDic2/MinDic2.h"
+#include "fsdict/Getopt/Getopt.h"
+#include "fsdict/Global.h"
 #include<iostream>
 
 void printHelp(); // forward declaration
 
 /**
- * @brief Program used to compute a csl::MinDic2 from a word list and dump the automaton to a file.
+ * @brief Program used to compute a fsdict::MinDic2 from a word list and dump the automaton to a file.
  *
  */
 
 int main(int argc, char const** argv) {
     std::locale::global( std::locale( "" ) );
 
-    csl::Getopt opt( argc, argv );
+    fsdict::Getopt opt( argc, argv );
 
 
     if( opt.hasOption( "stdin" ) ) {
@@ -23,7 +23,7 @@ int main(int argc, char const** argv) {
 	}
 
 	try {
-	    csl::MinDic2 t;
+	    fsdict::MinDic2 t;
 
 	    t.initConstruction();
 	    
@@ -36,7 +36,7 @@ int main(int argc, char const** argv) {
 		t.addToken( line.c_str(), annotation );
 	    }
 	    if( errno == EILSEQ ) { // catch encoding error
-		throw csl::exceptions::badInput( "MinDic::compileDic: Encoding error in input sequence." );
+		throw fsdict::exceptions::badInput( "MinDic::compileDic: Encoding error in input sequence." );
 	    }
 
 	    t.finishConstruction();
@@ -54,7 +54,7 @@ int main(int argc, char const** argv) {
     }
     else if( opt.getArgumentCount() == 2 ) {
 	try {
-	    csl::MinDic2 t;
+	    fsdict::MinDic2 t;
 	    t.compileDic( argv[1] );
 	    
 	    t.writeToFile( argv[2] );

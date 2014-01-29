@@ -1,11 +1,11 @@
 #include<iostream>
-#include<csl/Global.h>
-#include <csl/CSLLocale/CSLLocale.h>
-#include<csl/Vaam/Vaam.h>
-#include<csl/Vaam/Vaam.h>
-#include<csl/Getopt/Getopt.h>
-#include<csl/FBDic/FBDic.h>
-#include<csl/MinDicString/MinDicString.h>
+#include<fsdict/Global.h>
+#include <fsdict/CSLLocale/CSLLocale.h>
+#include<fsdict/Vaam/Vaam.h>
+#include<fsdict/Vaam/Vaam.h>
+#include<fsdict/Getopt/Getopt.h>
+#include<fsdict/FBDic/FBDic.h>
+#include<fsdict/MinDicString/MinDicString.h>
 
 /**
  * Vaam
@@ -15,25 +15,25 @@
  * It is invoked with a distance bound \c k, a compiled minimized dictionary \c dic
  * and a file containing a set of patterns \c P.
  * 
- * Please consult the documentation of class csl::Vaam for details.
+ * Please consult the documentation of class fsdict::Vaam for details.
  *
- * @see csl::Vaam
+ * @see fsdict::Vaam
  * @author Ulrich Reffle, <uli@cis.uni-muenchen.de>
  * 
  */
 
 
-#ifdef CSL_VAAMFILTER_USE_TRANSTABLE
-typedef csl::Vaam< csl::TransTable< csl::TT_PERFHASH, uint16_t, uint32_t > > Vaam_t;
+#ifdef FSDICT_VAAMFILTER_USE_TRANSTABLE
+typedef fsdict::Vaam< fsdict::TransTable< fsdict::TT_PERFHASH, uint16_t, uint32_t > > Vaam_t;
 #else
-typedef csl::Vaam< csl::MinDic<> > Vaam_t;
+typedef fsdict::Vaam< fsdict::MinDic<> > Vaam_t;
 #endif
 
 
 //forward declarations
 int main(int argc, const char** argv );
-void printAnswer( csl::Interpretation const& i, std::wostream& os = std::wcout );
-void printAnswer_machineReadable( csl::Interpretation const& i, std::wostream& os = std::wcout );
+void printAnswer( fsdict::Interpretation const& i, std::wostream& os = std::wcout );
+void printAnswer_machineReadable( fsdict::Interpretation const& i, std::wostream& os = std::wcout );
 
 
 
@@ -61,15 +61,15 @@ int main(int argc, const char** argv ) {
 
     try {
 	// retrieve command line options
-	csl::Getopt opt;
-	opt.specifyOption( "help", csl::Getopt::VOID );
-	opt.specifyOption( "minNrOfPatterns", csl::Getopt::STRING );
-	opt.specifyOption( "maxNrOfPatterns", csl::Getopt::STRING );
-	opt.specifyOption( "machineReadable", csl::Getopt::VOID );
-	opt.specifyOption( "noStatusMessage", csl::Getopt::VOID );
-	opt.specifyOption( "patternDelimiter", csl::Getopt::STRING );
-	opt.specifyOption( "systemlocale", csl::Getopt::VOID );
-	opt.specifyOption( "printQuery", csl::Getopt::VOID );
+	fsdict::Getopt opt;
+	opt.specifyOption( "help", fsdict::Getopt::VOID );
+	opt.specifyOption( "minNrOfPatterns", fsdict::Getopt::STRING );
+	opt.specifyOption( "maxNrOfPatterns", fsdict::Getopt::STRING );
+	opt.specifyOption( "machineReadable", fsdict::Getopt::VOID );
+	opt.specifyOption( "noStatusMessage", fsdict::Getopt::VOID );
+	opt.specifyOption( "patternDelimiter", fsdict::Getopt::STRING );
+	opt.specifyOption( "systemlocale", fsdict::Getopt::VOID );
+	opt.specifyOption( "printQuery", fsdict::Getopt::VOID );
 	opt.getOptionsAsSpecified( argc, argv );
 	
 
@@ -90,22 +90,22 @@ int main(int argc, const char** argv ) {
 	Vaam_t::MinDic_t const* baseDic = 0;
 
 	// one of those is loaded from file; baseDic is (a part of) this dictionary
-	csl::MinDic<>* minDic = 0;
-	csl::FBDic<>* fbdic = 0;
-	csl::MinDicString* minDicString = 0;
+	fsdict::MinDic<>* minDic = 0;
+	fsdict::FBDic<>* fbdic = 0;
+	fsdict::MinDicString* minDicString = 0;
 
 	// In case a .fbdic file is passed, open it and use the FWDic
 	if( ( opt.getArgument( 1 ).size() >= 5 ) && opt.getArgument( 1 ).substr( opt.getArgument( 1 ).size() - 5 ) == "fbdic" ) {
-	    fbdic= new csl::FBDic<>( opt.getArgument( 1 ).c_str() );
+	    fbdic= new fsdict::FBDic<>( opt.getArgument( 1 ).c_str() );
 	    baseDic = &( fbdic->getFWDic() );
 	}
 	else if( ( opt.getArgument( 1 ).size() >= 3 ) && opt.getArgument( 1 ).substr( opt.getArgument( 1 ).size() - 3 ) == "mds" ) {
-	    minDicString = new csl::MinDicString( opt.getArgument( 1 ).c_str() );
+	    minDicString = new fsdict::MinDicString( opt.getArgument( 1 ).c_str() );
 	    baseDic = minDicString;
 	}
 	else {
 	    // this tmp-hack is because of the const-ness of baseDic
-	    minDic = new csl::MinDic<>( opt.getArgument( 1 ).c_str() );
+	    minDic = new fsdict::MinDic<>( opt.getArgument( 1 ).c_str() );
 	    baseDic = minDic;
 	}
     
@@ -127,9 +127,9 @@ int main(int argc, const char** argv ) {
 
 	if( opt.hasOption( "patternDelimiter" ) ) {
 	    if( opt.getOption( "patternDelimiter" ).length() != 1 ) {
-		throw csl::exceptions::cslException( "csl::vaamFilter: option patternDelimiter must specify exactly 1 symbol" );
+		throw fsdict::exceptions::cslException( "fsdict::vaamFilter: option patternDelimiter must specify exactly 1 symbol" );
 	    }
-	    csl::Pattern::setLeftRightDelimiter( opt.getOption( "patternDelimiter" ).at( 0 ) );
+	    fsdict::Pattern::setLeftRightDelimiter( opt.getOption( "patternDelimiter" ).at( 0 ) );
 	}
 
 	Vaam_t::CandidateReceiver answers;
@@ -145,7 +145,7 @@ int main(int argc, const char** argv ) {
 	std::wstring wideAnnotation;
 
 	if( machineReadable && ( ! opt.hasOption( "noStatusMessage" ) ) ) {
-	    std::wcout << "csl::Vaam: READY [machineReadable=true]" << std::endl;
+	    std::wcout << "fsdict::Vaam: READY [machineReadable=true]" << std::endl;
 	}
     
 	while( std::getline( std::wcin, query ).good() ) {
@@ -167,7 +167,7 @@ int main(int argc, const char** argv ) {
 	    }
 	    else if( machineReadable ) {
 		// all interpretations of the query in one line
-		for( std::vector< csl::Interpretation >::const_iterator it = answers.begin(); it!= answers.end(); ++it ) {
+		for( std::vector< fsdict::Interpretation >::const_iterator it = answers.begin(); it!= answers.end(); ++it ) {
 		    it->print();
 		    if( it + 1  != answers.end() ) std::wcout<<"|";
 		}
@@ -175,7 +175,7 @@ int main(int argc, const char** argv ) {
 	    }
 	    else {
 		// new line for each interpretation of the query
-		for( std::vector< csl::Interpretation >::const_iterator it = answers.begin(); it!= answers.end(); ++it ) {
+		for( std::vector< fsdict::Interpretation >::const_iterator it = answers.begin(); it!= answers.end(); ++it ) {
 		    std::wcout << it->getWord() << ":"
 			       << it->getBaseWord() 
 			       << "+" << it->getInstruction() 
@@ -183,7 +183,7 @@ int main(int argc, const char** argv ) {
 
 		    if( minDicString ) {
 			// in a MinDicString the annotation ("score") is the offset of the word's respective annotation
-			csl::CSLLocale::string2wstring( (char const*)minDicString->getAnnByOffset( it->getBaseWordScore() ), wideAnnotation );
+			fsdict::CSLLocale::string2wstring( (char const*)minDicString->getAnnByOffset( it->getBaseWordScore() ), wideAnnotation );
 			std::wcout << ",annotation=" << wideAnnotation;
 		    }
 		    std::wcout<<std::endl;
@@ -193,7 +193,7 @@ int main(int argc, const char** argv ) {
 	} // for all input
 
 	if( errno == EILSEQ ) {
-	    throw csl::exceptions::badInput( "csl::vaamFilter: Input encodig error" );
+	    throw fsdict::exceptions::badInput( "fsdict::vaamFilter: Input encodig error" );
 	}
     
 
@@ -211,7 +211,7 @@ int main(int argc, const char** argv ) {
 	    minDicString = 0;
 	}
     
-    } catch( csl::exceptions::cslException ex ) {
+    } catch( fsdict::exceptions::cslException ex ) {
 	std::wcerr << "Caught exception: " << ex.what() << std::endl;
 	return EXIT_FAILURE;
     }

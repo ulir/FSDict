@@ -1,9 +1,9 @@
-#include <csl/Global.h>
-#include <csl/MinDicString/MinDicString.h>
-#include <csl/Getopt/Getopt.h>
-#include <csl/CSLLocale/CSLLocale.h>
+#include <fsdict/Global.h>
+#include <fsdict/MinDicString/MinDicString.h>
+#include <fsdict/Getopt/Getopt.h>
+#include <fsdict/CSLLocale/CSLLocale.h>
 
-using namespace csl;
+using namespace fsdict;
 int main( int argc, const char** argv ) {
 
     std::locale::global( std::locale( "" ) );
@@ -29,14 +29,14 @@ int main( int argc, const char** argv ) {
 //   mds.printDic();
 
     }
-    catch( csl::exceptions::cslException exc ) {
+    catch( fsdict::exceptions::cslException exc ) {
 	std::wstring wide_what;
-	csl::CSLLocale::string2wstring( exc.what(), wide_what );
-	std::wcerr << "csl::compileMDString: caught cslException and aborted: " << wide_what << std::endl;
+	fsdict::CSLLocale::string2wstring( exc.what(), wide_what );
+	std::wcerr << "fsdict::compileMDString: caught cslException and aborted: " << wide_what << std::endl;
 	return 1;
     }
     catch( std::exception exc ) {
-	std::wcerr << "csl::compileMDString: caught std::exception. Aborted." << std::endl;
+	std::wcerr << "fsdict::compileMDString: caught std::exception. Aborted." << std::endl;
 	return 1;
     }
 

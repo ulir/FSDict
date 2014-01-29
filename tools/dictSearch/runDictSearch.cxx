@@ -1,10 +1,10 @@
-#include <csl/CSLLocale/CSLLocale.h>
-#include <csl/DictSearch/DictSearch.h>
-#include <csl/Getopt/Getopt.h>
-#include <csl/INIConfig/INIConfig.h>
+#include <fsdict/CSLLocale/CSLLocale.h>
+#include <fsdict/DictSearch/DictSearch.h>
+#include <fsdict/Getopt/Getopt.h>
+#include <fsdict/INIConfig/INIConfig.h>
 
 // uncomment this if you want so suppress output for the words
-//#define CSL_DICTSEARCH_PRINTNONE 1;
+//#define FSDICT_DICTSEARCH_PRINTNONE 1;
 
 void printHelp() {
     std::wcerr<< std::endl
@@ -18,10 +18,10 @@ void printHelp() {
 int main( int argc, char const** argv ) {
     std::locale::global( std::locale( "" ) ); // set a default locale
 
-    csl::Getopt options;
-    options.specifyOption( "help", csl::Getopt::VOID );
-    options.specifyOption( "config", csl::Getopt::STRING );
-    options.specifyOption( "machineReadable", csl::Getopt::VOID );
+    fsdict::Getopt options;
+    options.specifyOption( "help", fsdict::Getopt::VOID );
+    options.specifyOption( "config", fsdict::Getopt::STRING );
+    options.specifyOption( "machineReadable", fsdict::Getopt::VOID );
 
     options.getOptionsAsSpecified( argc, argv );
 
@@ -36,15 +36,15 @@ int main( int argc, char const** argv ) {
     }
     
     // create a DictSearch-object
-    csl::DictSearch dictSearch;
+    fsdict::DictSearch dictSearch;
 
-    csl::INIConfig config( options.getOption( "config" ) );
+    fsdict::INIConfig config( options.getOption( "config" ) );
     dictSearch.readConfiguration( config );
     
     
     
     std::wstring query;
-    csl::DictSearch::CandidateSet candSet;
+    fsdict::DictSearch::CandidateSet candSet;
 
     bool machineReadable = false;
     if( options.hasOption( "machineReadable" ) ) {
@@ -56,21 +56,21 @@ int main( int argc, char const** argv ) {
 	candSet.clear(); // empty the CandidateSet
 	dictSearch.query( query, &candSet ); // execute lookup
 	
-#ifndef CSL_DICTSEARCH_PRINTNONE
+#ifndef FSDICT_DICTSEARCH_PRINTNONE
 	std::sort( candSet.begin(), candSet.end() ); // sort candidates following a very coarse order relation
 	if( candSet.empty() ) {
 	    std::wcout<<"--NONE--"<<std::endl;
 	}
 	else if( machineReadable ) {
 	    // all interpretations of the query in one line
-	    for( csl::DictSearch::CandidateSet::const_iterator it = candSet.begin(); it != candSet.end(); ++it ) {
+	    for( fsdict::DictSearch::CandidateSet::const_iterator it = candSet.begin(); it != candSet.end(); ++it ) {
 		std::wcout << *it;
 		if( it + 1  != candSet.end() ) std::wcout<<"|";
 	    }
 	    std::wcout<<std::endl;
 	}
 	else {
-	    for( csl::DictSearch::CandidateSet::const_iterator it = candSet.begin(); it != candSet.end(); ++it ) {
+	    for( fsdict::DictSearch::CandidateSet::const_iterator it = candSet.begin(); it != candSet.end(); ++it ) {
 		std::wcout << *it << std::endl;
 	    }
 	}

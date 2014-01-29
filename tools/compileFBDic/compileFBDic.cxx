@@ -1,7 +1,7 @@
-#include <csl/FBDic/FBDic.h>
+#include <fsdict/FBDic/FBDic.h>
 #include<iostream>
 
-#include<csl/Getopt/Getopt.h>
+#include<fsdict/Getopt/Getopt.h>
 
 /**
  * @todo
@@ -15,8 +15,8 @@ void printHelp() {
 int main( int argc, char const** argv ) {
     std::locale::global( std::locale("") );
 
-    csl::Getopt options;
-    options.specifyOption( "help", csl::Getopt::VOID );
+    fsdict::Getopt options;
+    options.specifyOption( "help", fsdict::Getopt::VOID );
     options.getOptionsAsSpecified( argc, argv );
 
     if( options.hasOption( "help" ) ) {
@@ -44,12 +44,12 @@ int main( int argc, char const** argv ) {
 	}
     }
 
-    csl::FBDic< int > t;
+    fsdict::FBDic< int > t;
 
     try {
 	t.compileDic( inFile.c_str() );
 	t.writeToFile( outFile.c_str() );
-    } catch ( csl::exceptions::cslException ex ) {
+    } catch ( fsdict::exceptions::cslException ex ) {
 	std::wcout<<"compileFBDic failed: "<<ex.what()<<std::endl;
 	return EXIT_FAILURE;
     }

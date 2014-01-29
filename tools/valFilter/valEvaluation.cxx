@@ -1,17 +1,17 @@
 #include<iostream>
-#include "csl/Val/Val.h"
-#include "csl/Getopt/Getopt.h"
-#include "csl/Stopwatch.h"
-#include "csl/FBDic/FBDic.h"
+#include "fsdict/Val/Val.h"
+#include "fsdict/Getopt/Getopt.h"
+#include "fsdict/Stopwatch.h"
+#include "fsdict/FBDic/FBDic.h"
 
-#define CSL_VAAMFILTER_PRINTNONE true
+#define FSDICT_VAAMFILTER_PRINTNONE true
 
 /**
  * Vaam
  * 
  * @file
  *
- * @see csl::Vaam
+ * @see fsdict::Vaam
  * @author Ulrich Reffle, <uli@cis.uni-muenchen.de>
  * 
  */
@@ -22,12 +22,12 @@ int main(int argc, const char** argv ) {
 
     try {
 
-    csl::Stopwatch watch;
+    fsdict::Stopwatch watch;
     watch.start();
 
     std::locale::global( std::locale("") ); // set the environment's default locale
 
-    csl::Getopt opt( argc, argv );
+    fsdict::Getopt opt( argc, argv );
 
     if( opt.getArgumentCount() < 2 ) {
 	std::wcerr<< "Use like: vaamFilter [options] <dictionary> <pattern-file>"<<std::endl
@@ -40,26 +40,26 @@ int main(int argc, const char** argv ) {
     }
 
     
-    csl::MinDic<> const* baseDic = 0;
-    csl::FBDic<> const* fbdic = 0;
+    fsdict::MinDic<> const* baseDic = 0;
+    fsdict::FBDic<> const* fbdic = 0;
 
     // In case a .fbdic file is passed, open it and use the FWDic
     if( opt.getArgument( 0 ).substr( opt.getArgument( 0 ).size() - 5 ) == "fbdic" ) {
-	fbdic= new csl::FBDic<>( opt.getArgument( 0 ).c_str() );
+	fbdic= new fsdict::FBDic<>( opt.getArgument( 0 ).c_str() );
 	baseDic = &( fbdic->getFWDic() );
     }
     else {
-	csl::MinDic<>* tmp = 0;
+	fsdict::MinDic<>* tmp = 0;
 
 	// this tmp-hack is because of the const-ness of baseDic
-	tmp = new csl::MinDic<>();
+	tmp = new fsdict::MinDic<>();
 	tmp->loadFromFile( opt.getArgument( 0 ).c_str() );
 	baseDic = tmp;
 	
     }
 
 
-    csl::Val val( *baseDic, opt.getArgument( 1 ).c_str() );
+    fsdict::Val val( *baseDic, opt.getArgument( 1 ).c_str() );
 
     if( opt.hasOption( "maxNrOfPatterns" ) ) {
 	val.setMaxNrOfPatterns( atoi( opt.getOption( "maxNrOfPatterns" ).c_str() ) );
@@ -75,7 +75,7 @@ int main(int argc, const char** argv ) {
     }
 
 
-    csl::Val::CandidateReceiver answers;
+    fsdict::Val::CandidateReceiver answers;
 
     std::wstring query;
 
@@ -83,10 +83,10 @@ int main(int argc, const char** argv ) {
     size_t sumOfCandidates = 0;
 
     if( machineReadable ) {
-	std::wcout << "csl::Vaam: READY [machineReadable=true]" << std::endl;
+	std::wcout << "fsdict::Vaam: READY [machineReadable=true]" << std::endl;
     }
     else {
-	std::wcout << "csl::Vaam: READY [machineReadable=false]" << std::endl;
+	std::wcout << "fsdict::Vaam: READY [machineReadable=false]" << std::endl;
     }
 
     std::wcerr << "vaamFilter startup time: " << watch.readMilliseconds() << "ms" << std::endl;
@@ -97,21 +97,21 @@ int main(int argc, const char** argv ) {
 	answers.clear();
 	val.query( query, &answers );
 
-#ifndef CSL_VAAMFILTER_PRINTNONE
+#ifndef FSDICT_VAAMFILTER_PRINTNONE
 	std::sort( answers.begin(), answers.end() );
 #endif
 
 	sumOfCandidates += answers.size(); 
 
 	if( answers.empty() ) {
-#ifndef CSL_VAAMFILTER_PRINTNONE
+#ifndef FSDICT_VAAMFILTER_PRINTNONE
 	    std::wcout<<query<<":NONE"<<std::endl;
 #endif
 	}
 	else if( machineReadable ) {
 	    // all interpretations of the query in one line
-#ifndef CSL_VAAMFILTER_PRINTNONE
-	    for( std::vector< csl::Interpretation >::const_iterator it = answers.begin(); it!= answers.end(); ++it ) {
+#ifndef FSDICT_VAAMFILTER_PRINTNONE
+	    for( std::vector< fsdict::Interpretation >::const_iterator it = answers.begin(); it!= answers.end(); ++it ) {
 		it->print();
 		if( it + 1  != answers.end() ) std::wcout<<"|";
 	    }
@@ -120,8 +120,8 @@ int main(int argc, const char** argv ) {
 	}
 	else {
 	    // new line for each interpretation of the query
-#ifndef CSL_VAAMFILTER_PRINTNONE
-	    for( std::vector< csl::Interpretation >::const_iterator it = answers.begin(); it!= answers.end(); ++it ) {
+#ifndef FSDICT_VAAMFILTER_PRINTNONE
+	    for( std::vector< fsdict::Interpretation >::const_iterator it = answers.begin(); it!= answers.end(); ++it ) {
 		it->print();
 		std::wcout<<std::endl;
 	    }
@@ -132,7 +132,7 @@ int main(int argc, const char** argv ) {
     } // for all input
 
     if( errno == EILSEQ ) {
-	throw csl::exceptions::badInput( "csl::vaamFilter: Input encodig error" );
+	throw fsdict::exceptions::badInput( "fsdict::vaamFilter: Input encodig error" );
     }
     
 
@@ -153,7 +153,7 @@ int main(int argc, const char** argv ) {
 	baseDic = 0;
     }
     
-    } catch( csl::exceptions::cslException ex ) {
+    } catch( fsdict::exceptions::cslException ex ) {
 	std::wcout<<"Caught exception: "<<ex.what()<< std::endl;
     }
     
