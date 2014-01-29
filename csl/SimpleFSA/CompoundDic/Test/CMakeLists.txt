@@ -1,1 +1,0 @@
-add_executable( simpleFSA_testCompoundDic exec_testCompoundDic.cxx)
