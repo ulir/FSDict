@@ -29,10 +29,10 @@ int main( int argc, const char** argv ) {
 //   mds.printDic();
 
     }
-    catch( fsdict::exceptions::cslException exc ) {
+    catch( fsdict::exceptions::fsdictException exc ) {
 	std::wstring wide_what;
 	fsdict::CSLLocale::string2wstring( exc.what(), wide_what );
-	std::wcerr << "fsdict::compileMDString: caught cslException and aborted: " << wide_what << std::endl;
+	std::wcerr << "fsdict::compileMDString: caught fsdictException and aborted: " << wide_what << std::endl;
 	return 1;
     }
     catch( std::exception exc ) {

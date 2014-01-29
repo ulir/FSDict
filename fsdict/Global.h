@@ -145,7 +145,7 @@ namespace fsdict {
 	 */
 	static const void reverse( const std::wstring& str, std::wstring* newStr ) {
 	    if( &str == newStr ) {
-		// throw exceptions::cslException( "Global::reverse: source string may not be equal to target string" );
+		// throw exceptions::fsdictException( "Global::reverse: source string may not be equal to target string" );
 	    }
 	    size_t len = str.length();
 	    newStr->resize( len );
@@ -174,15 +174,15 @@ namespace fsdict {
 
     namespace exceptions {
 
-	class cslException : public std::exception {
+	class fsdictException : public std::exception {
 	public:
-	    cslException() {
+	    fsdictException() {
 	    }
 
-	    cslException( const std::string& msg ) : msg_( msg ) {
+	    fsdictException( const std::string& msg ) : msg_( msg ) {
 	    }
 
-	    virtual ~cslException() throw() {}
+	    virtual ~fsdictException() throw() {}
 	    
 	    virtual const char* what() const throw() {
 		return msg_.c_str();
@@ -192,52 +192,52 @@ namespace fsdict {
 	    const std::string msg_;
 	};
 
-	class LogicalError : public cslException {
+	class LogicalError : public fsdictException {
 	public:
 	    LogicalError() {}
-	    LogicalError( const std::string msg ) : cslException( msg ) {}
+	    LogicalError( const std::string msg ) : fsdictException( msg ) {}
 	};
 
-	class AlphabetError : public cslException {
+	class AlphabetError : public fsdictException {
 	public:
 	    AlphabetError() {}
-	    AlphabetError( const std::string msg ) : cslException( msg ) {}
+	    AlphabetError( const std::string msg ) : fsdictException( msg ) {}
 	};
 
-	class badInput : public cslException {
+	class badInput : public fsdictException {
 	public:
 	    badInput() {}
-	    badInput( const std::string msg ) : cslException( msg ) {}
+	    badInput( const std::string msg ) : fsdictException( msg ) {}
 	};
 
-	class badDictFile : public cslException {
+	class badDictFile : public fsdictException {
 	public:
 	    badDictFile() {}
-	    badDictFile( const std::string msg ) : cslException( msg ) {}
+	    badDictFile( const std::string msg ) : fsdictException( msg ) {}
 	};
 
-	class badFileHandle : public cslException {
+	class badFileHandle : public fsdictException {
 	public:
 	    badFileHandle() {}
-	    badFileHandle( const std::string msg ) : cslException( msg ) {}
+	    badFileHandle( const std::string msg ) : fsdictException( msg ) {}
 	};
 	
-	class invalidLevDistance : public cslException {
+	class invalidLevDistance : public fsdictException {
 	public:
 	    invalidLevDistance() {}
-	    invalidLevDistance( const std::string msg ) : cslException( msg ) {}
+	    invalidLevDistance( const std::string msg ) : fsdictException( msg ) {}
 	};
 	
-	class bufferOverflow : public cslException {
+	class bufferOverflow : public fsdictException {
 	public:
 	    bufferOverflow() {}
-	    bufferOverflow( const std::string msg ) : cslException( msg ) {}
+	    bufferOverflow( const std::string msg ) : fsdictException( msg ) {}
 	};
 
-	class outOfRange : public cslException {
+	class outOfRange : public fsdictException {
 	public:
 	    outOfRange() {}
-	    outOfRange( const std::string msg ) : cslException( msg ) {}
+	    outOfRange( const std::string msg ) : fsdictException( msg ) {}
 	};
 
     };

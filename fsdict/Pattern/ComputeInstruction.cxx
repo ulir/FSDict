@@ -264,7 +264,7 @@ namespace fsdict {
 	
 	if( instructions_ ) { 
 	    if( ! instructions_->empty() ) {
-		throw fsdict::exceptions::cslException( "fsdict::ComputeInstruction::computeInstruction: answer object 'instructions' not empty." );
+		throw fsdict::exceptions::fsdictException( "fsdict::ComputeInstruction::computeInstruction: answer object 'instructions' not empty." );
 	    }
 
 	    if( doReturn == 1 ) {

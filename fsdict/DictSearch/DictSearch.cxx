@@ -48,7 +48,7 @@ namespace fsdict {
 	    std::wcerr << "cslDictSearch::readConfiguration: load DictModule " << wideName << ", cascadeRank=" << cascadeRank << std::endl;
 
 	    if( ! iniConf.hasKey( *it + ":dict_type" ) ) {
-		throw exceptions::cslException( std::string( "fsdict::DictSearch::readConfiguration: dictionary " ) 
+		throw exceptions::fsdictException( std::string( "fsdict::DictSearch::readConfiguration: dictionary " ) 
 						+ *it + " has no specified dict_type."  );
 	    }
 
@@ -80,7 +80,7 @@ namespace fsdict {
 			dm.setCaseMode( Global::restoreCase );
 		    }
 		    else {
-			throw exceptions::cslException( "fsdict::DictSearch::readConfiguration: unknown Global::caseMode" );
+			throw exceptions::fsdictException( "fsdict::DictSearch::readConfiguration: unknown Global::caseMode" );
 		    }
 		}
 	    }
@@ -109,7 +109,7 @@ namespace fsdict {
 			sdm->setCaseMode( Global::restoreCase );
 		    }
 		    else {
-			throw exceptions::cslException( "fsdict::DictSearch::readConfiguration: unknown Global::caseMode" );
+			throw exceptions::fsdictException( "fsdict::DictSearch::readConfiguration: unknown Global::caseMode" );
 		    }
 		}
                 
@@ -120,7 +120,7 @@ namespace fsdict {
 		
 	    }
 	    else {
-		throw exceptions::cslException( "fsdict::DictSearch::readConfiguration: unknown dict_type for dictionary " + *it );
+		throw exceptions::fsdictException( "fsdict::DictSearch::readConfiguration: unknown dict_type for dictionary " + *it );
 	    }
 	    
 	} // for all dictModules

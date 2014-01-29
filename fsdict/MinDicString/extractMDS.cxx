@@ -21,7 +21,7 @@ int main( int argc, char** argv ) {
 
 	
 	return 0;
-    } catch ( exceptions::cslException ex ) {
+    } catch ( exceptions::fsdictException ex ) {
 	std::cerr << "Dictionary extraction failed: " << ex.what() << std::endl;
 	return 1;
     }

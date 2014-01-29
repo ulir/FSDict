@@ -96,7 +96,7 @@ int main( int argc, char const** argv ) {
 		    << (double)watch.readMilliseconds() / (double)nrOfQueries << "ms" << std::endl;
 	}
     } 
-    catch( exceptions::cslException& exc ) {
+    catch( exceptions::fsdictException& exc ) {
 	std::cerr << "msFilter caught exception: "<< exc.what() << std::endl;
     }
 }

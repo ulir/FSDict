@@ -79,7 +79,7 @@ int main(int argc, char** args) {
 	    }
 	    if(count%10000 == 0) std::cerr<<"\rProcessed "<<count<<" words."<<std::flush;
 	}
-	catch( exceptions::cslException ex ) {
+	catch( exceptions::fsdictException ex ) {
 	    std::cerr<<"getCandscore: Caught exception: skipped candidate production for one token"<<std::endl;
 	} 
     }

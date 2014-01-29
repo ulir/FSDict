@@ -53,32 +53,32 @@ namespace fsdict {
 	bool hasKey( std::string const& key ) const;
 
 	/**
-	 * throws a cslException if there is no such key
+	 * throws a fsdictException if there is no such key
 	 */
 	char const* getstring( char const* key ) const;
 
 	/**
-	 * throws a cslException if there is no such key
+	 * throws a fsdictException if there is no such key
 	 */
 	char const* getstring( std::string const& key ) const;
 
 	/**
-	 * throws a cslException if there is no such key
+	 * throws a fsdictException if there is no such key
 	 */
 	int getint( char const* key ) const;
 
 	/**
-	 * throws a cslException if there is no such key
+	 * throws a fsdictException if there is no such key
 	 */
 	int getint( std::string const& key ) const;
 
 	/**
-	 * throws a cslException if there is no such key
+	 * throws a fsdictException if there is no such key
 	 */
 	double getdouble( char const* key ) const;
 
 	/**
-	 * throws a cslException if there is no such key
+	 * throws a fsdictException if there is no such key
 	 */
 	double getdouble( std::string const& key ) const;
 
@@ -88,7 +88,7 @@ namespace fsdict {
 	 *  - true iff  the value is the string "true"
 	 *  - false iff the value is the integer number 0 
 	 *  - false iff the value is the string "false"
-	 * Throws a cslException otherwise.
+	 * Throws a fsdictException otherwise.
 	 */
 	bool getbool( std::string const& key ) const;
 

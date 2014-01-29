@@ -336,10 +336,10 @@ public:
 
     //@}
 
-    class Exception : public exceptions::cslException {
+    class Exception : public exceptions::fsdictException {
     public:
 	Exception( std::string const& what ) :
-	    cslException( what ) {
+	    fsdictException( what ) {
 	}
     };
 

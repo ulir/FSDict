@@ -28,10 +28,10 @@ int main( int argc, const char** argv ) {
 	
 
     }
-    catch( fsdict::exceptions::cslException exc ) {
+    catch( fsdict::exceptions::fsdictException exc ) {
 	std::wstring wide_what;
 	fsdict::CSLLocale::string2wstring( exc.what(), wide_what );
-	std::wcerr << "fsdict::compileFBDString: caught cslException and aborted: " << wide_what << std::endl;
+	std::wcerr << "fsdict::compileFBDString: caught fsdictException and aborted: " << wide_what << std::endl;
 	return 1;
     }
     catch( std::exception exc ) {

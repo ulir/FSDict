@@ -93,7 +93,7 @@ namespace fsdict {
 	    getopt.specifyOption( "flag1", Getopt::VOID );
 	    char const* argv[] = { "progname", "--flag2", "arg1", "arg2" };
 	    int argc = 5;
-	    CPPUNIT_ASSERT_THROW( getopt.getOptionsAsSpecified( argc, argv ), fsdict::exceptions::cslException );
+	    CPPUNIT_ASSERT_THROW( getopt.getOptionsAsSpecified( argc, argv ), fsdict::exceptions::fsdictException );
 	}
 	if( 1 ) {
 	    // unknown option throws exception (with '=' )
@@ -101,7 +101,7 @@ namespace fsdict {
 	    getopt.specifyOption( "flag1", Getopt::VOID );
 	    char const* argv[] = { "progname", "--flag2=bla", "arg1", "arg2" };
 	    int argc = 5;
-	    CPPUNIT_ASSERT_THROW( getopt.getOptionsAsSpecified( argc, argv ), fsdict::exceptions::cslException );
+	    CPPUNIT_ASSERT_THROW( getopt.getOptionsAsSpecified( argc, argv ), fsdict::exceptions::fsdictException );
 	}
 	if( 1 ) {
 	    // value for void option with '=' throws exception
@@ -109,7 +109,7 @@ namespace fsdict {
 	    getopt.specifyOption( "flag1", Getopt::VOID );
 	    char const* argv[] = { "progname", "--flag1=bla", "arg1", "arg2" };
 	    int argc = 5;
-	    CPPUNIT_ASSERT_THROW( getopt.getOptionsAsSpecified( argc, argv ), fsdict::exceptions::cslException );
+	    CPPUNIT_ASSERT_THROW( getopt.getOptionsAsSpecified( argc, argv ), fsdict::exceptions::fsdictException );
 	}
 
     }
@@ -124,7 +124,7 @@ namespace fsdict {
 	char const* argv[] = { "progname", "--flag1", "arg1" };
 	int argc = 5;
 	Getopt getopt;
-	CPPUNIT_ASSERT_THROW( getopt.getOptions( argc, argv ), fsdict::exceptions::cslException );
+	CPPUNIT_ASSERT_THROW( getopt.getOptions( argc, argv ), fsdict::exceptions::fsdictException );
 
 
     }

@@ -59,7 +59,7 @@ namespace fsdict {
 	static int newDicPos;
 	static LevDEA::Pos newLevPos;
 
-	if( (size_t)depth > ( Global::lengthOfWord-1 ) ) throw exceptions::cslException( "fsdict::MSMatch: candidate too long" );
+	if( (size_t)depth > ( Global::lengthOfWord-1 ) ) throw exceptions::fsdictException( "fsdict::MSMatch: candidate too long" );
 
 	// store w if node is final in dic and lev;
 	static int levDistanceSecond;

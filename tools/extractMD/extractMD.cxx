@@ -45,7 +45,7 @@ int main( int argc, const char** argv ) {
 	else minDic->printDic();
 	return 0;
    
-    } catch ( exceptions::cslException ex ) {
+    } catch ( exceptions::fsdictException ex ) {
 	std::wcerr << "Dictionary extraction failed: " << ex.what() << std::endl;
 	return 1;
     }

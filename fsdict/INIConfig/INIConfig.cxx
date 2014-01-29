@@ -20,16 +20,16 @@ namespace fsdict {
 
     void INIConfig::load( std::string const& iniFile ) {
 	if( dict_ != 0 ) {
-	    throw exceptions::cslException( "fsdict::INIConfig::load: conf was already loaded." );
+	    throw exceptions::fsdictException( "fsdict::INIConfig::load: conf was already loaded." );
 	}
 
 	dict_ = iniparser_load( iniFile.c_str() );
 	
-	if( dict_ == 0 ) throw exceptions::cslException( "fsdict::INIConfig: Cannot parse file" );
+	if( dict_ == 0 ) throw exceptions::fsdictException( "fsdict::INIConfig: Cannot parse file" );
     }
     
     void INIConfig::dump_ini( std::wostream& os ) const {
-	if( dict_ == NULL ) throw exceptions::cslException( "fsdict::INIConfig: No configuration loaded" );
+	if( dict_ == NULL ) throw exceptions::fsdictException( "fsdict::INIConfig: No configuration loaded" );
 
 	std::string sectionName;
 	std::string sectionNameColon; // holds the section name plus a colon :  "someSection:"
@@ -81,55 +81,55 @@ namespace fsdict {
     
     
     bool INIConfig::hasKey( std::string const& key ) const {
-	if( dict_ == NULL ) throw exceptions::cslException( "fsdict::INIConfig: No configuration loaded" );
+	if( dict_ == NULL ) throw exceptions::fsdictException( "fsdict::INIConfig: No configuration loaded" );
 	return iniparser_find_entry( dict_, key.c_str() );
     }
 
     char const* INIConfig::getstring( char const* key ) const {
-	if( dict_ == NULL ) throw exceptions::cslException( "fsdict::INIConfig: No configuration loaded" );
+	if( dict_ == NULL ) throw exceptions::fsdictException( "fsdict::INIConfig: No configuration loaded" );
 	char const* c = iniparser_getstring(dict_, key, NULL);
 	if( ! c ) {
-	    throw exceptions::cslException( std::string( "fsdict::INIConfig::geststring: key " ) + key + " not found in ini file." );
+	    throw exceptions::fsdictException( std::string( "fsdict::INIConfig::geststring: key " ) + key + " not found in ini file." );
 	}
 	return c;
     }
     
     char const* INIConfig::getstring( std::string const& key ) const {
-	if( dict_ == NULL ) throw exceptions::cslException( "fsdict::INIConfig: No configuration loaded" );
+	if( dict_ == NULL ) throw exceptions::fsdictException( "fsdict::INIConfig: No configuration loaded" );
 	return getstring( key.c_str() );
     }
 
     int INIConfig::getint( char const* key ) const {
-	if( dict_ == NULL ) throw exceptions::cslException( "fsdict::INIConfig: No configuration loaded" );
+	if( dict_ == NULL ) throw exceptions::fsdictException( "fsdict::INIConfig: No configuration loaded" );
 	return CSLLocale::string2number< int >( std::string( getstring( key ) ) );
     }
 
     int INIConfig::getint( std::string const& key ) const {
-	if( dict_ == NULL ) throw exceptions::cslException( "fsdict::INIConfig: No configuration loaded" );
+	if( dict_ == NULL ) throw exceptions::fsdictException( "fsdict::INIConfig: No configuration loaded" );
 	return getint( key.c_str() );
     }
 
     double INIConfig::getdouble( char const* key ) const {
-	if( dict_ == NULL ) throw exceptions::cslException( "fsdict::INIConfig: No configuration loaded" );
+	if( dict_ == NULL ) throw exceptions::fsdictException( "fsdict::INIConfig: No configuration loaded" );
 	return CSLLocale::string2number< double >( std::string( getstring( key ) ) );
     }
 
     double INIConfig::getdouble( std::string const& key ) const {
-	if( dict_ == NULL ) throw exceptions::cslException( "fsdict::INIConfig: No configuration loaded" );
+	if( dict_ == NULL ) throw exceptions::fsdictException( "fsdict::INIConfig: No configuration loaded" );
 	return getdouble( key.c_str() );
     }
 
     bool INIConfig::getbool( std::string const& key ) const {
-	if( dict_ == NULL ) throw exceptions::cslException( "fsdict::INIConfig: No configuration loaded" );
+	if( dict_ == NULL ) throw exceptions::fsdictException( "fsdict::INIConfig: No configuration loaded" );
 	
 	try {
 	    int numericValue = getint( key );
 	    return ( numericValue != 0 );
-	} catch( exceptions::cslException& exc ) {
+	} catch( exceptions::fsdictException& exc ) {
 	}
 	if( std::string( getstring( key ) ) == "true" ) return true;
 	else if( std::string( getstring( key ) ) == "false" ) return false;
-	else throw exceptions::cslException( "fsdict::INIConfig: can not interpret bool from value." );
+	else throw exceptions::fsdictException( "fsdict::INIConfig: can not interpret bool from value." );
     }
 
 } // eon

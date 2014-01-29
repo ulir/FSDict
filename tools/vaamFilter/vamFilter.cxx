@@ -72,7 +72,7 @@ int main(int argc, const char** argv ) {
 //	std::wcout<<watch.readMilliseconds()<<" ms"<<std::endl;
     }
 	
-	} catch( fsdict::exceptions::cslException ex ) {
+	} catch( fsdict::exceptions::fsdictException ex ) {
 		std::wcout<<"Caught exception: "<<ex.what()<< std::endl;
 		return 0;
 	}

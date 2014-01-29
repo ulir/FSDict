@@ -63,7 +63,7 @@ int main(int argc, char const** argv) {
 	    //   t.printCells();
 	    return EXIT_SUCCESS;
 	    
-	} catch ( fsdict::exceptions::cslException ex ) {
+	} catch ( fsdict::exceptions::fsdictException ex ) {
 	    std::wcout<<"compileMD failed: "<<ex.what()<<std::endl;
 	    return EXIT_FAILURE;
 	} catch ( std::exception ex ) {

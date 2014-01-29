@@ -132,7 +132,7 @@ namespace fsdict {
 	    } // receive()
 
 	    void reset() {
-		throw exceptions::cslException( "reset() not implemented in AnswerProcessor of fsdict::StringDictModule" );
+		throw exceptions::fsdictException( "reset() not implemented in AnswerProcessor of fsdict::StringDictModule" );
 	    }
 	    
 

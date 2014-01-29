@@ -166,7 +166,7 @@ namespace fsdict {
 
     
     void PatternWeights::sortToVector( std::vector< std::pair< fsdict::Pattern, double > >* vec ) const {
-	if( ! vec->empty() ) throw exceptions::cslException( "fsdict::PatternWeights::sortToVector: output vector not empty." );
+	if( ! vec->empty() ) throw exceptions::fsdictException( "fsdict::PatternWeights::sortToVector: output vector not empty." );
         for( std::map< fsdict::Pattern, double >::const_iterator it = patternWeights_.begin(); it != patternWeights_.end(); ++it ) {
 	    vec->push_back( *it );
 	}

@@ -615,7 +615,7 @@ namespace fsdict {
 
 		    if( getMaxNrOfPatterns() > 0 ) {
 			if( ! getMyDictSearch().hasHypothetic() ) {
-			    throw exceptions::cslException( "fsdict::DictSearch::DictModule::query: DictSearch has no Vaam ready" );
+			    throw exceptions::fsdictException( "fsdict::DictSearch::DictModule::query: DictSearch has no Vaam ready" );
 			}
 			if( getDLevHypothetic() == 0 ) { // use val
 			    getMyDictSearch().val_->setBaseDic( dict_->getFWDic() );

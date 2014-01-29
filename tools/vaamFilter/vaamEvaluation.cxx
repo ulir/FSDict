@@ -162,7 +162,7 @@ int main(int argc, const char** argv ) {
 	baseDic = 0;
     }
     
-    } catch( fsdict::exceptions::cslException ex ) {
+    } catch( fsdict::exceptions::fsdictException ex ) {
 	std::wcout<<"Caught exception: "<<ex.what()<< std::endl;
     }
     

@@ -49,7 +49,7 @@ namespace fsdict {
 	    throw exceptions::badFileHandle( "fsdict::Alphabet:loadFromStream: Couldn't read from filehandle." );
 
 	size_t readElements = fread( &header_, sizeof( Header ), 1, fi );
-	if( readElements != 1 ) throw exceptions::cslException( "fsdict::Alphabet::loadFromStream: Errors while reading Header." );
+	if( readElements != 1 ) throw exceptions::fsdictException( "fsdict::Alphabet::loadFromStream: Errors while reading Header." );
 	
 	if ( ( header_.magicNumber_ != magicNumber_ ) )
 	    throw exceptions::badDictFile( "fsdict::Alphabet::loadFromStream: Magic number comparison failed.\n" );
@@ -58,7 +58,7 @@ namespace fsdict {
 	wchar_t c;
 	for( size_t i = 0; i < header_.size_; ++i ) {
 	    readElements = fread( &c, sizeof( wchar_t), 1, fi );
-	    if( readElements != 1 ) throw exceptions::cslException( "fsdict::Alphabet::loadFromStream: Errors while reading alphabet characters." );
+	    if( readElements != 1 ) throw exceptions::fsdictException( "fsdict::Alphabet::loadFromStream: Errors while reading alphabet characters." );
 
 	    addChar( c );
 	    hasChar_.at( c ) = true;

@@ -133,7 +133,7 @@ namespace fsdict {
 	    if( ( transitions_.size() > 0 ) &&
 		( transitions_.at( transitions_.size() - 1 ).getLabel() >= label ) ) {
 
-		throw exceptions::cslException("TempState: new transition violating alphabetical order");
+		throw exceptions::fsdictException("TempState: new transition violating alphabetical order");
 	    }
 	    
 	    transitions_.push_back( Transition( label, target, getPhValue() ) );

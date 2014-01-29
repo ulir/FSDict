@@ -224,7 +224,7 @@ namespace fsdict {
 		if( sizeOfAnnotationBuffer_ <= ( nrOfKeys_ + 1 ) ) {
 		    sizeOfAnnotationBuffer_ *= 2;
 		    annotations_ = (AnnType_t*)realloc( annotations_, sizeOfAnnotationBuffer_ * sizeof( AnnType_t ) );
-		    if( !annotations_ ) throw( exceptions::cslException( "fsdict::MinDic: could not re-allocate memory for annotation array." ) );
+		    if( !annotations_ ) throw( exceptions::fsdictException( "fsdict::MinDic: could not re-allocate memory for annotation array." ) );
 		}
 		annotations_[nrOfKeys_] = annotation;
 
@@ -256,7 +256,7 @@ namespace fsdict {
 	template< class AnnType_t >
 	inline bool MinDic< AnnType_t >::lookup( const wchar_t* key, AnnType_t* annotation ) const {
 	    if( ! readyToRead() ) {
-		throw exceptions::cslException( "fsdict::MinDic::lookup: Dict not ready to read" );
+		throw exceptions::fsdictException( "fsdict::MinDic::lookup: Dict not ready to read" );
 	    }
 		size_t tokIdx = 0;
 		if( TransTable_t::getTokenIndex( key, &tokIdx ) ) {
@@ -276,7 +276,7 @@ namespace fsdict {
 	template< class AnnType_t >
 	inline bool MinDic< AnnType_t >::hasPrefix( std::wstring const& prefix ) const {
 	    if( ! readyToRead() ) {
-		throw exceptions::cslException( "fsdict::MinDic::lookup: Dict not ready to read" );
+		throw exceptions::fsdictException( "fsdict::MinDic::lookup: Dict not ready to read" );
 	    }
 		size_t state = getRoot();
 		for( std::wstring::const_iterator c = prefix.begin(); c != prefix.end() && (state != 0) ; ++c ) {

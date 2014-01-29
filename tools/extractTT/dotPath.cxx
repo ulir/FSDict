@@ -46,7 +46,7 @@ int main( int argc, const char** argv ) {
 	return 0;
     
 
-    } catch ( exceptions::cslException ex ) {
+    } catch ( exceptions::fsdictException ex ) {
 	std::wcerr << "dotPath failed: " << ex.what() << std::endl;
 	return 1;
     }

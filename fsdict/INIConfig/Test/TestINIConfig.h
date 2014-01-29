@@ -77,7 +77,7 @@ namespace fsdict {
 	    double d = iniconf.getdouble( ":bad_double" );
 	    CPPUNIT_FAIL( "Exception expected" );
 	} 
-	catch( exceptions::cslException& exc ) {
+	catch( exceptions::fsdictException& exc ) {
 	    // as expected
 	}
 	catch( std::exception& exc ) {
@@ -91,7 +91,7 @@ namespace fsdict {
 
 	try {
 	    CPPUNIT_ASSERT( iniconf.getbool( ":bool_test_1_5" ) == true );
-	} catch( exceptions::cslException& exc ) {
+	} catch( exceptions::fsdictException& exc ) {
 	    // as expected
 	} catch( std::exception& exc ) {
 	    CPPUNIT_FAIL( "Did not expect this kind of exception." );
@@ -99,7 +99,7 @@ namespace fsdict {
 
 	try {
 	    CPPUNIT_ASSERT( iniconf.getbool( ":bool_test_bla" ) == true );
-	} catch( exceptions::cslException& exc ) {
+	} catch( exceptions::fsdictException& exc ) {
 		// as expected
 	} catch( std::exception& exc ) {
 	    CPPUNIT_FAIL( "Did not expect this kind of exception." );
@@ -127,7 +127,7 @@ namespace fsdict {
 	iniFile << std::endl;
 	iniFile.close();
 	
-	CPPUNIT_ASSERT_THROW( INIConfig iniconf( "test.ini" ), exceptions::cslException  );
+	CPPUNIT_ASSERT_THROW( INIConfig iniconf( "test.ini" ), exceptions::fsdictException  );
     }
 
     void TestINIConfig::testVariableSubstitution() {

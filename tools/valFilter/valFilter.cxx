@@ -108,7 +108,7 @@ int main(int argc, const char** argv ) {
 
     if( opt.hasOption( "patternDelimiter" ) ) {
 	if( opt.getOption( "patternDelimiter" ).length() != 1 ) {
-	    throw fsdict::exceptions::cslException( "fsdict::valFilter: option patternDelimiter must specify exactly 1 symbol" );
+	    throw fsdict::exceptions::fsdictException( "fsdict::valFilter: option patternDelimiter must specify exactly 1 symbol" );
 	}
 	fsdict::Pattern::setLeftRightDelimiter( opt.getOption( "patternDelimiter" ).at( 0 ) );
     }
@@ -183,7 +183,7 @@ int main(int argc, const char** argv ) {
 	minDicString = 0;
     }
     
-    } catch( fsdict::exceptions::cslException ex ) {
+    } catch( fsdict::exceptions::fsdictException ex ) {
 	std::wcout << "Caught exception: " << ex.what() << std::endl;
 	return EXIT_FAILURE;
     }

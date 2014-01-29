@@ -94,7 +94,7 @@ namespace fsdict {
 	    }
 	}
 	else {
-	    throw exceptions::cslException( "fsdict::Instruction::applyTo: invalid direction" );
+	    throw exceptions::fsdictException( "fsdict::Instruction::applyTo: invalid direction" );
 	}
 
     }

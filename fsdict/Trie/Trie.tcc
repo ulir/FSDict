@@ -210,7 +210,7 @@ namespace fsdict {
 		if( sizeOfAnnotationBuffer_ <= ( nrOfKeys_ + 1 ) ) {
 		    sizeOfAnnotationBuffer_ *= 2;
 		    annotations_ = (AnnType_t*)realloc( annotations_, sizeOfAnnotationBuffer_ * sizeof( AnnType_t ) );
-		    if( !annotations_ ) throw( exceptions::cslException( "fsdict::Trie: could not re-allocate memory for annotation array." ) );
+		    if( !annotations_ ) throw( exceptions::fsdictException( "fsdict::Trie: could not re-allocate memory for annotation array." ) );
 		}
 		annotations_[nrOfKeys_] = annotation;
 

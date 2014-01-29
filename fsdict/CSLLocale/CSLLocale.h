@@ -23,7 +23,7 @@ namespace fsdict {
 	 * @brief Goes the STL facet-based way to transform a string to a number
 	 * @param[in]  str     a string containing the number and nothing else
 	 *
-	 * Throws a cslException if the conversion causes problems.
+	 * Throws a fsdictException if the conversion causes problems.
 	 */
 	template< typename T, typename char_type >
 	inline static T string2number( std::basic_string< char_type > const& str ) {
@@ -36,7 +36,7 @@ namespace fsdict {
 	    
 	    // no badbit, no failbit, no goodbit: only the eofbit, because the complete string should be interpreted
 	    if( iss.rdstate() != (  std::wistringstream::eofbit ) ) {
-		throw exceptions::cslException( "fsdict::CSLLocale::string2number: could not interpret string:" );
+		throw exceptions::fsdictException( "fsdict::CSLLocale::string2number: could not interpret string:" );
 	    }
 	    return number;
 	}

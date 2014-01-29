@@ -34,7 +34,7 @@ int main( int argc, char** argv ) {
 	    else std::cout<<std::endl;
 	}
 
-    } catch( exceptions::cslException ex ) {
+    } catch( exceptions::fsdictException ex ) {
  	std::cout<<"lookupMD: "<<ex.what()<<std::endl;
 	exit( 1 );
     }

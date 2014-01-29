@@ -221,7 +221,7 @@ namespace fsdict {
 	keyBuffer_ = (charType_t*) realloc( keyBuffer_, newSize * sizeof(charType_t) );
 	lengthOfKeyBuffer_ = newSize;
 	if( keyBuffer_ == 0 ) {
-	    throw exceptions::cslException( "fsdict::Hash: Hash realloc: Out of memory." );
+	    throw exceptions::fsdictException( "fsdict::Hash: Hash realloc: Out of memory." );
 	}
     }
 

@@ -22,7 +22,7 @@ int main(int argc, char** argv) {
 //      t.printCells();
 	t.doAnalysis();
     }
-    catch( exceptions::cslException ex ) {
+    catch( exceptions::fsdictException ex ) {
 	std::cerr<<"compileTrie:"<<ex.what()<<std::endl;
 	return 1;
     }
