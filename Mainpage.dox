@@ -1,7 +1,16 @@
 /**
 @mainpage
 <p>
-This library is a collection of modules we implemented at the CIS. All modules have in common that they use or extend the sparse transition table implementation <tt>TransTable</tt>.
+FSDict is a collection of modules and command-line tools to efficiently store and access large dictionaries.
+
+The following is a high-level breakdown of what FSDict offers:
+<ul>
+ <li><b>Compile very large dictionaries into highly-efficient finite-state data structures.</b> Obtain minimized deterministic finite state automata for word lists of tens of millions of keys, or larger. Those data structures can be dumped to hard disk and loaded into memory very quickly.</li>
+ <li><b>Very fast dictionary lookup.</b> The dictionary automata allow for lookup operations in record time.</li>
+ <li><b>Very fast aproximate search in dictionaries.</b> Retrieve all keys in the dictionary which are sufficiently similar to a given input word w.r.t. the Levenshtein distance measure.</li>
+ <li><b>Highly efficient handling of rule-based spelling variants.</b> Special algorithms allow for the handling of rewrite rules to describe certain spelling variants, e.g. for historical spelling.</li>
+</ul>
+
 </p>
  What follows is a very short description of the most important classes.
 <ul>
@@ -23,18 +32,12 @@ MSMatch and variant-aware lookup with Vaam. The @link
 dictSearch_manual DictSearch Manual@endlink explains how to use it.</li>
 </ul>
 <p>
-Though running quite stable in many tests, the library is constantly under construction and development.<br>
-<b>So far, none of the interfaces documented here are fixed or guaranteed to remain unchanged in future versions. Both software and documentation are not complete in some places.</b><br>
+<b>So far, none of the interfaces documented here are fixed or guaranteed to remain unchanged in future versions.</b><br>
 </p>
-<p>We are always happy to receive feedback, bug reports or suggestions. Please mail to uli@cis.uni-muenchen.de</p>
-
-@section impact Dear IMPACT partners,
-For the time being, we distribute this whole library, because it's the easiest
-way to get the whole thing running. Please note that only a small part of this
-library is IMPACT foreground. For the moment, csl::DictSearch is the only
-part constituting IMPACT foreground, together with its "helper classes". csl::Vaam is
-a product of IMPACT work, but csl::MSMatch (used by Vaam and DictSearch) is background.
-
+<p>Feedback, bug reports or suggestions. Please mail to uli_at_reffle_dot_de</p>
+<h3>Credits</h3>
+The largest parts of this library were implemented at the <em><a href="http://www.cis.uni-muenchen.de">Centrum für Informations- und Sprachverarbeitung (CIS)</a></em> in Munich, Germany.<br>
+Most of the algorithms, and also many implementation aspects, are really from the heads of Klaus Schulz (from CIS) and Stoyan Mihov from the Bulgarian Academy of Sciences.
 
 @author Ulrich Reffle
 */
