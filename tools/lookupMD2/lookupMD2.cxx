@@ -35,7 +35,7 @@ int main( int argc, char** argv ) {
 	    throw exceptions::badInput( "fsdict::lookupMD2: Input encodig error" );
 	}
 	
-    } catch( exceptions::fsdictException ex ) {
+    } catch( exceptions::fsdictException& ex ) {
 	std::wcout<<"lookupMD: "<<ex.what()<<std::endl;
 	exit( 1 );
     }

@@ -46,7 +46,7 @@ int main(int argc, char const** argv) {
 	    //   t.toDot();
 	    //   t.printCells();
 	    
-	} catch ( std::exception ex ) {
+	} catch ( std::exception& ex ) {
 	    std::wcout<<"compileMD failed: "<<ex.what()<<std::endl;
 	    return(1);
 	}
@@ -62,7 +62,7 @@ int main(int argc, char const** argv) {
 	    //   t.toDot();
 	    //   t.printCells();
 	    
-	} catch ( std::exception ex ) {
+	} catch ( std::exception& ex ) {
 	    std::wcout<<"compileMD failed: "<<ex.what()<<std::endl;
 	    return(1);
 	}

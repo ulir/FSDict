@@ -33,7 +33,7 @@ int main( int argc, char** argv ) {
 	    else std::wcout<<std::endl;
 	}
 	
-    } catch( exceptions::fsdictException ex ) {
+    } catch( exceptions::fsdictException& ex ) {
 	std::wcout<<"lookupTT: "<<ex.what()<<std::endl;
 	exit( 1 );
     }

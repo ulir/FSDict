@@ -27,13 +27,13 @@ int main( int argc, const char** argv ) {
 	
 
     }
-    catch( fsdict::exceptions::fsdictException exc ) {
+    catch( fsdict::exceptions::fsdictException& exc ) {
 	std::wstring wide_what;
 	fsdict::CSLLocale::string2wstring( exc.what(), wide_what );
 	std::wcerr << "fsdict::compileFBDString: caught fsdictException and aborted: " << wide_what << std::endl;
 	return 1;
     }
-    catch( std::exception exc ) {
+    catch( std::exception& exc ) {
 	std::wcerr << "fsdict::compileFBDString: caught std::exception. Aborted." << std::endl;
 	return 1;
     }

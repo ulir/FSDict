@@ -34,7 +34,7 @@ int main( int argc, const char** argv ) {
 	else t.printDic();
 
 	return 0;
-    } catch ( exceptions::fsdictException ex ) {
+    } catch ( exceptions::fsdictException& ex ) {
 	std::wcerr << "Dictionary extraction failed: " << ex.what() << std::endl;
 	return 1;
     }
