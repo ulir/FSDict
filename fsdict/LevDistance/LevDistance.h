@@ -7,7 +7,7 @@
 namespace fsdict {
 
     /**
-     * @brief compute standard levenshtein distance
+     * @brief Compute standard Levenshtein distance given two strings.
      */
     class LevDistance {
     public:
@@ -16,6 +16,9 @@ namespace fsdict {
 	    resize( matrixSize_ );
 	}
 
+	/**
+	 * @brief Compute the standard Levenshtein distance given two strings.
+	 */
 	inline size_t getLevDistance( std::wstring const& w1, std::wstring const& w2 ) {
 	    if( w1.size() + 1 > matrixSize_ ) {
 		resize( w1.size() + 1 );
@@ -52,12 +55,14 @@ namespace fsdict {
 		}
 	    }	    
 
-	    //printMatrix();
 	    return matrix_.at( w1.size() ).at( w2.size() );
 
 	}
 
 
+	/**
+	 * @brief Print the DP matrix for debugging purposes.
+	 */
 	void printMatrix() const {
 	    for( std::vector< std::vector< size_t > >::const_iterator row = matrix_.begin(); row != matrix_.end(); ++row ) {
 		for( std::vector< size_t >::const_iterator cell = row->begin(); cell != row->end(); ++cell ) {

@@ -59,7 +59,6 @@ namespace fsdict {
 		if( to == toEnd ) return partial; // per run of this loop we write exactly one internal char
 
 		if( ( *from & 0x80 ) == 0 ) { // 1-byte leadbyte with leading 0
-		    // std::wcerr<<"1 sequence"<<std::endl;  // DEBUG
 		    *to = *from;
 		    ++to; ++from;
 		}
@@ -71,7 +70,6 @@ namespace fsdict {
 			++nrOfBytes;
 			leadByte <<= 1;
 		    }
-		    // std::wcerr<<nrOfBytes<<" sequence"<<std::endl;  // DEBUG
 
 		    *to = *from & leadByteMasks[nrOfBytes];
 		
@@ -98,7 +96,6 @@ namespace fsdict {
 
 	    fromNext = from;
 	    toNext = to;
-	    // std::wcout<<"just finished a do_in: "<<toNext<<std::endl;
 	    return ok;
 	}
 
@@ -109,16 +106,10 @@ namespace fsdict {
 
 	    while(  from != fromEnd ) {
 		if( to == toEnd ) {
-		    std::wcerr<< "to-Buffer too small" <<std::endl;
 		    return partial;
 		}
 
-		// if( *from == L'1' ) { //   TEEEEST !!!!!!!!!!!
-		//     *to = 'Y';
-		//     ++to;
-		// }
 		else if( *from < 0x80 ) { // 1 byte
-		    // std::wcout<<"1-byte: "<<*from<<std::endl; // DEBUG
 		    *to = static_cast< char >( *from );
 		    ++to;
 		}
@@ -127,8 +118,7 @@ namespace fsdict {
 			std::wcout<< "to-Buffer too small" <<std::endl;
 			return partial;
 		    }
-		    // std::wcerr<<"2-byte: "<<*from<<std::endl;  // DEBUG
-
+ 
 		    *to = ( *from >> 6 ) | 0xC0;
 		    *( to + 1 ) = ( *from & 0x3F ) | 0x80;
 		
@@ -136,10 +126,8 @@ namespace fsdict {
 		}
 		else if( *from < 0x10000 ) { // 3 bytes		
 		    if( to + 2 >= toEnd ) {
-			// std::wcerr<< "to-Buffer too small" <<std::endl;  // DEBUG
 			return partial;
 		    }
-		    // std::wcerr<<"3-byte: "<<*from<<std::endl;  // DEBUG
 		    *( to + 2 ) = ( *from & 0x3F ) | 0x80;
 		    *( to + 1 ) = ( ( *from >> 6 ) & 0x3F ) | 0x80;
 		    *to = ( *from >> 12 ) | 0xE0;
@@ -151,7 +139,6 @@ namespace fsdict {
 			std::wcerr<< "to-Buffer too small" <<std::endl;
 			return partial;
 		    }
-		    // std::wcerr<<"4-byte: "<<*from<<std::endl;  // DEBUG
 		    *( to + 3 ) = ( *from & 0x3F ) | 0x80;
 		    *( to + 2 ) = ( ( *from >> 6 ) & 0x3F ) | 0x80;
 		    *( to + 1 ) = ( ( *from >> 12 ) & 0x3F ) | 0x80;
@@ -167,10 +154,7 @@ namespace fsdict {
 
 	    return ok;
 	} // do_out
-
-	
     }; // class
-
 } //eon
 
 #endif

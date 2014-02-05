@@ -63,10 +63,10 @@ int main(int argc, char const** argv) {
 	    //   t.printCells();
 	    return EXIT_SUCCESS;
 	    
-	} catch ( fsdict::exceptions::fsdictException ex ) {
+	} catch ( fsdict::exceptions::fsdictException& ex ) {
 	    std::wcout<<"compileMD failed: "<<ex.what()<<std::endl;
 	    return EXIT_FAILURE;
-	} catch ( std::exception ex ) {
+	} catch ( std::exception& ex ) {
 	    std::wcout<<"compileMD failed: "<<ex.what()<<std::endl;
 	    return EXIT_FAILURE;
 	}
@@ -99,7 +99,7 @@ int main(int argc, char const** argv) {
 	    //   t.toDot();
 	    //   t.printCells();
 	    
-	} catch ( std::exception ex ) {
+	} catch ( std::exception& ex ) {
 	    std::wcout<<"compileMD failed: "<<ex.what()<<std::endl;
 	    return EXIT_FAILURE;
 	}

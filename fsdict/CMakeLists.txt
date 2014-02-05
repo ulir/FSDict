@@ -13,7 +13,6 @@ add_subdirectory(Locale)
 add_subdirectory(MinDic)
 add_subdirectory(MinDicString)
 add_subdirectory(Pattern)
-#add_subdirectory(Trie)
 add_subdirectory(Vaam)
 add_subdirectory(Val)
 

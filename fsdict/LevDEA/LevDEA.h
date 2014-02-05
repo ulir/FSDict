@@ -21,12 +21,12 @@ namespace fsdict {
      * LevDEA gives access to deterministic levenshtein automata.
      * It is an implementation of the concepts described in
      * "S. Mihov and K. Schulz. Fast approximate search in large dictionaries. Computational Linguistics, 30, 2004."
-     * *** Honestly, a somewhat older approach is used, not exactly the one described in the paper ***
+     * *** Actually, a somewhat older approach is used, not exactly the one described in the paper ***
      * Basically the implementation is derived from a C-implementation of Stoyan Mihov.
      * 
      * @caution This class is one huge memory leak!!!
      *
-     * @author Ulrich Reffle, <uli@cis.uni-muenchen.de>
+     * @author Ulrich Reffle
      * @date 2006
      */
     class FSDICT_DECLSPEC LevDEA {
@@ -43,32 +43,57 @@ namespace fsdict {
 	    size_t pattern_pos_;
 
 	public:
+	    /**
+	     * @brief Constructor, optional values for position and pattern_pos
+	     */
 	    Pos( int position = 0, size_t pattern_pos = 0 ) {
 		position_ = position;
 		pattern_pos_ = pattern_pos;
 	    }
 
+	    /**
+	     * @brief Returns the position in the Lev. automaton.
+	     */
 	    inline int position() const {
 		return position_;
 	    }
+
+	    /**
+	     * @brief Returns the position in the pattern.
+	     */
 	    inline size_t pattern_pos() const {
 		return pattern_pos_;
 	    }
+
+	    /**
+	     * @brief Set new values for positions in the automaton and the pattern.
+	     */
 	    inline void set( int position, size_t pattern_pos ) {
 		position_ = position;
 		pattern_pos_ = pattern_pos;
 	    };
 
+	    /**
+	     * @brief Returns true iff the current state is a valid one, returns false iff it is a fail state (or: trap state).
+	     */
 	    inline bool isValid() const {
 		return ( position() != -1 );
 	    }
 	};
 
+	/**
+	 * @brief A regular constructor.
+	 */
 	LevDEA( int init_k = 0 );
 
-
+	/**
+	 * @brief A regular destructor.
+	 */
 	~LevDEA();
 
+	/**
+	 * @brief Returns the root state (at the root of the automaton, and the start of the pattern.)
+	 */
 	inline Pos getRoot() const {
 	    return Pos( 0, 0 );
 	}
@@ -102,20 +127,25 @@ namespace fsdict {
 	inline bool isFinal( const Pos& p ) const;
 
 	/**
-	 * 
+	 * @brief Returns the lev. distance for a match at that position.
 	 */
 	inline int getDistance( const Pos& p ) const;
 
+	/**
+	 * @brief Returns the current search pattern.
+	 */
 	wchar_t* getPattern() {
 	    return pattern_;
 	}
 
 	/**
-	 *
-	 * @todo do sth about the paths to the levenshtein tables
+	 * @brief Set a max Levenshtein distance for matching.
 	 */
 	void setDistance( size_t k );
 
+	/**
+	 * @brief Load a new search pattern.
+	 */
 	void loadPattern( const wchar_t* p );
 
 	// used for debug only

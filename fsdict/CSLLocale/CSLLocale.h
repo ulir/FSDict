@@ -9,9 +9,6 @@
 
 namespace fsdict {
 
-    /**
-     * @brief This class represents 
-     */
     class CSLLocale : public std::locale {
     public:
 	inline static CSLLocale& Instance() {
