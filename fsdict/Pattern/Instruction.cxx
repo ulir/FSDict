@@ -13,7 +13,7 @@ namespace fsdict {
 
 	const_iterator this_it = begin();
 	const_iterator other_it = other.begin();
-	for( ; this_it != end(); ++this_it, other_it ) {
+	for( ; this_it != end(); ++this_it, ++other_it ) {
 	    if( ! ( *this_it == *other_it ) ) return false;
 	}
 	

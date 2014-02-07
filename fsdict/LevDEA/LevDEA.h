@@ -215,7 +215,7 @@ namespace fsdict {
 
 
     inline LevDEA::Pos LevDEA::walk( const Pos& p, wchar_t c ) const {
-        if( c > Global::maxNrOfChars ) {
+      if( (size_t)c > Global::maxNrOfChars ) {
 	  throw exceptions::badInput( "fsdict::LevDEA::walk: Can't walk with a char > 65536." );
 	}
 	table_cell & cell = table( calc_k_charvec( c, p.pattern_pos() ), p.position() );

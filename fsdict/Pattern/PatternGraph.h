@@ -411,7 +411,6 @@ namespace fsdict {
 	states_.push_back( InternalState( alph_ ) ); // failure state at position 0
 	states_.push_back( InternalState( alph_ ) ); // root at position 1 
 
-	size_t patternCount = 0;
 	std::wstring indexed, replacement;
 	for( PatternList_t::const_iterator pattern = patternList().begin() + 1; // skip 1st pattern: it's the empty pattern!
 	     pattern != patternList().end();

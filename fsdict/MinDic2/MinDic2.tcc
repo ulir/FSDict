@@ -95,8 +95,6 @@ namespace fsdict {
 	}
 
 	inline void MinDic2::compileDic( const char* txtFile ) {
-		wchar_t* key = 0;
-
 		std::wcout<<"fsdict::MinDic2::Before initConstruction()"<<std::endl;
 		initConstruction();
 		std::wcout<<"fsdict::MinDic2::After initConstruction()"<<std::endl;
@@ -298,7 +296,7 @@ namespace fsdict {
 	inline void MinDic2::doAnalysis() const {
 
 		TransTable_t::doAnalysis();
-		printf( "**********\nMinDic2 Analysis\n**********\nnr of keys:\t%zd\n\n",
+		printf( "**********\nMinDic2 Analysis\n**********\nnr of keys:\t%d\n\n",
 			nrOfKeys_
 			);
 

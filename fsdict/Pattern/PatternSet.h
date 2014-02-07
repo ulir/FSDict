@@ -120,7 +120,6 @@ namespace fsdict {
 	
 	std::wstring line;
 
-	size_t patternCount = 0;
 	while( getline( fi, line ).good() ) {
 
 	    if( line.empty() ) continue;

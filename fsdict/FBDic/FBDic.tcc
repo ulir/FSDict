@@ -73,9 +73,7 @@ namespace fsdict {
 
 	std::wstring line;
 
-	size_t lineCount = 0;
 	while( std::getline( fileHandle, line ).good() )  {
-
 	    if ( line.length() > Global::lengthOfLongStr ) {
 		throw exceptions::badInput( "fsdict::MinDic::compileDic: Maximum length of input line violated (set by Global::lengthOfLongStr)" );
 	    }

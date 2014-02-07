@@ -117,9 +117,6 @@ namespace fsdict {
 
 	template< class AnnType_t >
 	inline void MinDic< AnnType_t >::compileDic( const char* txtFile ) {
-		wchar_t* key = 0;
-		
-
 		initConstruction();
 
 		std::wifstream fileHandle( txtFile );
@@ -372,7 +369,7 @@ namespace fsdict {
 		float annotations_MB = (float)( nrOfKeys_ * sizeof( AnnType_t ) ) / 1048576;
 
 		TransTable_t::doAnalysis();
-		printf( "**********\nMinDic Analysis\n**********\nnr of keys:\t%zd\nannotation array: %.3f MB\n\n",
+		printf( "**********\nMinDic Analysis\n**********\nnr of keys:\t%d\nannotation array: %.3f MB\n\n",
 			nrOfKeys_,
 			annotations_MB
 			);

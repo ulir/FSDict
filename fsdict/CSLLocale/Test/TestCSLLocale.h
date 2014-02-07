@@ -43,14 +43,12 @@ namespace fsdict {
 
 
 	// read int
-	int x_int = 0;
 	CPPUNIT_ASSERT_EQUAL( CSLLocale::string2number< int >( std::wstring( L"42" ) ), (int)42 );
 
 	// throw exception if not complete input can be interpreted as number
 	CPPUNIT_ASSERT_THROW( CSLLocale::string2number< int >( std::wstring( L"42bla" ) ), exceptions::fsdictException );
 
 	// read float
-	float x_float = 0;
 	CPPUNIT_ASSERT_EQUAL( CSLLocale::string2number< float >( std::wstring( L"42.13" ) ), (float)42.13 );
 
 	// throw exception for comma as decimal point

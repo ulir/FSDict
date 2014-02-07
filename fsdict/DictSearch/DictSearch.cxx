@@ -158,6 +158,7 @@ namespace fsdict {
     DictSearch::AnnotatedDictModule& DictSearch::addAnnotatedDictModule( AnnotatedDictModule* newDM ) {
 	internalDictModules_.push_back( newDM );
 	allDictModules_.insert( std::make_pair( newDM->getCascadeRank(), newDM ) );
+	return *newDM;
     }
 
     void DictSearch::addExternalDictModule( iDictModule& extModule ) {

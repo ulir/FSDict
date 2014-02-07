@@ -191,7 +191,7 @@ namespace fsdict {
 	interp.parseFromString( str, 0 );
 	CPPUNIT_ASSERT( interp.getWord() == L"theil" );
 	CPPUNIT_ASSERT( interp.getBaseWord() == L"teil" );
-	CPPUNIT_ASSERT( interp.getBaseWordScore() == -1 );
+	CPPUNIT_ASSERT( interp.getBaseWordScore() == (size_t)-1 );
 	CPPUNIT_ASSERT( interp.getLevDistance() == 1 );
 	CPPUNIT_ASSERT( interp.getHistInstruction().size() == 1 );
 	CPPUNIT_ASSERT( interp.getHistInstruction().at( 0 ).getLeft() == L"t" );

@@ -74,7 +74,7 @@ namespace fsdict {
 	CPPUNIT_ASSERT( ! strcmp( iniconf.getstring( "eineKategorie:string_test" ), "passt immer no" ) );
 
 	try {
-	    double d = iniconf.getdouble( ":bad_double" );
+	    iniconf.getdouble( ":bad_double" );
 	    CPPUNIT_FAIL( "Exception expected" );
 	} 
 	catch( exceptions::fsdictException& exc ) {

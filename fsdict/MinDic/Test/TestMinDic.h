@@ -64,7 +64,6 @@ namespace fsdict {
 	CPPUNIT_ASSERT( ! *c );
 	CPPUNIT_ASSERT( pos_1 );
 	assert( mdic_.isFinal( pos_1 ) );
-	int ann = 0;
 
 	/*
 	 * test if the same result is returned by walkStr

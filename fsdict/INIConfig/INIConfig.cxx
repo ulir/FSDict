@@ -36,7 +36,7 @@ namespace fsdict {
 	
 	std::wstring wideSection, wideKey, wideValue; // used for various conversions
 
-	size_t nsec = iniparser_getnsec( dict_ );
+	int nsec = iniparser_getnsec( dict_ );
 	if ( nsec < 1 ) {
 	    /* No section in file: dump all keys as they are */
 	    for ( int i = 0 ; i < dict_->size ; i++) {

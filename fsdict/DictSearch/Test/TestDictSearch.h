@@ -214,6 +214,8 @@ namespace fsdict {
 		0  // cascadeRank
 		);
 
+	    CPPUNIT_ASSERT(exactDict.getDict());
+
 	    DictSearch::DictModule& fuzzyDict = ds.addDictModule( 
 		L"modernFuzzy", 
 		std::string( "../fsdict/DictSearch/Test/small.modern.fbdic" ), 
@@ -234,8 +236,6 @@ namespace fsdict {
 	    CPPUNIT_ASSERT( result.at( 0 ).getWord() == L"teile" );
 	    CPPUNIT_ASSERT( result.at( 1 ).getWord() == L"feile" ); // here orderis kind of arbitrary :-/
 	    CPPUNIT_ASSERT( result.at( 2 ).getWord() == L"teilen" );//             ----------
-
-	    
 	    
 	}
 	

@@ -453,7 +453,7 @@ namespace fsdict {
 	float cells_MB = (float)( sizeOfUsedCells_ * sizeof( Cell_t ) ) / 1000000;
 	float susoStrings_MB = (float)( header_.getLengthOfSusoStrings() * sizeof( wchar_t ) ) / 1000000;
 
-	printf( "**********\nTransTable Analysis\n**********\nCells:\t%zd (%.3f MB)\nStates:\t%zd\nTransitions:\t%zd\nEmpty:\t%zd (%2.2f%%)\nsusoString: %zd chars (%.3f MB)\n\n",
+	printf( "**********\nTransTable Analysis\n**********\nCells:\t%d (%.3f MB)\nStates:\t%d\nTransitions:\t%d\nEmpty:\t%d (%2.2f%%)\nsusoString: %d chars (%.3f MB)\n\n",
 		sizeOfUsedCells_,
 		cells_MB,
 		states,

@@ -14,20 +14,20 @@ The following is a high-level breakdown of what FSDict offers:
 </p>
  What follows is a very short description of the most important classes.
 <ul>
-<li>csl::MinDic implements the  construction and usage of minimzed acyclic
+<li>fsdict::MinDic implements the  construction and usage of minimzed acyclic
  finite-state automata. Also read the @link minDic_manual MinDic manual @endlink</li>
-<li>csl::MSMatch offers a very efficient method to extract correction candidates
+<li>fsdict::MSMatch offers a very efficient method to extract correction candidates
 for a garbled token from a huge lexicon. A command-line interface to this
 class is documented in the @link msFilter_manual msFilter Manual @endlink</li>
-<li>With csl::ErrDic and csl::createED so-called <em>Error Dictionaries</em> are created and used. 
+<li>With fsdict::ErrDic and fsdict::createED so-called <em>Error Dictionaries</em> are created and used. 
 They are powerful tools for the computation of error-profiles for a text.</li>
-<li>csl::Vaam is a module to perform approximate lookups in large
+<li>fsdict::Vaam is a module to perform approximate lookups in large
  dictionaries, using a combination of standard Levenshtein distance and a
  user-defined set of rules for spelling variants. Besides the class reference,
  please read the @link vaam_manual Vaam Manual @endlink to get an idea of how
  to create a Vaam object, how to send queries and how to interpret Vaam's
  answer.</li>
-<li>csl::DictSearch is a combined interface for approximate lookup with
+<li>fsdict::DictSearch is a combined interface for approximate lookup with
 MSMatch and variant-aware lookup with Vaam. The @link
 dictSearch_manual DictSearch Manual@endlink explains how to use it.</li>
 </ul>

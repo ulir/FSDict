@@ -128,7 +128,7 @@ namespace fsdict {
 	}; 
 	
 
-	static const void reverse(const wchar_t* str, wchar_t* newStr) {
+	inline const void reverse(const wchar_t* str, wchar_t* newStr) {
 	    size_t len = wcslen( str );
 	    size_t i = 0;
 	    while(i < len) {
@@ -143,7 +143,7 @@ namespace fsdict {
 	 * @param[in] str some string
 	 * @param[out] the resukt is written to this string
 	 */
-	static const void reverse( const std::wstring& str, std::wstring* newStr ) {
+	inline const void reverse( const std::wstring& str, std::wstring* newStr ) {
 	    if( &str == newStr ) {
 		// throw exceptions::fsdictException( "Global::reverse: source string may not be equal to target string" );
 	    }
@@ -156,7 +156,7 @@ namespace fsdict {
 	    }
 	}
 
-	static const void printBits( bits64 n ) {
+	inline const void printBits( bits64 n ) {
 	    int i;
 	    for ( i = 63;i >= 0;--i ) {
 		if ( ( i % 10 ) == 0 ) printf( "%d", i / 10 );
@@ -169,6 +169,7 @@ namespace fsdict {
 	    }
 	    printf( "\n" );
 	}
+
 	
     }
 
@@ -240,41 +241,7 @@ namespace fsdict {
 	    outOfRange( const std::string msg ) : fsdictException( msg ) {}
 	};
 
-    };
-
-
-
-    /**
-     * @deprecated Use the implementation in fsdict::CSLLocale instead!!
-     */
-    // inline void string2wstring( std::string const& str, std::wstring& wstr, std::locale const& loc ) {
-    // 	std::codecvt< wchar_t, char, std::mbstate_t > const& ccvt = std::use_facet< std::codecvt< wchar_t, char, std::mbstate_t > >( loc );
-	
-    // 	wstr.resize( str.size() * ccvt.max_length() ); // this makes no sense?! str.size() would be enough
-    // 	std::codecvt< wchar_t, char, std::mbstate_t >::state_type state; 
-    // 	char const* fromNext = 0;
-    // 	wchar_t* toNext = 0;
-    // 	ccvt.in( state, 
-    // 		 str.c_str(), 
-    // 		 str.c_str()+str.size(), 
-    // 		 fromNext, 
-    // 		 (wchar_t*)wstr.
-    // 		 c_str(),
-    // 		 (wchar_t*)wstr.c_str() + wstr.size(), 
-    // 		 toNext 
-    // 	    );
-
-    // 	wstr.resize( toNext - wstr.c_str() );
-    // }
-
-    // /**
-    //  * @deprecated Use the implementation in fsdict::CSLLocale instead!!
-    //  */
-    // inline void string2wstring( std::string const& str, std::wstring& wstr ) {
-    // 	std::locale loc( FSDICT_UTF8_LOCALE );
-    // 	string2wstring( str, wstr, loc );
-    // }
-
+    }
 
     /**
      * @brief Split a string using the given delimiter and collect the pieces in the given vector.
