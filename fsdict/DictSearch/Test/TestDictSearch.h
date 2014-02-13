@@ -33,9 +33,16 @@ namespace fsdict {
 	    DictSearch::CandidateSet result;
 
 	    // lookup in modern dict with dlev 0
-//	    ds.setModern( "../fsdict/DictSearch/Test/small.modern.fbdic", 0 );
 
-	    DictSearch::DictModule& modernDict = ds.addDictModule( L"modern", std::string( "../fsdict/DictSearch/Test/small.modern.fbdic" ) );
+	    fsdict::FBDic<> smallModern;
+	    smallModern.initConstruction();
+	    smallModern.addToken(L"feile", 42);
+	    smallModern.addToken(L"teile", 42);
+	    smallModern.addToken(L"teilen", 42);
+	    smallModern.addToken(L"teller", 42);
+	    smallModern.finishConstruction();
+
+	    DictSearch::DictModule& modernDict = ds.addDictModule( L"modern", smallModern );
 	    ds.query( L"teile", &result );
 	    CPPUNIT_ASSERT_EQUAL( (size_t)1, result.size() );
 	    CPPUNIT_ASSERT( L"teile" == result.at( 0 ).getWord()  );

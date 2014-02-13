@@ -68,6 +68,11 @@ namespace fsdict {
 	
 
 	/**
+	 * @brief Adds a pattern to the PatternSet.
+	 */
+	void push_back( Pattern const& pattern );
+
+	/**
 	 * @brief Reads a set of patterns from file \c patternFile.
 	 *
 	 * The file is expected to contain one pattern per line, with a blank to
@@ -106,6 +111,97 @@ namespace fsdict {
 	strippedPatternList_.push_back( Pattern() );
     }
 
+
+    void PatternSet::push_back( Pattern const& pattern ) {
+
+	std::wstring left = pattern.getLeft();
+	std::wstring right = pattern.getRight();
+	// check for word border markers
+	bool wordBegin_left, wordEnd_left, wordBegin_right, wordEnd_right;
+	size_t pos = left.find( Global::wordBeginMarker );
+	if( pos == left.npos ) {
+	    wordBegin_left = false;
+	}
+	else if( pos == 0 ) {
+	    wordBegin_left = true;
+	}
+	else {
+	    throw exceptions::badInput( 
+				       std::string( "PatternSet: Invalid pattern - wordBeginMarker in middle of left side: " ) 
+				       + fsdict::UTF8Locale::wstring2string( pattern.toString() ) );
+	}
+
+	pos = right.find( Global::wordBeginMarker );
+	if( pos == right.npos ) {
+	    wordBegin_right = false;
+	}
+	else if( pos == 0 ) {
+	    wordBegin_right = true;
+	}
+	else {
+	    throw exceptions::badInput( 
+				       std::string( "PatternSet: Invalid pattern - wordBeginMarker in middle of right side: " )
+				       + fsdict::UTF8Locale::wstring2string( pattern.toString() ) );
+	}
+
+	pos = left.find( Global::wordEndMarker );
+	if( pos == left.npos ) {
+	    wordEnd_left = false;
+	}
+	else if( pos == left.size()-1 ) {
+	    wordEnd_left = true;
+	}
+	else {
+	    throw exceptions::badInput( 
+				       std::string( "PatternSet: Invalid pattern - wordEndMarker in middle of left side: " ) 
+				       + fsdict::UTF8Locale::wstring2string( pattern.toString() ) );
+	}
+
+	pos = right.find( Global::wordEndMarker );
+	if( pos == right.npos ) {
+	    wordEnd_right = false;
+	}
+	else if( pos == right.size() - 1 ) {
+	    wordEnd_right = true;
+	}
+	else {
+	    throw exceptions::badInput( std::string( "PatternSet: Invalid pattern - wordEndMarker in middle of right side: " ) + fsdict::UTF8Locale::wstring2string( pattern.toString() ) );
+	}
+
+	if( either_or( wordBegin_left, wordBegin_right ) ) {
+	    throw exceptions::badInput( 
+				       std::string( "PatternSet: Invalid pattern - wordBeginMarker must be specified on left AND right side: " ) 
+				       + fsdict::UTF8Locale::wstring2string( pattern.toString() ) );
+	}
+
+	if( either_or( wordEnd_left, wordEnd_right ) ) {
+	    throw exceptions::badInput( 
+				       std::string( "PatternSet: Invalid pattern - wordEndMarker must be specified on left AND right side: " ) 
+				       + fsdict::UTF8Locale::wstring2string( pattern.toString() ) );
+	}
+	// end: check for markers
+
+	patternList_.push_back( Pattern( left, right ) );
+
+
+	if( wordBegin_left ) { // then also wordBegin_right must be true
+	    left.erase( 0, 1 );
+	    right.erase( 0, 1 );
+	}
+	if( wordEnd_left ) { // then also wordBegin_right must be true
+	    left.erase( left.size()-1, 1 );
+	    right.erase( right.size()-1, 1 );
+	}
+
+	if( left.empty() && right.empty() ) {
+	    throw exceptions::badInput( 
+				       std::string( "PatternSet: Invalid pattern - empty pattern: " ) 
+				       + fsdict::UTF8Locale::wstring2string( pattern.toString() ) );
+	}
+
+	strippedPatternList_.push_back( Pattern( left, right ) );
+    }
+
     void PatternSet::loadPatterns( const char* patternFile ) {
 	std::wifstream fi;
 	fi.imbue( FSDICT_UTF8_LOCALE );
@@ -133,90 +229,7 @@ namespace fsdict {
 	    std::wstring left = line.substr( 0, delimPos );
 	    std::wstring right = line.substr( delimPos + 1 );
 
-	    // check for word border markers
-	    bool wordBegin_left, wordEnd_left, wordBegin_right, wordEnd_right;
-	    size_t pos = left.find( Global::wordBeginMarker );
-	    if( pos == left.npos ) {
-		wordBegin_left = false;
-	    }
-	    else if( pos == 0 ) {
-		wordBegin_left = true;
-	    }
-	    else {
-		throw exceptions::badInput( 
-		    std::string( "PatternSet: Invalid pattern - wordBeginMarker in middle of left side: " ) 
-		    + fsdict::UTF8Locale::wstring2string( line ) );
-	    }
-
-	    pos = right.find( Global::wordBeginMarker );
-	    if( pos == right.npos ) {
-		wordBegin_right = false;
-	    }
-	    else if( pos == 0 ) {
-		wordBegin_right = true;
-	    }
-	    else {
-		throw exceptions::badInput( 
-		    std::string( "PatternSet: Invalid pattern - wordBeginMarker in middle of right side: " )
-		    + fsdict::UTF8Locale::wstring2string( line ) );
-	    }
-
-	    pos = left.find( Global::wordEndMarker );
-	    if( pos == left.npos ) {
-		wordEnd_left = false;
-	    }
-	    else if( pos == left.size()-1 ) {
-		wordEnd_left = true;
-	    }
-	    else {
-		throw exceptions::badInput( 
-		    std::string( "PatternSet: Invalid pattern - wordEndMarker in middle of left side: " ) 
-		    + fsdict::UTF8Locale::wstring2string( line ) );
-	    }
-
-	    pos = right.find( Global::wordEndMarker );
-	    if( pos == right.npos ) {
-		wordEnd_right = false;
-	    }
-	    else if( pos == right.size() - 1 ) {
-		wordEnd_right = true;
-	    }
-	    else {
-		throw exceptions::badInput( std::string( "PatternSet: Invalid pattern - wordEndMarker in middle of right side: " ) + fsdict::UTF8Locale::wstring2string( line ) );
-	    }
-
-	    if( either_or( wordBegin_left, wordBegin_right ) ) {
-		throw exceptions::badInput( 
-		    std::string( "PatternSet: Invalid pattern - wordBeginMarker must be specified on left AND right side: " ) 
-		    + fsdict::UTF8Locale::wstring2string( line ) );
-	    }
-
-	    if( either_or( wordEnd_left, wordEnd_right ) ) {
-		throw exceptions::badInput( 
-		    std::string( "PatternSet: Invalid pattern - wordEndMarker must be specified on left AND right side: " ) 
-		    + fsdict::UTF8Locale::wstring2string( line ) );
-	    }
-	    // end: check for markers
-
-	    patternList_.push_back( Pattern( left, right ) );
-
-
-	    if( wordBegin_left ) { // then also wordBegin_right must be true
-		left.erase( 0, 1 );
-		right.erase( 0, 1 );
-	    }
-	    if( wordEnd_left ) { // then also wordBegin_right must be true
-		left.erase( left.size()-1, 1 );
-		right.erase( right.size()-1, 1 );
-	    }
-
-	    if( left.empty() && right.empty() ) {
-		throw exceptions::badInput( 
-		    std::string( "PatternSet: Invalid pattern - empty pattern: " ) 
-		    + fsdict::UTF8Locale::wstring2string( line ) );
-	    }
-
-	    strippedPatternList_.push_back( Pattern( left, right ) );
+	    this->push_back( Pattern( left, right ) );
 	    
 	}
 	if( errno == EILSEQ ) { // catch encoding error

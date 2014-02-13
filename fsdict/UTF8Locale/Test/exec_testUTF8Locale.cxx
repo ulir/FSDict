@@ -4,7 +4,7 @@
 #include<fsdict/UTF8Locale/UTF8Locale.h>
 
 int main() {
-    std::locale::global( std::locale( "en_GB.utf-8" ) );
+    std::locale::global( std::locale( "de_DE.utf8" ) );
 
     fsdict::TestUTF8Locale t;
 

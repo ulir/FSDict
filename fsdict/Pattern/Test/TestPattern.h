@@ -156,7 +156,6 @@ namespace fsdict {
 	CPPUNIT_ASSERT( instr.at( 1 ).getPosition() == 42 );
 
 	std::wstring str = instr.toString();
-	std::wcout << str << std::endl;
 	CPPUNIT_ASSERT( str == L"[(left_right,3)(le_ri,42)]" );
 
 	Instruction instr2;
@@ -184,7 +183,6 @@ namespace fsdict {
 	interp.setLevDistance( 1 );
 
 	std::wstring str = interp.toString();
-	std::wcout << str << std::endl;
 	CPPUNIT_ASSERT( str == L"theil:teil+[(t_th,0)],dist=1" );
 
 	interp.clear();
@@ -222,8 +220,6 @@ namespace fsdict {
 
 
     void TestPattern::testPatternGraph() {
-	std::wcout << "TestPattern::TestPatternGraph()" << std::endl;
-	
 	PatternGraph pg;
 	pg.loadPatterns( "../fsdict/Val/Test/small.patterns.txt" );
 
