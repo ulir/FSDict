@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="FSDict : FSDict is a library (and a set of command line tools) to store and access very large dictionaries in an efficient way." />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>FSDict</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/ulir/FSDict">View on GitHub</a>
+
+          <h1 id="project_title">FSDict</h1>
+          <h2 id="project_tagline">FSDict is a library (and a set of command line tools) to store and access very large dictionaries in an efficient way.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/ulir/FSDict/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/ulir/FSDict/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="fsdict" class="anchor" href="#fsdict"><span class="octicon octicon-link"></span></a>FSDict</h1>
+
+<p>A library to store and access very large dictionaries in an efficient way.</p>
+
+<h1>
+<a name="how-to-build" class="anchor" href="#how-to-build"><span class="octicon octicon-link"></span></a>How to build</h1>
+
+<p>To compile the csl library and all command line tools, you need the build
+program 'cmake', which is part of virtually any linux distribution.</p>
+
+<p>Unpack the source tarball and change into its root directory. Then type:</p>
+
+<div class="highlight highlight-sh"><pre>mkdir build
+<span class="nb">cd </span>build
+cmake -DCMAKE_BUILD_TYPE<span class="o">=</span>RELEASE ..
+make
+</pre></div>
+
+<p>This should build the library in ./lib and all executables in ./bin .
+If cmake gives you trouble concerning the jni include directories, it might help
+to specify a correct JAVA_HOME environment variable:</p>
+
+<div class="highlight highlight-sh"><pre><span class="nv">$ JAVA_HOME</span><span class="o">=</span>/path/to/java/sdk  cmake <span class="c">#[...], see above</span>
+</pre></div>
+
+<p>You can also try 'make install', but I don't guarantee I haven't forgotten
+to specify one or the other binary to be installed. It does install the
+library to CMAKE_INSTALL_PREFIX/lib and the more important programs to
+CMAKE_INSTALL_PREFIX/bin . CMAKE_INSTALL_PREFIX defaults to "/usr/local/", but
+you can use 'ccmake' to change the prefix.
+Just do</p>
+
+<div class="highlight highlight-sh"><pre>cmake ..
+ccmake .  <span class="c"># only if you want to change paths. Just follow the help given in the program.</span>
+make
+make install  <span class="c"># not very well tested</span>
+</pre></div>
+
+<p>Please report bugs, problems etc. on <a href="https://github.com/ulir/FSDict">https://github.com/ulir/FSDict</a> .</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">FSDict maintained by <a href="https://github.com/ulir">ulir</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
