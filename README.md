@@ -1,7 +1,19 @@
 FSDict
 ======
 
-A library to store and access very large dictionaries in an efficient way.
+Store dozens of millions of strings, together with a numerical value (or any other data type of fixed length)
+
+Highlights
+==========
+* Incremental O(n) construction of minimized deterministic finite state automata, using a highly optimized sparse table implementation.
+* Complexity for lookup of key k is O(|k|), independent of the dictionary size.
+* Complexity for iterating over all m transitions of a given state is O(m), independent of the alphabet size
+* Very fast algorithm for approximate search in the dictionary. Find similar keys for a given string (w.r.t. Levenshtein distance) using the state-of-the-art algorithm (Mihov/Schulz).
+
+Documentation
+============
+Please find documentation of the latest release [here](http://ulir.github.io/FSDict/v0.1.1/api/).
+
 
 How to build
 ============
@@ -13,17 +25,11 @@ Unpack the source tarball and change into its root directory. Then type:
 ```sh
 mkdir build
 cd build
-cmake -DCMAKE_BUILD_TYPE=RELEASE ..
+cmake -DCMAKE_BUILD_TYPE=RELEASE [-DCMAKE_INSTALL_PREFIX=/some/path/] ..
 make
 ```
 
 This should build the library in ./lib and all executables in ./bin .
-If cmake gives you trouble concerning the jni include directories, it might help
-to specify a correct JAVA_HOME environment variable:
-
-```sh
-$ JAVA_HOME=/path/to/java/sdk  cmake #[...], see above
-```
 
 You can also try 'make install', but I don't guarantee I haven't forgotten
 to specify one or the other binary to be installed. It does install the

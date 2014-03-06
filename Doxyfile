@@ -25,13 +25,13 @@ DOXYFILE_ENCODING      = UTF-8
 # The PROJECT_NAME tag is a single word (or a sequence of words surrounded
 # by quotes) that should identify the project.
 
-PROJECT_NAME           = "CIS String Library"
+PROJECT_NAME           = "FSDict"
 
 # The PROJECT_NUMBER tag can be used to enter a project or revision number.
 # This could be handy for archiving the generated documentation or
 # if some version control system is used.
 
-PROJECT_NUMBER         =
+PROJECT_NUMBER         = v0.1.1
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute)
 # base path where the generated documentation will be put.
@@ -605,15 +605,8 @@ RECURSIVE              = YES
 # excluded from the INPUT source files. This way you can easily exclude a
 # subdirectory from a directory tree whose root is specified with the INPUT tag.
 
-EXCLUDE                = ./csl/LevDEA/LevDEA.cxx \
-                         ./csl/LevDEA/lev0data.cxx \
-                         ./csl/LevDEA/lev1data.cxx \
-                         ./csl/LevDEA/lev2data.cxx \
-                         ./csl/LevDEA/lev3data.cxx \
-                         ./csl/LevDEA/LevDEA_postables.tcc \
-                         ./csl/LevDEA/LevDEA_cslversion.h \
-                         ./csl/LevDEA/LevDEA_cslversion.tcc \
-                         ./csl/locale_test.cxx
+EXCLUDE                = ./fsdict/LevDEA/AutData.cxx \
+                         ./fsdict/locale_test.cxx
 
 # The EXCLUDE_SYMLINKS tag can be used select whether or not files or
 # directories that are symbolic links (a Unix filesystem feature) are excluded
@@ -1404,7 +1397,7 @@ HIDE_UNDOC_RELATIONS   = YES
 # toolkit from AT&T and Lucent Bell Labs. The other options in this section
 # have no effect if this option is set to NO (the default)
 
-HAVE_DOT               = YES
+HAVE_DOT               = NO
 
 # By default doxygen will write a font called FreeSans.ttf to the output
 # directory and reference it in all dot files that doxygen generates. This
