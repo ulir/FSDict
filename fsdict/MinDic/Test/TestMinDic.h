@@ -78,53 +78,10 @@ namespace fsdict {
 	CPPUNIT_ASSERT( mdic_.walkStr( mdic_.getRoot(), empty.c_str() ) == mdic_.getRoot() );
 
 
-	/*
-	 * test if the proper annotation is returned for the key
-	 */
-//	assert( mdic_.getAnnotation( (uchar*)key, &ann ) && ( ann == 15 ) );
-
-	/*
-	 * Test if walking with an invalid char is just failing and not causing any trouble
-	 */
-// 	pos_1 = mdic_.getRoot(); // set pos_1 to root
-// 	assert( alph_.code( '#' ) == 0 );
-// 	assert( mdic_.walk( pos_1, alph_.code( '#' ) ) == 0 );
-
-// 	assert( ! mdic_.walkStr( mdic_.getRoot(), (uchar*)"dies#das" ) );
-// 	assert( ! mdic_.walkStr( mdic_.getRoot(), (uchar*)"dies#" ) );
 
 
     }
 
-//     void TestMinDic::lookupAllKeys() {
-// 	std::ifstream fileHandle( lexFile_ );
-// 	if ( !fileHandle.good() ) {
-// 	    throw exceptions::badFileHandle( "Couldn't open file '" +
-// 					     std::string( lexFile_ ) +
-// 					     "' for reading." );
-// 	}
-// 	uchar line[Global::lengthOfLongStr];
-// 	uchar* valueString = 0;
-	
-// 	bool testOk = true;
-// 	size_t nrOfLines = 0;
-// 	int value;
-// 	while ( fileHandle.getline( ( char* ) line, Global::lengthOfLongStr ) )  {
-// 	    uchar* c = ( uchar* )strchr( ( char* )line, Global::keyValueDelimiter );
-	    
-// 	    if( c ) {
-// 		*c = 0;
-// 		valueString = ( c + 1 );
-// 	    }
-// 	    uint_t pos = mdic_.walkStr( mdic_.getRoot(), line );
-// 	    assert( mdic_.getAnnotation( line, &value ) );
-// 	    testOk = testOk && pos && mdic_.isFinal( pos ) && ( atoi( (char*)valueString ) == value );
-	    
-// 	    ++nrOfLines;
-// 	}
-// 	assert( nrOfLines == mdic_.getNrOfKeys() );
-// 	assert( testOk );
-//     }
 } // namespace fsdict
 
 

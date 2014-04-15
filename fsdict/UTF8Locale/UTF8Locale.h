@@ -9,10 +9,13 @@
 
 namespace fsdict {
 
-    class CSLLocale : public std::locale {
+    /**
+     * @brief A locale using our own implementation of a utf8 codecvt, and a ctype facet handling umlauts and other peculiarities properly.
+     */
+    class UTF8Locale : public std::locale {
     public:
-	inline static CSLLocale& Instance() {
-	    static CSLLocale cslLocale_;  // local static object initialization
+	inline static UTF8Locale& Instance() {
+	    static UTF8Locale cslLocale_;  // local static object initialization
 	    return cslLocale_;
 	}
 
@@ -33,7 +36,7 @@ namespace fsdict {
 	    
 	    // no badbit, no failbit, no goodbit: only the eofbit, because the complete string should be interpreted
 	    if( iss.rdstate() != (  std::wistringstream::eofbit ) ) {
-		throw exceptions::fsdictException( "fsdict::CSLLocale::string2number: could not interpret string:" );
+		throw exceptions::fsdictException( "fsdict::UTF8Locale::string2number: could not interpret string:" );
 	    }
 	    return number;
 	}
@@ -116,17 +119,17 @@ namespace fsdict {
 	/**
 	 * @brief private constructor
 	 */
-	CSLLocale();
+	UTF8Locale();
 
 	/**
 	 * @brief private destructor
 	 */
-	CSLLocale( CSLLocale const & );
+	UTF8Locale( UTF8Locale const & );
 
-	inline ~CSLLocale() { 
+	inline ~UTF8Locale() { 
 	}  
 
-	CSLLocale &operator=( CSLLocale const & );  // assignment operator is hidden
+	UTF8Locale &operator=( UTF8Locale const & );  // assignment operator is hidden
 
     };
 

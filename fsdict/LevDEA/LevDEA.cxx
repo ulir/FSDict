@@ -1,33 +1,50 @@
 #ifndef LEVDEA_CXX
 #define LEVDEA_CXX LEVDEA_CXX
 
+#include<fsdict/UTF8Locale/UTF8Locale.h>
 #include<stdlib.h>
 #include "./LevDEA.h"
 
 namespace fsdict {
-
-
-#include "lev0data.tcc"
-#include "lev1data.tcc"
-#include "lev2data.tcc"
-#include "lev3data.tcc"
-    
+	
     LevDEA::LevDEA( int init_k ) : k_( init_k ),
+				   transitions_(0),
+				   finalInfo_(0),
 				   charvecs_( Global::maxNrOfChars, 0 )
     {
-	*pattern_ = 0; // set pattern to empty word
-	tabsLoaded_ = 0;
-	setDistance( init_k );
+	setThreshold( init_k );
     }
     
     LevDEA::~LevDEA() {
-	delete( tab );
-	delete( fin );
     }
 
-
-    void LevDEA::setDistance( size_t initK ) {
+    void LevDEA::setThreshold( size_t initK ) {
 	k_ = initK;
+
+	if( k_ == 0 ) {
+	    transitions_ =        AutData< 0 >::transitions;
+	    finalInfo_   =        AutData< 0 >::finalInfo;
+	    suffixMatch_ =        AutData< 0 >::suffixMatch;
+	    bitVectorLength_ =    AutData< 0 >::bitVectorLength;
+	}
+	else if( k_ == 1 ) {
+	    transitions_ =        AutData< 1 >::transitions;
+	    finalInfo_   =        AutData< 1 >::finalInfo;
+	    suffixMatch_ =        AutData< 1 >::suffixMatch;
+	    bitVectorLength_ =    AutData< 1 >::bitVectorLength;
+	}
+	else if( k_ == 2 ) {
+	    transitions_ =        AutData< 2 >::transitions;
+	    finalInfo_   =        AutData< 2 >::finalInfo;
+	    suffixMatch_ =        AutData< 2 >::suffixMatch;
+	    bitVectorLength_ =    AutData< 2 >::bitVectorLength;
+	}
+	else {
+	    throw exceptions::fsdictException("Invalid Levenshtein threshold");
+	}
+
+	nrOfTransitions_ = 1 << bitVectorLength_;
+	zeroShift_ = bitVectorLength_ / 2;
 
 	/*
 	  In case of k==1, z2k1 would be 111  (==7) ( 2k+1 set bits )
@@ -39,96 +56,51 @@ namespace fsdict {
 	z2k2 = 1ll;
 	z2k2 <<= 2 * k_ + 2;
 	z2k2--; // a sequence of 2k+2 1-values
+    }
 
-	if( ( tabsLoaded_ & ( 1 << k_ ) ) == 0 ) { // have the tables for k already been loaded???
-
-	    const int* arrPos;
-	    if( initK == 0 ) arrPos = lev0data;
-	    else if( initK == 1 ) arrPos = lev1data;
-	    else if( initK == 2 ) arrPos = lev2data;
-	    else if( initK == 3 ) arrPos = lev3data;
-	    else throw exceptions::invalidLevDistance( "LevDEA: This distance is not supported. Supported distances are 0, 1, 2, 3" );
-
-	    k_= *arrPos; ++arrPos;;
-	    coresetss[k_] = *arrPos; ++arrPos;
-	    coresets = coresetss[k_];
-
-	    tabs[k_] = new table_cell[z2k2*coresets];
-	    fins[k_] = ( int* )malloc( ( 2 * k_ + 1 ) * coresets * sizeof( int ) );
-	    tab = tabs[k_];
-	    fin = fins[k_];
-
-	    size_t row, col;
-
-	    for( row = 0; row < z2k2; row++ ) {
-		for( col = 0; col < coresets; ++col ) {
-		    table( row, col ).target =  *arrPos; ++arrPos;
-		    table( row, col ).move_pattern =  *arrPos; ++arrPos;
-		}
-	    }
-
-	    for( row = 0; row < 2*k_ + 1; row++ ) {
-		for( col = 0; col < coresets; ++col ) {
-		    fin[coresets*row+col] =  *arrPos; ++arrPos;
-		}
-	    }
-	    tabsLoaded_ = tabsLoaded_ | ( 1 << k_ );
-	}
-	else {
-	    // tables were loaded some time before. simply assign the pointers.
-	    tab = tabs[k_];
-	    fin = fins[k_];
-	    coresets = coresetss[k_];
-	}
+    size_t LevDEA::getThreshold() const {
+	return k_;
     }
 
     void LevDEA::loadPattern( const wchar_t* p ) {
 	cleanCharvecs(); // do this while the old pattern is still loaded!
-	patLength_ = wcslen( p );
-	if( patLength_ > Global::lengthOfWord ) {
+	pattern_ = p;
+	if( pattern_.length() > Global::lengthOfWord ) {
 	    throw exceptions::badInput( "fsdict::LevDEA::loadPattern: Maximum Pattern length (as specified by Global::lengthOfWord) violated." );
 	}
-	wcscpy( pattern_, p );
 	calcCharvec();
+    }
+    
+    void LevDEA::loadPattern_utf8( const char* p ) {
+	std::wstring patternWide_;
+	UTF8Locale::string2wstring( std::string( p ), patternWide_ );
+	loadPattern( patternWide_.c_str() );
     }
 
     void LevDEA::cleanCharvecs() {
-	for( const wchar_t* pat = pattern_; *pat; ++pat ) {
-	    charvecs_.at( *pat ) = 0;
+	for( std::wstring::const_iterator c = pattern_.begin(); c != pattern_.end(); ++c ) {
+	    charvecs_.at( *c ) = 0;
 	}
     }
     
     void LevDEA::calcCharvec() {
-	bits64 c;
-	const wchar_t* pat;
-	for ( c = z10, pat= pattern_; *pat; ++pat, c >>= 1 ) {
-	    charvecs_[*pat] |= c;
+	bits64 bit = 1ll<<( pattern_.length()-1 );
+	for( std::wstring::const_iterator c = pattern_.begin(); c != pattern_.end(); ++c ) {
+	    if( static_cast< size_t >( *c ) > Global::maxNrOfChars ) {
+		std::cerr << "Invalid codepoint:" << static_cast< size_t >( *c ) << std::endl;
+		throw exceptions::fsdictException("Global::maxNrOfChars violated.");
+	    }
+	    charvecs_.at( *c ) |= bit;
+	    bit >>= 1;
 	}
     }
     
-    bits32 LevDEA::calc_k_charvec( wchar_t c, size_t i ) const {
-	bits64 r;
-	// after the next line, the bits i,i+1,i+2 of chv are the lowest bits of r. All other bits of r are 0
-	r = ( charvecs_[c] >> ( 64 - ( 2 * k_ + 1 + i ) ) ) & z2k1;
-	if ( patLength_ - i < 2 * k_ + 1 ) // the last few chars of the word
-	    r = ( ( r >> ( 2 * k_ + 1 - ( patLength_ - i ) ) ) | ( zff << ( ( patLength_ - i ) + 1 ) ) ) & z2k2;
-	return ( (bits32) r );
-    }
-
     void LevDEA::printTable() const {
-	size_t row, col;
-	for ( row = 0; row < z2k2; row++ ) {
-	    printf( "%lu\t", (unsigned long)row );
-	    for ( col = 0; col < coresets; ++col ) {
-		printf( "(%d,%d)\t", table( row, col ).target, table( row, col ).move_pattern );
-	    }
-	    printf( "\n" );
-	}
     }
 
     void LevDEA::printCharvec() const {
 	std::cout << "-------------" << std::endl;
-	for( const wchar_t* c = pattern_; *c; ++c ) {
+	for( std::wstring::const_iterator c = pattern_.begin(); c != pattern_.end(); ++c ) {
 	    printf( "%lc\n", *c );
 	    printBits( charvecs_[*c] );
 	}

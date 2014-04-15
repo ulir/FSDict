@@ -43,8 +43,8 @@ namespace fsdict {
 		if (dict_->key[i]==NULL)
 		    continue ;
 
-		CSLLocale::string2wstring( dict_->key[i], wideKey );
-		CSLLocale::string2wstring( dict_->val[i], wideValue );
+		UTF8Locale::string2wstring( dict_->key[i], wideKey );
+		UTF8Locale::string2wstring( dict_->val[i], wideValue );
 		os << wideKey << " = " << wideValue << std::endl;
 	    }
 	    return ;
@@ -52,7 +52,7 @@ namespace fsdict {
 	else { // there are sections
 	    for ( int i = 0 ; i < nsec ; i++ ) {
 		sectionName = iniparser_getsecname(dict_, i) ;
-		CSLLocale::string2wstring( sectionName, wideSection );
+		UTF8Locale::string2wstring( sectionName, wideSection );
 		os << std::endl << '[' << wideSection << ']' << std::endl;
 
 		sectionNameColon = sectionName + ':';
@@ -61,12 +61,12 @@ namespace fsdict {
 			continue ;
 		    }
 		    if( !strncmp(dict_->key[j], sectionNameColon.c_str(), sectionNameColon.size() ) ) {
-			CSLLocale::string2wstring( dict_->key[j], wideKey );
+			UTF8Locale::string2wstring( dict_->key[j], wideKey );
 			if( dict_->val[j] ) { // obviously this can be 0 
 			    wideValue.clear();
 			}
 			else {
-			    CSLLocale::string2wstring( dict_->val[j], wideValue );
+			    UTF8Locale::string2wstring( dict_->val[j], wideValue );
 			}
 
 			os << wideKey.substr( sectionNameColon.size() ) << " = " << wideValue << std::endl;
@@ -101,7 +101,7 @@ namespace fsdict {
 
     int INIConfig::getint( char const* key ) const {
 	if( dict_ == NULL ) throw exceptions::fsdictException( "fsdict::INIConfig: No configuration loaded" );
-	return CSLLocale::string2number< int >( std::string( getstring( key ) ) );
+	return UTF8Locale::string2number< int >( std::string( getstring( key ) ) );
     }
 
     int INIConfig::getint( std::string const& key ) const {
@@ -111,7 +111,7 @@ namespace fsdict {
 
     double INIConfig::getdouble( char const* key ) const {
 	if( dict_ == NULL ) throw exceptions::fsdictException( "fsdict::INIConfig: No configuration loaded" );
-	return CSLLocale::string2number< double >( std::string( getstring( key ) ) );
+	return UTF8Locale::string2number< double >( std::string( getstring( key ) ) );
     }
 
     double INIConfig::getdouble( std::string const& key ) const {

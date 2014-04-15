@@ -52,7 +52,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include<fsdict/CSLLocale/CSLLocale.h>
+#include<fsdict/UTF8Locale/UTF8Locale.h>
 
 /*
  * The following #include is necessary on many Unixes but not Linux.

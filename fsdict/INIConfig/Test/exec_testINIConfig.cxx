@@ -1,7 +1,7 @@
 
 
 #include "./TestINIConfig.h"
-#include <fsdict/CSLLocale/CSLLocale.h>
+#include <fsdict/UTF8Locale/UTF8Locale.h>
 
 
 int main() {
@@ -13,9 +13,8 @@ int main() {
 	ti.run();
     } catch( std::exception& exc ) {
 	std::wstring wideWhat;
-	fsdict::CSLLocale::string2wstring( exc.what(), wideWhat );
+	fsdict::UTF8Locale::string2wstring( exc.what(), wideWhat );
 	std::wcout << "Exception: " << wideWhat << std::endl;
 	
     }
-    
 }

@@ -2,9 +2,10 @@ namespace fsdict {
 
 	template< class AnnType_t >
 	inline MinDic< AnnType_t >::MinDic( const char* dicFile ) {
-		if( dicFile ) {
-			loadFromFile( dicFile );
-		}	
+	    if( dicFile ) {
+		loadFromFile( dicFile );
+	    }	
+	    keyValueDelimiter_ = Global::keyValueDelimiter;
 	}
 
 	template< class AnnType_t >
@@ -149,10 +150,15 @@ namespace fsdict {
 		finishConstruction();
 	}
 
+	template< class AnnType_t >
+	inline void MinDic< AnnType_t >::setKeyValueDelimiter( wchar_t delimiter ) {
+	    keyValueDelimiter_ = delimiter;
+	}
+
 	template<>
 	inline void MinDic< int >::parseAnnotation( std::wstring* str, AnnType_t* annotation ) const {
 
-		size_t delimPos = str->find_first_of( Global::keyValueDelimiter );
+		size_t delimPos = str->find_first_of( keyValueDelimiter_ );
 
 		if( delimPos != str->npos ) {
 			*annotation = wcstol( (str->substr( delimPos + 1 ) ).c_str() , 0, 0 );
@@ -369,7 +375,7 @@ namespace fsdict {
 		float annotations_MB = (float)( nrOfKeys_ * sizeof( AnnType_t ) ) / 1048576;
 
 		TransTable_t::doAnalysis();
-		printf( "**********\nMinDic Analysis\n**********\nnr of keys:\t%d\nannotation array: %.3f MB\n\n",
+		printf( "**********\nMinDic Analysis\n**********\nnr of keys:\t%lu\nannotation array: %.3f MB\n\n",
 			nrOfKeys_,
 			annotations_MB
 			);

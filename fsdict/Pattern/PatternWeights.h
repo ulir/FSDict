@@ -8,7 +8,7 @@
 #include<map>
 #include<math.h>
 #include<fsdict/Global.h>
-#include<fsdict/CSLLocale/CSLLocale.h>
+#include<fsdict/UTF8Locale/UTF8Locale.h>
 #include<fsdict/Pattern/Pattern.h>
 
 namespace fsdict {

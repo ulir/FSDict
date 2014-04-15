@@ -27,9 +27,9 @@ namespace fsdict {
 	query_ = word;
 
 	wasUpperCase_ = false;
-	if( ( caseMode_ != Global::asIs ) && std::iswupper( query_.at( 0 ) /** , fsdict::CSLLocale::Instance() **/ ) ) {
+	if( ( caseMode_ != Global::asIs ) && std::iswupper( query_.at( 0 ) /** , fsdict::UTF8Locale::Instance() **/ ) ) {
 	    wasUpperCase_ = true;
-	    query_.at( 0 ) = std::tolower( query_.at( 0 ), fsdict::CSLLocale::Instance() );
+	    query_.at( 0 ) = std::tolower( query_.at( 0 ), fsdict::UTF8Locale::Instance() );
 	}
 
 	interpretations_ = interpretations;
@@ -170,11 +170,11 @@ namespace fsdict {
 	if( wasUpperCase_ ) {
 	    
 	    std::wstring tmp = interpretation.getBaseWord();
-	    tmp.at( 0 ) = std::toupper( tmp.at( 0 ), fsdict::CSLLocale::Instance() );
+	    tmp.at( 0 ) = std::toupper( tmp.at( 0 ), fsdict::UTF8Locale::Instance() );
 	    interpretation.setBaseWord( tmp );
 
 	    tmp = interpretation.getWord();
-	    tmp.at( 0 ) = std::toupper( tmp.at( 0 ), fsdict::CSLLocale::Instance() );
+	    tmp.at( 0 ) = std::toupper( tmp.at( 0 ), fsdict::UTF8Locale::Instance() );
 	    interpretation.setWord( tmp );
 	}
 

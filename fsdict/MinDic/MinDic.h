@@ -265,7 +265,7 @@ namespace fsdict {
 	     * processed nect
 	     */
 	    std::stack< StackItem_t > stack_;
-	};
+	}; // class TokenIterator
 
 
 	/**
@@ -376,6 +376,11 @@ namespace fsdict {
 	 */
 	inline void compileDic( const char* txtFile );
 
+        /**
+         * @brief Set the key-value delimiter to be used during the parsing of txt input files.
+	 */ 
+        inline void setKeyValueDelimiter( wchar_t delimiter );
+
 	/**
 	 * @brief This method parses an input line (provided as param str). If str has
 	 *        an annotation attached to the key, this annotation is clipped from str 
@@ -383,7 +388,7 @@ namespace fsdict {
 	 * @param[in/out] str
 	 * @param[out] annotation
 	 */
-	inline void parseAnnotation( std::wstring* str, AnnType_t* annotation ) const;
+        inline void parseAnnotation( std::wstring* str, AnnType_t* annotation ) const;
 
 	/**
 	 * @brief prepares the object for construction of a new MinDic.
@@ -443,6 +448,8 @@ namespace fsdict {
 	size_t sizeOfAnnotationBuffer_;
 
 	size_t nrOfKeys_;
+
+        wchar_t keyValueDelimiter_;
 
 	inline StateId_t replaceOrRegister( TempState_t& state );
 

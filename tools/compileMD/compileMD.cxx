@@ -8,6 +8,9 @@ void printHelp() {
     std::wcerr<< "Use like:                compileMD <txtDic> [<binDic>]"   << std::endl
 	      << "          cat <txtDic> | compileMD --stdin  <binDic>" << std::endl
 	      << std::endl
+	      << "Optional arguments:" << std::endl
+	      << "--delimiter <c>          The key-value delimiter (Default: #)" << std::endl
+	      << std::endl
 	      << std::endl;
 }
 
@@ -21,18 +24,34 @@ int main(int argc, char const** argv) {
     fsdict::Getopt options;
     options.specifyOption( "help", fsdict::Getopt::VOID );
     options.specifyOption( "stdin", fsdict::Getopt::VOID );
+    options.specifyOption( "delimiter", fsdict::Getopt::STRING );
     options.getOptionsAsSpecified( argc, argv );
 
     if( options.hasOption( "help" ) ) {
-	    printHelp();
-	    return EXIT_SUCCESS;
+	printHelp();
+	return EXIT_SUCCESS;
     }
 
     if( options.getArgumentCount() == 0 ) {
 	printHelp();
 	return EXIT_FAILURE;
     }
-    
+
+
+    fsdict::MinDic< int > t;
+
+    if( options.hasOption( "delimiter" ) ) {
+	
+	if( options.getOption( "delimiter" ) == "\\t" ) { // special hack to correctly interpret the \t character.
+	    options.setOption( "delimiter", "\t" );
+	}
+	else if( options.getOption( "delimiter" ).length() != 1 ) {
+	    std::wcerr << "The delimiter (specified with --delimiter) must be exactly 1 character." << std::endl;
+	    return EXIT_FAILURE;
+	}
+	t.setKeyValueDelimiter( options.getOption( "delimiter" ).at( 0 ) );
+    }
+
     if( options.hasOption( "stdin" ) ) {
 	if( options.getArgumentCount() != 1 ) {
 	    printHelp();
@@ -40,7 +59,6 @@ int main(int argc, char const** argv) {
 	}
 
 	try {
-	    fsdict::MinDic< int > t;
 
 	    t.initConstruction();
 	    
@@ -48,7 +66,6 @@ int main(int argc, char const** argv) {
 	    int annotation = 0;
 
 	    while( std::getline( std::wcin, line ), std::wcin.good() ) {
-		
 		t.parseAnnotation( &line, &annotation );
 		t.addToken( line.c_str(), annotation );
 	    }
@@ -81,8 +98,8 @@ int main(int argc, char const** argv) {
 		outFile = options.getArgument( 1 );
 	    }
 	    else {
-		outFile = inFile;
-		if( outFile.substr( outFile.size() - 4 ) == ".lex" ) {
+		if( inFile.size() > 4 && ( inFile.substr( inFile.size() - 4 ) == ".lex" ) ) {
+		    outFile = inFile;
 		    outFile.replace( outFile.size() - 4, 4, ".mdic" );
 		}
 		else {
@@ -91,7 +108,6 @@ int main(int argc, char const** argv) {
 		}
 	    }
 
-	    fsdict::MinDic< int > t;
 	    t.compileDic( inFile.c_str() );
 	    
 	    t.writeToFile( outFile.c_str() );

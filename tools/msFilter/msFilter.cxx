@@ -30,8 +30,8 @@ int main( int argc, char const** argv ) {
     }
 
     try {
-	MSMatch< FW_BW > matcher( atoi( opt.getArgument( 0 ).c_str() ), opt.getArgument( 1 ).c_str() );
-//	MSMatch< STANDARD > matcher( atoi( argv[1] ), argv[2] );
+//	MSMatch< FW_BW > matcher( atoi( opt.getArgument( 0 ).c_str() ), opt.getArgument( 1 ).c_str() );
+	MSMatch< STANDARD > matcher( atoi( opt.getArgument( 0 ).c_str() ), opt.getArgument( 1 ).c_str() );
 
 	ResultSet list;
 

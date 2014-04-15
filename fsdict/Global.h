@@ -60,7 +60,6 @@ namespace fsdict {
 
     typedef unsigned long long ulong_t;
     typedef unsigned long long bits64;
-
     typedef unsigned int StateId_t;
 
     typedef enum { 
@@ -169,8 +168,6 @@ namespace fsdict {
 	    }
 	    printf( "\n" );
 	}
-
-	
     }
 
     namespace exceptions {

@@ -1,7 +1,7 @@
 INCLUDE(CPack)
 
 add_subdirectory(Alphabet)
-add_subdirectory(CSLLocale)
+add_subdirectory(UTF8Locale)
 add_subdirectory(DictSearch)
 add_subdirectory(FBDic)
 add_subdirectory(FBDicString)
@@ -16,10 +16,11 @@ add_subdirectory(Pattern)
 add_subdirectory(Vaam)
 add_subdirectory(Val)
 
-ADD_LIBRARY( csl SHARED 
-  CSLLocale/CSLLocale.cxx
+SET(FILES_FOR_LIB   
+  UTF8Locale/UTF8Locale.cxx
   Alphabet/Alphabet.cxx 
   LevDEA/LevDEA.cxx
+  LevDEA/AutData.cxx
   DictSearch/DictSearch.cxx
   Pattern/Pattern.cxx
   Pattern/ComputeInstruction.cxx
@@ -27,15 +28,27 @@ ADD_LIBRARY( csl SHARED
   Pattern/Interpretation.cxx
   Pattern/PatternWeights.cxx
   INIConfig/INIConfig.cxx INIConfig/INIParser.cxx INIConfig/dictionary.c
-  )
+)
+
+ADD_LIBRARY( csl        SHARED ${FILES_FOR_LIB} )
+ADD_LIBRARY( csl_static STATIC ${FILES_FOR_LIB} )
+
+#TARGET_LINK_LIBRARIES( csl Alphabet )
+#TARGET_LINK_LIBRARIES( csl LevDEA )
+#TARGET_LINK_LIBRARIES( csl DictSearch )
+#TARGET_LINK_LIBRARIES( csl Pattern )
+#TARGET_LINK_LIBRARIES( csl DictSearch )
 
 install( 
-  TARGETS csl
+  TARGETS csl csl_static
   DESTINATION lib
   )
 
-INSTALL(DIRECTORY . DESTINATION include/fsdict/
- PATTERN "*svn*" EXCLUDE
- PATTERN "*CMake*" EXCLUDE
+INSTALL(DIRECTORY . 
+	DESTINATION include/fsdict/
+	FILES_MATCHING
+ 	PATTERN "*.h"
+ 	PATTERN "*.tcc"
+ 	PATTERN "*CMake*" EXCLUDE
  )
 

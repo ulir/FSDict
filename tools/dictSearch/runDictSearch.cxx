@@ -1,4 +1,4 @@
-#include <fsdict/CSLLocale/CSLLocale.h>
+#include <fsdict/UTF8Locale/UTF8Locale.h>
 #include <fsdict/DictSearch/DictSearch.h>
 #include <fsdict/Getopt/Getopt.h>
 #include <fsdict/INIConfig/INIConfig.h>

@@ -8,7 +8,7 @@
 #include<stdexcept>
 
 #include<fsdict/Global.h>
-#include<fsdict/CSLLocale/CSLLocale.h>
+#include<fsdict/UTF8Locale/UTF8Locale.h>
 
 namespace fsdict {
 
@@ -222,6 +222,7 @@ public:
 		if( ob != obligatory_.end() ) obligatory_.erase( ob );
 	    }
 	    else { // is no flag
+		std::cout <<"'" << word << "'" << std::endl;
 		if( ! keyWaitsForValue.empty() && ( optionTypes_[keyWaitsForValue] != VOID ) ) { // insert as value of open key
 		    optionValues_[keyWaitsForValue] = word;
 		    keyWaitsForValue.clear();
@@ -321,13 +322,13 @@ public:
     void print( std::wostream& os ) {
 	for( OptionIterator it = optionsBegin(); it != optionsEnd(); ++it ) {
 	    std::wstring wideKey;
-	    CSLLocale::string2wstring( it->first, wideKey );
+	    UTF8Locale::string2wstring( it->first, wideKey );
 	    if( it->second == VOID ) {
 		os << wideKey << " = " << "true" << std::endl;
 	    }
 	    else {
 		std::wstring wideValue;
-		CSLLocale::string2wstring( getOption(it->first), wideValue );
+		UTF8Locale::string2wstring( getOption(it->first), wideValue );
 		os << wideKey << " = " << wideValue << std::endl;
 	    }
 	}

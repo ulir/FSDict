@@ -63,7 +63,7 @@ namespace fsdict {
 
     void PatternWeights::loadFromFile( const char* patternFile ) {
 	std::wifstream fi;
-	fi.imbue( CSLLocale::Instance() );
+	fi.imbue( UTF8Locale::Instance() );
 	fi.open( patternFile );
 	if( ! fi ) {
 	    std::string message = 
@@ -90,7 +90,7 @@ namespace fsdict {
 
 	    double weight = 0;
 	    try {
-		weight = fsdict::CSLLocale::string2number< double >( line.substr( weightDelimPos+1 ) );
+		weight = fsdict::UTF8Locale::string2number< double >( line.substr( weightDelimPos+1 ) );
 	    } catch( std::exception& exc ) {
 		throw exceptions::badInput( "fsdict::PatternWeights: Could not parse double number." );
 	    }
@@ -109,7 +109,7 @@ namespace fsdict {
 	//std::wcerr << "fsdict::PatternWeights: Loaded " << patternCount << L" patterns."<< std::endl;
 
 	// std::wofstream fo;
-	// fo.imbue( CSLLocale::Instance() );
+	// fo.imbue( UTF8Locale::Instance() );
 	// fo.open( "/tmp/patterns.xml" );
 	
 	// writeToXML( fo );
@@ -118,7 +118,7 @@ namespace fsdict {
     
     void PatternWeights::writeToFile( const char* patternFile ) const {
 	std::wofstream fo;
-	fo.imbue( CSLLocale::Instance() );
+	fo.imbue( UTF8Locale::Instance() );
 	fo.open( patternFile );
 	if( ! fo ) {
 	    throw exceptions::badFileHandle( "fsdict::PatternWeights: Could not open pattern file for writing" );

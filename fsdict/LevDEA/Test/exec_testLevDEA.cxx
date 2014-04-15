@@ -1,8 +1,9 @@
+
 #include <cppunit/CompilerOutputter.h>
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/ui/text/TestRunner.h>
 
-#include "./TestFBDicString.h"
+#include "./TestLevDEA.h"
 
 int main() {
 
@@ -17,9 +18,12 @@ int main() {
     runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
 							 std::cerr ) );
 
+
+    
+
     // Run the tests.
     bool wasSucessful = runner.run();
 
-    // Return error code 1 if one of the tests failed.
+    // Return error code 1 if the one of tests failed.
     return wasSucessful ? 0 : 1;    
 }

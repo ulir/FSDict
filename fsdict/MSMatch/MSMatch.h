@@ -51,7 +51,12 @@ namespace fsdict {
 	inline ~MSMatch();
 
 	/**
-	 * @brief returns the highest threshold to be set. The setting of a higher distance (in the constructor or with setDidtance() ) will 
+	 * @brief Some initialization steps shared by all constructors.
+	 */
+	inline void initialize();
+
+	/**
+	 * @brief returns the highest threshold to be set. The setting of a higher distance (in the constructor or with setDistance() ) will 
 	 * trigger an exception
 	 */
 	inline static size_t getMaximumDistance() {
@@ -119,7 +124,7 @@ namespace fsdict {
 	int minDistFirst_;
 	int minDistSecond_;
 
-	wchar_t word_[Global::lengthOfWord]; ///< the word that is currently constructed
+	std::wstring word_; ///< the word that is currently constructed
 	CandidateReceiver* candReceiver_; ///< the currently used candReceiver
 	bool foundAnswers_; ///< currently this is used only in STANDARD mode
 
@@ -133,6 +138,14 @@ namespace fsdict {
 	inline void intersect( int dicPos, LevDEA::Pos levPos, int depth );
 	inline void intersectFirst( int dicPos, LevDEA::Pos levPos, int depth );
 	inline void intersectSecond( int dicPos, LevDEA::Pos levPos, int depth );
+    
+	/**
+	 * @brief Sends the current value in word_ to the candidateReceiver.
+	 */
+	inline void reportMatch( const std::wstring& str, size_t distance );
+
+	inline bool matchSuffix( int dicPos, size_t patternOffset );
+
 
 	inline void queryCases_0();
 	inline void queryCases_1();

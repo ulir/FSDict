@@ -1,18 +1,18 @@
 
-#include "./TestCSLLocale.h"
+#include "./TestUTF8Locale.h"
 #include<fsdict/Global.h>
-#include<fsdict/CSLLocale/CSLLocale.h>
+#include<fsdict/UTF8Locale/UTF8Locale.h>
 
 int main() {
     std::locale::global( std::locale( "en_GB.utf-8" ) );
 
-    fsdict::TestCSLLocale t;
+    fsdict::TestUTF8Locale t;
 
     try {
 	t.run();
     } catch( std::exception& exc ) {
 	std::wstring wideWhat;
-	fsdict::CSLLocale::string2wstring( exc.what(), wideWhat );
+	fsdict::UTF8Locale::string2wstring( exc.what(), wideWhat );
 	std::wcerr << wideWhat << std::endl;
     }
 

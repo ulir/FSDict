@@ -473,7 +473,7 @@ int iniparser_set(dictionary * ini, char const* entry, char const* val)
 	if( ( endPos = stdValue.find( "}", startPos + 2 ) ) != std::string::npos ) {
 	    std::string variable = stdValue.substr( startPos + 2, endPos - startPos - 2  );
 	    std::wstring wideVariable;
-	    fsdict::CSLLocale::string2wstring( variable, wideVariable );
+	    fsdict::UTF8Locale::string2wstring( variable, wideVariable );
 	    char* replace = iniparser_getstring( ini, variable.c_str(), 0 );
 	    if( replace ) {
 		stdValue.replace( startPos, endPos - startPos + 1, replace );
@@ -482,7 +482,7 @@ int iniparser_set(dictionary * ini, char const* entry, char const* val)
 	startPos = endPos + 1;
     }
     std::wstring wide;
-    fsdict::CSLLocale::string2wstring( stdValue, wide );
+    fsdict::UTF8Locale::string2wstring( stdValue, wide );
     return dictionary_set(ini, strlwc(entry), (char*)stdValue.c_str() ) ;
 }
 

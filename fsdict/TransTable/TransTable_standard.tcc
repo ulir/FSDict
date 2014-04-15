@@ -380,7 +380,7 @@ namespace fsdict {
 	double emptyRatio = ( double( empty ) / double( sizeOfUsedCells_ ) ) * 100; 
 	float cells_MB = (float)( sizeOfUsedCells_ * sizeof( Cell_t ) ) / 1000000;
 
-	printf( "**********\nTransTable Analysis\n**********\nCells:\t%d (%.3f MB)\nStates:\t%d\nTransitions:\t%d\nAnnotations:\t%d\nEmpty:\t%d (%2.2f%%)\n\n",
+	printf( "**********\nTransTable Analysis\n**********\nCells:\t%lu (%.3f MB)\nStates:\t%lu\nTransitions:\t%lu\nAnnotations:\t%lu\nEmpty:\t%lu(%2.2f%%)\n\n",
 		sizeOfUsedCells_,
 		cells_MB,
 		states,

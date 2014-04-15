@@ -296,7 +296,7 @@ namespace fsdict {
 	inline void MinDic2::doAnalysis() const {
 
 		TransTable_t::doAnalysis();
-		printf( "**********\nMinDic2 Analysis\n**********\nnr of keys:\t%d\n\n",
+		printf( "**********\nMinDic2 Analysis\n**********\nnr of keys:\t%lu\n\n",
 			nrOfKeys_
 			);
 

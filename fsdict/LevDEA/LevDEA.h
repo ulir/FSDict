@@ -8,21 +8,13 @@
 #include <stdio.h>
 
 #include "../Global.h"
-
+#include "./AutData.h"
 namespace fsdict {
-
-    struct table_cell {
-	int target;
-	int move_pattern;
-    };
-
 
     /**
      * LevDEA gives access to deterministic levenshtein automata.
      * It is an implementation of the concepts described in
      * "S. Mihov and K. Schulz. Fast approximate search in large dictionaries. Computational Linguistics, 30, 2004."
-     * *** Actually, a somewhat older approach is used, not exactly the one described in the paper ***
-     * Basically the implementation is derived from a C-implementation of Stoyan Mihov.
      * 
      * @caution This class is one huge memory leak!!!
      *
@@ -37,18 +29,18 @@ namespace fsdict {
 	 */
 	class Pos {
 	private:
-		/// holds the current position in the automaton (may equal to -1)
+	    /// holds the current position in the automaton (may be equal to -1)
 	    int position_;
 	    /// holds the current position in the pattern
-	    size_t pattern_pos_;
+	    size_t patternPos_;
 
 	public:
 	    /**
-	     * @brief Constructor, optional values for position and pattern_pos
+	     * @brief Constructor, optional values for position and patternPos
 	     */
-	    Pos( int position = 0, size_t pattern_pos = 0 ) {
+	    Pos( int position = 0, size_t patternPos = 0 ) {
 		position_ = position;
-		pattern_pos_ = pattern_pos;
+		patternPos_ = patternPos;
 	    }
 
 	    /**
@@ -61,16 +53,16 @@ namespace fsdict {
 	    /**
 	     * @brief Returns the position in the pattern.
 	     */
-	    inline size_t pattern_pos() const {
-		return pattern_pos_;
+	    inline size_t patternPos() const {
+		return patternPos_;
 	    }
 
 	    /**
 	     * @brief Set new values for positions in the automaton and the pattern.
 	     */
-	    inline void set( int position, size_t pattern_pos ) {
+	    inline void set( int position, size_t patternPos ) {
 		position_ = position;
-		pattern_pos_ = pattern_pos;
+		patternPos_ = patternPos;
 	    };
 
 	    /**
@@ -110,14 +102,22 @@ namespace fsdict {
 	inline Pos walk( const Pos& p, wchar_t c ) const;
 
 	/**
-	 * do a walk sequentially for a string
+	 * do a walk sequentially for a std::wstring.
+	 *
+	 * @param p a start position in the automaton
+	 * @param str a const reference to a std::wstring
+	 * @return the new position
+	 */
+	inline Pos walkStr( const Pos& p, const std::wstring& str ) const;
+
+	/**
+	 * do a walk sequentially for a c-string
 	 *
 	 * @param p a start position in the automaton
 	 * @param str a c-string
 	 * @return the new position
 	 */
 	inline Pos walkStr( const Pos& p, const wchar_t* str ) const;
-	
 
 	/**
 	 * Returns true iff state p is a position standing for a final state
@@ -131,22 +131,31 @@ namespace fsdict {
 	 */
 	inline int getDistance( const Pos& p ) const;
 
+	inline bool startSuffixMatch( const Pos& p ,std::vector< size_t >* patternStartPositions );
+
 	/**
 	 * @brief Returns the current search pattern.
 	 */
-	wchar_t* getPattern() {
+	const std::wstring& getPattern() {
 	    return pattern_;
 	}
 
 	/**
 	 * @brief Set a max Levenshtein distance for matching.
 	 */
-	void setDistance( size_t k );
+	void setThreshold( size_t k );
+
+	size_t getThreshold() const;
 
 	/**
 	 * @brief Load a new search pattern.
 	 */
 	void loadPattern( const wchar_t* p );
+
+	/**
+	 * @brief Load a new search pattern, pass a utf8-encoded single-byte string.
+	 */
+	void loadPattern_utf8( const char* p );
 
 	// used for debug only
 	void printTable() const;
@@ -155,71 +164,56 @@ namespace fsdict {
 
 
     private:
+
+	inline int getTransition( int state, bits64 charvec ) const;
+	
+
 	/// holds the current pattern
-	wchar_t pattern_[Global::lengthOfWord];
+	std::wstring pattern_;
 
-	/// holds the pattern length
-	size_t patLength_;
-
-
-	/// tab holds the transition table of the automaton
-	table_cell* tab;
-
-	// easy access to the table
-	inline table_cell& table( const size_t row, const size_t col ) const {
-//	    printf("access at row=%d, col=%d\n", row, col );
-	    assert( row < z2k2 );
-	    assert( col < coresets );
-	    return tab[coresets*( row )+( col )];
-	}
-	inline int fin_table( int row, int col ) const {
-	    //      std::cerr<<row<<","<<col<<std::endl;
-	    return fin[coresets*( row )+( col )];
-	}
-
-
-	/// fin holds the information about final states
-	int *fin;
 	/// k is the max levenshtein-distance
 	size_t k_;
-	/// coresets is the number of distinct configurations of a triangular region (depends on k)
-	size_t coresets;
 
-	std::vector< unsigned long long > charvecs_;
 
 	void cleanCharvecs();
 	void calcCharvec();
 
-	bits32 calc_k_charvec( wchar_t c, size_t i ) const;
-
+	inline bits64 charvec2snippet( wchar_t c, size_t patternPos ) const;
 
 	// some bitvectors
 	uint_t z2k1;
 	uint_t z2k2;
 
-	bits32 tabsLoaded_;
-	table_cell* tabs[4];
-	int* fins[4];
-	size_t coresetss[4];
+	int const* transitions_;
+	int const* finalInfo_;
+	bits64 const* suffixMatch_;
+
+	std::vector< bits64 > charvecs_;
+	
+	/// The length of the bit-vector used as transition labels.
+	size_t bitVectorLength_;
+
+	/// The number of outgoing transitions of each state.
+	size_t nrOfTransitions_;
+
+	size_t zeroShift_;
 
 	static const bits64 zff = 0xffffffffffffffffll; // that's 64 '1's
 	static const bits64 z10 = 1ll << 63; // that's a '1' followed by 63 '0's
-
-	static const int lev0data[];
-        static const int lev1data[];
-        static const int lev2data[];
-        static const int lev3data[];
 
     };
 
 
 
     inline LevDEA::Pos LevDEA::walk( const Pos& p, wchar_t c ) const {
-      if( (size_t)c > Global::maxNrOfChars ) {
-	  throw exceptions::badInput( "fsdict::LevDEA::walk: Can't walk with a char > 65536." );
+        if( static_cast< size_t >( c ) > Global::maxNrOfChars ) {
+	  throw exceptions::badInput( "fsdict::LevDEA::walk: Can't walk with a char > Global::maxNrOfChars." );
 	}
-	table_cell & cell = table( calc_k_charvec( c, p.pattern_pos() ), p.position() );
-	return Pos( cell.target, p.pattern_pos() + cell.move_pattern );
+	return Pos( getTransition( p.position(), charvec2snippet( c, p.patternPos() ) ), p.patternPos() + 1 );
+    }
+
+    inline LevDEA::Pos LevDEA::walkStr( const Pos& position, const std::wstring& str ) const {
+	return walkStr( position, str.c_str() );
     }
 
     inline LevDEA::Pos LevDEA::walkStr( const Pos& position, const wchar_t* str ) const {
@@ -234,13 +228,59 @@ namespace fsdict {
 
 
     inline bool LevDEA::isFinal( const Pos& p ) const {
-	//         |  triangle has reached right bound |            |       fin_table gives dist >-1                                       |
-	return ( ( patLength_ - p.pattern_pos() < 2 * k_ + 1 ) && ( fin_table( (int)(2*k_ -( patLength_ - p.pattern_pos() )), p.position() ) != -1 ) );
+	return getDistance(p) > -1;
     }
 
     inline int LevDEA::getDistance( const Pos& p ) const {
-	if ( patLength_ - p.pattern_pos() >= 2 * k_ + 1 ) return -1;
-	return fin_table( (int)(2 * k_ - ( patLength_ - p.pattern_pos() )), p.position() );
+	if( ! p.isValid() ) {
+	    throw exceptions::fsdictException("Can't call getDistance for fail state.");
+	}
+	int finalInfoOffset = pattern_.length() - p.patternPos() + zeroShift_;
+	if( finalInfoOffset > static_cast< int >( bitVectorLength_ - 1 ) ) {
+	    return -1;
+	}
+	else if( finalInfoOffset >= 0 ) {
+	    return finalInfo_[p.position()*bitVectorLength_ + finalInfoOffset];
+	}
+	else {
+	    return -1;
+	}
+    }
+
+
+    inline bool LevDEA::startSuffixMatch( const Pos& p ,std::vector< size_t >* patternStartPositions ) {
+	// std::wcout << "pos=" << p.position() << std::endl;
+	bits64 v = suffixMatch_[p.position()];
+	// std::wcout << "v=" << v << std::endl;
+	if( suffixMatch_[p.position()] == 0 ) {
+	    return false;
+	}
+
+	bits64 bit = 1L << ( bitVectorLength_ - 1 );
+	size_t startPos;
+	for( size_t i = 0; i < bitVectorLength_; ++i ) {
+	    if( bit & v ) {
+		startPos = p.patternPos() - zeroShift_ + i;
+		if( startPos >= 0 && startPos < pattern_.length() ) {
+		    patternStartPositions->push_back( startPos );
+		}
+	    }
+	    bit >>= 1;
+	}
+	return true;
+    }
+    
+    inline int LevDEA::getTransition( int state, bits64 charvec ) const {
+	// the state ids are consecutive numbers, each has exactly nrOfTransitions_ transitions in the table.
+	return transitions_[state*nrOfTransitions_ + charvec];
+    }
+
+    bits64 LevDEA::charvec2snippet( wchar_t c, size_t patternPos ) const {
+	bits64 r = 0;
+	int shiftRight = (pattern_.length() - patternPos - 1 - zeroShift_ );
+	if( shiftRight > 0 ) r = ( charvecs_[c] >> shiftRight );
+	else            r = ( charvecs_[c] << -shiftRight );
+	return ( r & z2k1 );
     }
 
 } // eon

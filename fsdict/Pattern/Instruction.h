@@ -3,7 +3,7 @@
 
 #include<fstream>
 #include<vector>
-#include <fsdict/CSLLocale/CSLLocale.h>
+#include <fsdict/UTF8Locale/UTF8Locale.h>
 #include "./PosPattern.h"
 
 namespace fsdict {

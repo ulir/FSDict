@@ -1,6 +1,6 @@
 #include<iostream>
 #include<fsdict/Global.h>
-#include <fsdict/CSLLocale/CSLLocale.h>
+#include <fsdict/UTF8Locale/UTF8Locale.h>
 #include<fsdict/Vaam/Vaam.h>
 #include<fsdict/Vaam/Vaam.h>
 #include<fsdict/Getopt/Getopt.h>
@@ -183,7 +183,7 @@ int main(int argc, const char** argv ) {
 
 		    if( minDicString ) {
 			// in a MinDicString the annotation ("score") is the offset of the word's respective annotation
-			fsdict::CSLLocale::string2wstring( (char const*)minDicString->getAnnByOffset( it->getBaseWordScore() ), wideAnnotation );
+			fsdict::UTF8Locale::string2wstring( (char const*)minDicString->getAnnByOffset( it->getBaseWordScore() ), wideAnnotation );
 			std::wcout << ",annotation=" << wideAnnotation;
 		    }
 		    std::wcout<<std::endl;

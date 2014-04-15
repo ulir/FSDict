@@ -1,7 +1,7 @@
 #include <fsdict/Global.h>
 #include <fsdict/MinDicString/MinDicString.h>
 #include <fsdict/Getopt/Getopt.h>
-#include <fsdict/CSLLocale/CSLLocale.h>
+#include <fsdict/UTF8Locale/UTF8Locale.h>
 
 using namespace fsdict;
 int main( int argc, const char** argv ) {
@@ -31,7 +31,7 @@ int main( int argc, const char** argv ) {
     }
     catch( fsdict::exceptions::fsdictException& exc ) {
 	std::wstring wide_what;
-	fsdict::CSLLocale::string2wstring( exc.what(), wide_what );
+	fsdict::UTF8Locale::string2wstring( exc.what(), wide_what );
 	std::wcerr << "fsdict::compileMDString: caught fsdictException and aborted: " << wide_what << std::endl;
 	return 1;
     }

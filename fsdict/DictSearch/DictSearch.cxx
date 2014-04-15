@@ -43,7 +43,7 @@ namespace fsdict {
 
 	for( std::vector< std::string >::const_iterator it = activeDictionaries.begin(); it != activeDictionaries.end(); ++it ) {
 	    std::wstring wideName;
-	    CSLLocale::string2wstring( *it, wideName );
+	    UTF8Locale::string2wstring( *it, wideName );
 	    size_t cascadeRank = iniConf.hasKey( *it + ":cascadeRank" ) ? iniConf.getint( *it + ":cascadeRank" ) : 0;
 	    std::wcerr << "cslDictSearch::readConfiguration: load DictModule " << wideName << ", cascadeRank=" << cascadeRank << std::endl;
 

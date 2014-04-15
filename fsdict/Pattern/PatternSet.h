@@ -7,7 +7,7 @@
 
 #include "../Global.h"
 #include "./Pattern.h"
-#include<fsdict/CSLLocale/CSLLocale.h>
+#include<fsdict/UTF8Locale/UTF8Locale.h>
 
 
 namespace fsdict {
@@ -127,7 +127,7 @@ namespace fsdict {
 	    
 	    size_t delimPos = line.find( Pattern::leftRightDelimiter_ );
 	    if( delimPos == std::wstring::npos ) {
-		throw exceptions::badInput( std::string( "PatternSet: Invalid pattern - no separator found: " ) + fsdict::CSLLocale::wstring2string( line ) );
+		throw exceptions::badInput( std::string( "PatternSet: Invalid pattern - no separator found: " ) + fsdict::UTF8Locale::wstring2string( line ) );
 	    }
 
 	    std::wstring left = line.substr( 0, delimPos );
@@ -145,7 +145,7 @@ namespace fsdict {
 	    else {
 		throw exceptions::badInput( 
 		    std::string( "PatternSet: Invalid pattern - wordBeginMarker in middle of left side: " ) 
-		    + fsdict::CSLLocale::wstring2string( line ) );
+		    + fsdict::UTF8Locale::wstring2string( line ) );
 	    }
 
 	    pos = right.find( Global::wordBeginMarker );
@@ -158,7 +158,7 @@ namespace fsdict {
 	    else {
 		throw exceptions::badInput( 
 		    std::string( "PatternSet: Invalid pattern - wordBeginMarker in middle of right side: " )
-		    + fsdict::CSLLocale::wstring2string( line ) );
+		    + fsdict::UTF8Locale::wstring2string( line ) );
 	    }
 
 	    pos = left.find( Global::wordEndMarker );
@@ -171,7 +171,7 @@ namespace fsdict {
 	    else {
 		throw exceptions::badInput( 
 		    std::string( "PatternSet: Invalid pattern - wordEndMarker in middle of left side: " ) 
-		    + fsdict::CSLLocale::wstring2string( line ) );
+		    + fsdict::UTF8Locale::wstring2string( line ) );
 	    }
 
 	    pos = right.find( Global::wordEndMarker );
@@ -182,19 +182,19 @@ namespace fsdict {
 		wordEnd_right = true;
 	    }
 	    else {
-		throw exceptions::badInput( std::string( "PatternSet: Invalid pattern - wordEndMarker in middle of right side: " ) + fsdict::CSLLocale::wstring2string( line ) );
+		throw exceptions::badInput( std::string( "PatternSet: Invalid pattern - wordEndMarker in middle of right side: " ) + fsdict::UTF8Locale::wstring2string( line ) );
 	    }
 
 	    if( either_or( wordBegin_left, wordBegin_right ) ) {
 		throw exceptions::badInput( 
 		    std::string( "PatternSet: Invalid pattern - wordBeginMarker must be specified on left AND right side: " ) 
-		    + fsdict::CSLLocale::wstring2string( line ) );
+		    + fsdict::UTF8Locale::wstring2string( line ) );
 	    }
 
 	    if( either_or( wordEnd_left, wordEnd_right ) ) {
 		throw exceptions::badInput( 
 		    std::string( "PatternSet: Invalid pattern - wordEndMarker must be specified on left AND right side: " ) 
-		    + fsdict::CSLLocale::wstring2string( line ) );
+		    + fsdict::UTF8Locale::wstring2string( line ) );
 	    }
 	    // end: check for markers
 
@@ -213,7 +213,7 @@ namespace fsdict {
 	    if( left.empty() && right.empty() ) {
 		throw exceptions::badInput( 
 		    std::string( "PatternSet: Invalid pattern - empty pattern: " ) 
-		    + fsdict::CSLLocale::wstring2string( line ) );
+		    + fsdict::UTF8Locale::wstring2string( line ) );
 	    }
 
 	    strippedPatternList_.push_back( Pattern( left, right ) );

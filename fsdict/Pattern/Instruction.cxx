@@ -54,7 +54,7 @@ namespace fsdict {
 	if( str.at( offset ) != '[' ) {
 	    throw exceptions::badInput( 
 		std::string( "fsdict::Instruction::parseFromString: Found no opening square bracket: string='" ) +
-		CSLLocale::wstring2string( str )
+		UTF8Locale::wstring2string( str )
 		);
 	}
 	offset += 1;

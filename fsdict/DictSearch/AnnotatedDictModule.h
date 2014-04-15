@@ -113,7 +113,7 @@ namespace fsdict {
 	     */
 	    void receive( const wchar_t *str, int levDistance, int annotation ) {
 		std::wstring interpretationsString;
-		CSLLocale::string2wstring( (char*)( myDictModule_.getDict()->getAnnByOffset( annotation ) ), interpretationsString );
+		UTF8Locale::string2wstring( (char*)( myDictModule_.getDict()->getAnnByOffset( annotation ) ), interpretationsString );
 		
 		size_t startPos = 0;
 		size_t endPos = 0;

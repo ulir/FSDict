@@ -19,7 +19,7 @@ namespace fsdict {
     
     template< typename MinDicType >
     void Vaam< MinDicType >::setDistance( size_t d ) {
-	levDEA_.setDistance( d );
+	levDEA_.setThreshold( d );
     }
 
     template< typename MinDicType >
