@@ -24,7 +24,7 @@ if( $help || @ARGV < 3 ) {
  A small query program for the perl Vaam interface.
  Query a word to STDIN and get the vaam answer in a single string representation.
 
- Instead of trying to parse the output with a Perl program, it might be MUCH easier 
+ Instead of trying to parse the output with a Perl program, it might be MUCH easier
  to use the Perl interface directly. This program is a very simple example for using it.
 
 

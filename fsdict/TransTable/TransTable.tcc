@@ -85,7 +85,7 @@ namespace fsdict {
     void TransTable< tttype, InternalCharType__, SizeType__ >::finishConstruction() {
 	alph_.finishConstruction();
 	nrOfCells_ = sizeOfUsedCells_;
-	
+
 	if ( CellTypeValue == TOKDIC ) { // not very nice
 	    lengthOfSusoStrings_ = susoHash_->getLengthOfKeyStrings();
 	    delete( susoHash_ );
@@ -96,7 +96,7 @@ namespace fsdict {
 	header_.set( *this );
     }
 
- 
+
 
     /**
      * resize the array of cells
@@ -171,7 +171,7 @@ namespace fsdict {
 		if ( !cells_[++slot].isEmpty() )
 		    mightFit = false;
 	    }
-	    
+
 	    // check if all required cells for transitions are available
 	    for ( TempState::ConstIterator it = state.getConstIterator(); mightFit && it.isValid() ; ++it ) {
 		if ( !cells_[slot + it->getLabel()].isEmpty() ) {
@@ -258,7 +258,7 @@ namespace fsdict {
 	for ( TempState::ConstIterator it = state.getConstIterator(); it.isValid() ; ++it ) {
 	    cells_[slot + it->getLabel()].setTrans( it->getLabel(), it->getTarget(), it->getPhNumber() );
 	}
-	
+
 	// update sizeOfUsedCells_
 	sizeOfUsedCells_ = std::max( sizeOfUsedCells_, ( slot + Global::maxNrOfChars + 2 ) );
 
@@ -302,7 +302,7 @@ namespace fsdict {
 	TempState::ConstIterator tempIt = temp.getConstIterator();
 	wchar_t compLabel = 1;
 	while( tempIt.isValid() ) {
-	    while( compLabel < tempIt->getLabel() ) { 
+	    while( compLabel < tempIt->getLabel() ) {
 		if( walk( comp, compLabel ) ) return false; // chars without a label in temp must be 0
 		++compLabel;
 	    }
@@ -354,19 +354,19 @@ namespace fsdict {
 	nrOfCells_ = header_.getNrOfCells();
 	root_ = header_.getRoot();
 
-			
+
 
 	alph_.loadFromStream( fi );
-	
+
 	cells_ = (Cell_t*) malloc( nrOfCells_ * sizeof( Cell_t ) );
 	fread( cells_, sizeof( Cell_t ), nrOfCells_, fi );
 
 	susoStrings_ = (wchar_t*) malloc( lengthOfSusoStrings_ * sizeof( wchar_t ) );
 	fread( susoStrings_, sizeof( wchar_t ), lengthOfSusoStrings_, fi );
-	
+
 	sizeOfUsedCells_ = nrOfCells_;
     }
-    
+
 
     template< CellType CellTypeValue  >
     void TransTable< tttype, InternalCharType__, SizeType__ >::createBinary( char* compFile ) {
@@ -391,7 +391,7 @@ namespace fsdict {
 	fwrite( &header_, sizeof( Header ), 1, fo );
 	alph_.writeToStream( fo );
 	fwrite( cells_, sizeof( Cell_t ), sizeOfUsedCells_, fo );
-	
+
 	fwrite( susoStrings_, sizeof( wchar_t ), lengthOfSusoStrings_, fo );
     }
 
@@ -458,7 +458,7 @@ namespace fsdict {
 	    } else if ( cellArray[i].isOfType( Cell_t::STATE ) ) {
 		int peripheries = ( cellArray[i].isOfType( Cell_t::FINALSTATE ) ) ? 2 : 1;
 		printf( "%zd[peripheries=%d] //DOTCODE\n", i, peripheries );
-		
+
 		if ( cellArray[i].isOfType( Cell_t::HAS_ANN ) ) {}
 	    }
 	}
@@ -480,7 +480,7 @@ namespace fsdict {
 	    else if ( cellArray[i].isOfType( Cell_t::IS_ANN ) ) ++annotations;
 	}
 
-	double emptyRatio = ( double( empty ) / double( sizeOfUsedCells_ ) ) * 100; 
+	double emptyRatio = ( double( empty ) / double( sizeOfUsedCells_ ) ) * 100;
 	float cells_MB = (float)( sizeOfUsedCells_ * sizeof( Cell_t ) ) / 1000000;
 	float susoStrings_MB = (float)( header_.getLengthOfSusoStrings() * sizeof( wchar_t ) ) / 1000000;
 

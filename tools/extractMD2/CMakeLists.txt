@@ -4,8 +4,8 @@ link_directories (${csl_BINARY_DIR}/csl)
 add_executable(extractMD2 extractMD2.cxx)
 target_link_libraries (extractMD2 csl)
 
-install( 
+install(
   TARGETS extractMD2
   DESTINATION bin
-  
+
   )

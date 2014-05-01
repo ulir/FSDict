@@ -23,7 +23,7 @@ namespace fsdict {
 
     private:
 	fsdict::Hash<> hash_;
-	
+
     };
 
     /**

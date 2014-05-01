@@ -4,7 +4,7 @@ link_directories (${csl_BINARY_DIR}/csl)
 add_executable(runDictSearch runDictSearch.cxx)
 target_link_libraries (runDictSearch csl)
 
-install( 
+install(
   TARGETS runDictSearch
   DESTINATION bin
   )

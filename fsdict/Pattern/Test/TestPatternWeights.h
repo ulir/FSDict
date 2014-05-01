@@ -26,7 +26,7 @@ namespace fsdict {
 	void testFileDump();
 
     private:
-	
+
     }; // class TestPatternWeights
 
     CPPUNIT_TEST_SUITE_REGISTRATION( TestPatternWeights );
@@ -37,9 +37,9 @@ namespace fsdict {
 	CPPUNIT_ASSERT( pw.getWeight( Pattern( L"t", L"th" ) ) == PatternWeights::UNDEF );
 	pw.setWeight( Pattern( L"t", L"th" ), 0.35 );
 	CPPUNIT_ASSERT( pw.getWeight( Pattern( L"t", L"th" ) ) == static_cast< float >( 0.35 ) );
-	
+
 	pw.setDefault( PatternWeights::PatternType( 1, 2 ), 1.3 );
-	
+
 	CPPUNIT_ASSERT( pw.getWeight( Pattern( L"t", L"th" ) ) == static_cast< float >( 0.35 ) ); // as before
 	CPPUNIT_ASSERT( pw.getWeight( Pattern( L"x", L"yz" ) ) == static_cast< float >( 1.3 ) ); // default value
 	CPPUNIT_ASSERT( pw.getWeight( Pattern( L"xy", L"z" ) ) == PatternWeights::UNDEF ); // as before

@@ -27,7 +27,7 @@ namespace fsdict {
 
 
 	/**
-	 * @brief 
+	 * @brief
 	 */
 	inline PatternSet();
 
@@ -42,7 +42,7 @@ namespace fsdict {
 
 	/**
 	 * @brief Returns a reference pointing to the \c i -th position of the
-	 *        STRIPPED set. 
+	 *        STRIPPED set.
 	 *
 	 */
 	inline Pattern const& stripped_at( size_t i ) const {
@@ -58,14 +58,14 @@ namespace fsdict {
 	inline iterator begin() {
 	    return ++( patternList_.begin() );
 	}
-	
+
 	/**
 	 * @brief returns a classical past-the-end iterator
 	 */
 	inline iterator end() {
 	    return patternList_.end();
 	}
-	
+
 
 	/**
 	 * @brief Adds a pattern to the PatternSet.
@@ -126,8 +126,8 @@ namespace fsdict {
 	    wordBegin_left = true;
 	}
 	else {
-	    throw exceptions::badInput( 
-				       std::string( "PatternSet: Invalid pattern - wordBeginMarker in middle of left side: " ) 
+	    throw exceptions::badInput(
+				       std::string( "PatternSet: Invalid pattern - wordBeginMarker in middle of left side: " )
 				       + fsdict::UTF8Locale::wstring2string( pattern.toString() ) );
 	}
 
@@ -139,7 +139,7 @@ namespace fsdict {
 	    wordBegin_right = true;
 	}
 	else {
-	    throw exceptions::badInput( 
+	    throw exceptions::badInput(
 				       std::string( "PatternSet: Invalid pattern - wordBeginMarker in middle of right side: " )
 				       + fsdict::UTF8Locale::wstring2string( pattern.toString() ) );
 	}
@@ -152,8 +152,8 @@ namespace fsdict {
 	    wordEnd_left = true;
 	}
 	else {
-	    throw exceptions::badInput( 
-				       std::string( "PatternSet: Invalid pattern - wordEndMarker in middle of left side: " ) 
+	    throw exceptions::badInput(
+				       std::string( "PatternSet: Invalid pattern - wordEndMarker in middle of left side: " )
 				       + fsdict::UTF8Locale::wstring2string( pattern.toString() ) );
 	}
 
@@ -169,14 +169,14 @@ namespace fsdict {
 	}
 
 	if( either_or( wordBegin_left, wordBegin_right ) ) {
-	    throw exceptions::badInput( 
-				       std::string( "PatternSet: Invalid pattern - wordBeginMarker must be specified on left AND right side: " ) 
+	    throw exceptions::badInput(
+				       std::string( "PatternSet: Invalid pattern - wordBeginMarker must be specified on left AND right side: " )
 				       + fsdict::UTF8Locale::wstring2string( pattern.toString() ) );
 	}
 
 	if( either_or( wordEnd_left, wordEnd_right ) ) {
-	    throw exceptions::badInput( 
-				       std::string( "PatternSet: Invalid pattern - wordEndMarker must be specified on left AND right side: " ) 
+	    throw exceptions::badInput(
+				       std::string( "PatternSet: Invalid pattern - wordEndMarker must be specified on left AND right side: " )
 				       + fsdict::UTF8Locale::wstring2string( pattern.toString() ) );
 	}
 	// end: check for markers
@@ -194,8 +194,8 @@ namespace fsdict {
 	}
 
 	if( left.empty() && right.empty() ) {
-	    throw exceptions::badInput( 
-				       std::string( "PatternSet: Invalid pattern - empty pattern: " ) 
+	    throw exceptions::badInput(
+				       std::string( "PatternSet: Invalid pattern - empty pattern: " )
 				       + fsdict::UTF8Locale::wstring2string( pattern.toString() ) );
 	}
 
@@ -207,20 +207,20 @@ namespace fsdict {
 	fi.imbue( FSDICT_UTF8_LOCALE );
 	fi.open( patternFile );
 	if( ! fi.good() ) {
-	    std::string message = 
+	    std::string message =
 		std::string( "PatternSet::Could not open pattern file: " ) +
 		patternFile;
-		
+
 	    throw exceptions::badFileHandle( message );
 	}
-	
+
 	std::wstring line;
 
 	while( getline( fi, line ).good() ) {
 
 	    if( line.empty() ) continue;
 	    if( line.at(0) == '#' ) continue;
-	    
+
 	    size_t delimPos = line.find( Pattern::leftRightDelimiter_ );
 	    if( delimPos == std::wstring::npos ) {
 		throw exceptions::badInput( std::string( "PatternSet: Invalid pattern - no separator found: " ) + fsdict::UTF8Locale::wstring2string( line ) );
@@ -230,16 +230,16 @@ namespace fsdict {
 	    std::wstring right = line.substr( delimPos + 1 );
 
 	    this->push_back( Pattern( left, right ) );
-	    
+
 	}
 	if( errno == EILSEQ ) { // catch encoding error
 	    throw exceptions::badInput( "fsdict::PatternSet: Encoding error in input sequence." );
 	}
-	
+
 	std::wcerr << "fsdict::PatternSet: Loaded " << patternList_.size() - 1 << " patterns." << std::endl;
     } // PatternSet::loadPatterns
-    
-    
+
+
 
 } // eon
 

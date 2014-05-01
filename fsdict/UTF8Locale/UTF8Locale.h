@@ -33,7 +33,7 @@ namespace fsdict {
 	    iss.str( str );
 
 	    iss >> number;
-	    
+
 	    // no badbit, no failbit, no goodbit: only the eofbit, because the complete string should be interpreted
 	    if( iss.rdstate() != (  std::wistringstream::eofbit ) ) {
 		throw exceptions::fsdictException( "fsdict::UTF8Locale::string2number: could not interpret string:" );
@@ -52,16 +52,16 @@ namespace fsdict {
 	    std::codecvt< wchar_t, char, std::mbstate_t > const& ccvt = std::use_facet< std::codecvt< wchar_t, char, std::mbstate_t > >( Instance() );
 
 	    str.resize( wstr.size() * ccvt.max_length() );
-	    std::codecvt< wchar_t, char, std::mbstate_t >::state_type state; 
+	    std::codecvt< wchar_t, char, std::mbstate_t >::state_type state;
 	    wchar_t const* fromNext = 0;
 	    char* toNext = 0;
-	    ccvt.out( state, 
-		      wstr.c_str(), 
-		      wstr.c_str()+wstr.size(), 
-		      fromNext, 
+	    ccvt.out( state,
+		      wstr.c_str(),
+		      wstr.c_str()+wstr.size(),
+		      fromNext,
 		      (char*)str.c_str(),
-		      (char*)str.c_str() + str.size(), 
-		      toNext 
+		      (char*)str.c_str() + str.size(),
+		      toNext
 		);
 
 	    str.resize( toNext - str.c_str() );
@@ -76,24 +76,24 @@ namespace fsdict {
 	 */
 	inline static void string2wstring( std::string const& str, std::wstring& wstr ) {
 	    std::codecvt< wchar_t, char, std::mbstate_t > const& ccvt = std::use_facet< std::codecvt< wchar_t, char, std::mbstate_t > >( Instance() );
-	    
+
 	    wstr.resize( str.size() * ccvt.max_length() ); // this makes no sense?! str.size() would be enough
-	    std::codecvt< wchar_t, char, std::mbstate_t >::state_type state; 
+	    std::codecvt< wchar_t, char, std::mbstate_t >::state_type state;
 	    char const* fromNext = 0;
 	    wchar_t* toNext = 0;
-	    ccvt.in( state, 
-		     str.c_str(), 
-		     str.c_str()+str.size(), 
-		     fromNext, 
+	    ccvt.in( state,
+		     str.c_str(),
+		     str.c_str()+str.size(),
+		     fromNext,
 		     (wchar_t*)wstr.
 		     c_str(),
-		     (wchar_t*)wstr.c_str() + wstr.size(), 
-		     toNext 
+		     (wchar_t*)wstr.c_str() + wstr.size(),
+		     toNext
 		);
-	    
+
 	    wstr.resize( toNext - wstr.c_str() );
 	}
-	
+
 	/**
 	 * @brief Returns a copy of a wide string equivalent to the given narrow string.
 	 */
@@ -126,14 +126,14 @@ namespace fsdict {
 	 */
 	UTF8Locale( UTF8Locale const & );
 
-	inline ~UTF8Locale() { 
-	}  
+	inline ~UTF8Locale() {
+	}
 
 	UTF8Locale &operator=( UTF8Locale const & );  // assignment operator is hidden
 
     };
 
-	
+
 } // eon
 
 

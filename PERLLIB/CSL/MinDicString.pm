@@ -17,11 +17,10 @@ sub new {
     }
 
     my $lookupBinary = "/mounts/data/proj/impact/software/uli/$ENV{HOSTNAME}/bin/lookupMDString";
-    
+
     my $binary = "$lookupBinary $self->{dicFile}";
-    
+
     open2( $self->{BINARY_OUT}, $self->{BINARY_IN}, $binary ) or die "Perl::MinDicString: $!";
-    
 
     if( defined $self->{encoding} ) {
 	if( $self->{encoding} eq 'iso' ) {

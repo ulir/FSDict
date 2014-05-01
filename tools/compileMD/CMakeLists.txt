@@ -4,8 +4,8 @@ link_directories (${csl_BINARY_DIR}/csl)
 add_executable(compileMD compileMD.cxx)
 target_link_libraries (compileMD csl)
 
-install( 
+install(
   TARGETS compileMD
   DESTINATION bin
-  
+
   )

@@ -40,7 +40,7 @@ int main( int argc, char const** argv ) {
 	wchar_t query[Global::lengthOfLongStr];
 
 	// set the last byte to 0. So we can recognize when an overlong string was read by getline().
-	bytesIn[Global::lengthOfLongStr - 1] = 0; 
+	bytesIn[Global::lengthOfLongStr - 1] = 0;
 
 	fsdict::Stopwatch watch;
 	watch.start();
@@ -48,13 +48,13 @@ int main( int argc, char const** argv ) {
 	size_t nrOfQueries = 0;
 	while( std::cin.getline( ( char* ) bytesIn, Global::lengthOfLongStr ) ) {
 	  try {
- 	    if ( bytesIn[Global::lengthOfLongStr-1] != 0 ) {
+	    if ( bytesIn[Global::lengthOfLongStr-1] != 0 ) {
 		throw exceptions::badInput( "fsdict::msFilter: Maximum length of input line violated (set by Global::lengthOfLongStr)" );
 	    }
 	    mbstowcs( query, (char*)bytesIn, Global::lengthOfLongStr );
 
 	    wprintf( L"Query: %ls\n", query );
-	    
+
 	    list.reset(); // forget candidates that might be stored from earlier use
 
 	    try {
@@ -63,9 +63,9 @@ int main( int argc, char const** argv ) {
 		fprintf( stderr, "%s: %lu\n",exc.what(), (unsigned long)list.getSize() );
 	    }
 
-// 	    std::cout<<list.getSize()<<" hits."<<std::endl;
-//    	    list.sortUnique();
-//   	    std::cout<<list.getSize()<<" hits."<<std::endl;
+//	    std::cout<<list.getSize()<<" hits."<<std::endl;
+//	    list.sortUnique();
+//	    std::cout<<list.getSize()<<" hits."<<std::endl;
 
 
 	    // print all hits
@@ -92,10 +92,10 @@ int main( int argc, char const** argv ) {
 	} // while getline
 
 	if( stats ) {
-	  std::wcerr<<watch.readMilliseconds()<<" ms for "<< nrOfQueries << " queries. AVG: " 
+	  std::wcerr<<watch.readMilliseconds()<<" ms for "<< nrOfQueries << " queries. AVG: "
 		    << (double)watch.readMilliseconds() / (double)nrOfQueries << "ms" << std::endl;
 	}
-    } 
+    }
     catch( exceptions::fsdictException& exc ) {
 	std::cerr << "msFilter caught exception: "<< exc.what() << std::endl;
     }

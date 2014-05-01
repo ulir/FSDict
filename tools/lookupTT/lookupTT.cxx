@@ -18,21 +18,21 @@ int main( int argc, char** argv ) {
 	TransTable< TT_PERFHASH, uint16_t, uint32_t > tt;
 	tt.loadFromFile( argv[1] );
 
-	
+
 	std::wstring query;
 	while( std::getline( std::wcin, query ).good() ) {
 	    // is this really necessary ??
 	    if ( query.length() > Global::lengthOfLongStr ) {
 		throw exceptions::badInput( "fsdict::compileMD: Maximum length of input line violated (set by Global::lengthOfLongStr)" );
 	    }
-	    
+
 	    size_t ann = 0;
 	    if( tt.getTokenIndex( query.c_str(), &ann ) ) {
 		std::wcout<<ann<<std::endl;
 	    }
 	    else std::wcout<<std::endl;
 	}
-	
+
     } catch( exceptions::fsdictException& ex ) {
 	std::wcout<<"lookupTT: "<<ex.what()<<std::endl;
 	exit( 1 );

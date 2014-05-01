@@ -14,7 +14,7 @@
 namespace fsdict {
 
     /**
-     * @brief {@link INIConfig} is an object-oriented interface to the c-style "iniparser" to 
+     * @brief {@link INIConfig} is an object-oriented interface to the c-style "iniparser" to
      *        parse simple ini-style configuration files.
      *
      * The parser supports a simple form of variable replacement. All keys that were defined in previous lines
@@ -29,12 +29,12 @@ namespace fsdict {
 	INIConfig();
 	~INIConfig();
 	/**
-	 * @todo *IMPORTANT* clarify locale behaviour!! 
+	 * @todo *IMPORTANT* clarify locale behaviour!!
 	 */
 	INIConfig( std::string const& iniFile );
 
 	/**
-	 * @brief load a configuration file 
+	 * @brief load a configuration file
 	 */
 	void load( std::string const& iniFile );
 
@@ -84,9 +84,9 @@ namespace fsdict {
 
 	/**
 	 * returns
-	 *  - true iff  the value is a valid integer not equal to 0 
+	 *  - true iff  the value is a valid integer not equal to 0
 	 *  - true iff  the value is the string "true"
-	 *  - false iff the value is the integer number 0 
+	 *  - false iff the value is the integer number 0
 	 *  - false iff the value is the string "false"
 	 * Throws a fsdictException otherwise.
 	 */
@@ -94,14 +94,14 @@ namespace fsdict {
 
 
 	/**
-	 * @brief Iterates over all sections 
+	 * @brief Iterates over all sections
 	 */
 	class SectionIterator {
 	public:
 	    SectionIterator( INIConfig const& myINIConfig ) :
 		myINIConfig_( myINIConfig ),
 		index_( 0 ) {
-		
+
 	    }
 
 	    inline bool operator==( SectionIterator const& other ) const {
@@ -128,7 +128,7 @@ namespace fsdict {
 		index_( index ) {
 	    }
 
-	    
+
 	    INIConfig const& myINIConfig_;
 	    size_t index_;
 	};

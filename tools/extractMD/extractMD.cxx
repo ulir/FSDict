@@ -19,7 +19,7 @@ int main( int argc, const char** argv ) {
 		  <<"--stat=1\tto print statistics of the MinDic"<<std::endl
 		  <<"--dot=1\tto print dotcode for the MinDic"<<std::endl
 		  <<std::endl<<std::endl;
-	
+
 	exit( 1 );
     }
     try {
@@ -35,7 +35,7 @@ int main( int argc, const char** argv ) {
 	else {
 	    minDic = new fsdict::MinDic<>( options.getArgument( 0 ).c_str() );
 	}
-      
+
 	if( options.hasOption( "dot" ) ) {
 	  minDic->toDot();
 	}
@@ -44,7 +44,7 @@ int main( int argc, const char** argv ) {
 	}
 	else minDic->printDic();
 	return 0;
-   
+
     } catch ( exceptions::fsdictException& ex ) {
 	std::wcerr << "Dictionary extraction failed: " << ex.what() << std::endl;
 	return 1;

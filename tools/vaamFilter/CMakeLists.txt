@@ -7,18 +7,17 @@ target_link_libraries (vaamFilter csl)
 add_executable(vaamEvaluation vaamEvaluation.cxx)
 target_link_libraries (vaamEvaluation csl)
 
-install( 
+install(
   TARGETS vaamFilter
   DESTINATION bin
-  
+
   )
 
 add_executable(vaamFilter_TT vaamFilter.cxx)
 target_link_libraries (vaamFilter_TT csl)
 set_target_properties( vaamFilter_TT PROPERTIES COMPILE_FLAGS -DFSDICT_VAAMFILTER_USE_TRANSTABLE )
-install( 
+install(
   TARGETS vaamFilter_TT
   DESTINATION bin
-  
-  )
 
+  )

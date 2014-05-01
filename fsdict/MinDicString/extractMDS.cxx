@@ -19,7 +19,7 @@ int main( int argc, char** argv ) {
 	}
 	else t.printDic();
 
-	
+
 	return 0;
     } catch ( exceptions::fsdictException ex ) {
 	std::cerr << "Dictionary extraction failed: " << ex.what() << std::endl;

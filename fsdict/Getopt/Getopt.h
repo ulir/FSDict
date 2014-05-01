@@ -24,22 +24,22 @@ public:
     /**
      * @name Constructors
      */
-    //@{ 
+    //@{
 
     /**
      * A standard constructor
      */
     Getopt() {
     }
-    
+
     /**
      * @brief This constructor also carries out the command line parsing. No detailed specification of flags is possible here.
-     * 
+     *
      * This is mainly for backwards compatibility.
      *
      */
     Getopt( size_t argc, char const** argv ) {
-	
+
 	progName_ = argv[0];
 
 	std::string openFlag;
@@ -69,7 +69,7 @@ public:
 		    openFlag.clear();
 		}
 	    }
-	    
+
 	}
 
 // 	std::cout<<"Options:"<<std::endl;
@@ -83,7 +83,7 @@ public:
     }
 
     //@} end Constructors
-    
+
 
 
     /**
@@ -104,7 +104,7 @@ public:
 	if( optionTypes_.find( key ) != optionTypes_.end() ) {
 	    std::string msg = std::string( "fsdict::Getopt::specifyOption: Key " ) + key + "was specified before";
 	    throw Exception( "msg" );
-	    
+
 	}
 	optionTypes_[ key ] = valueType;
 	if( obligatority == OBLIGATORY ) {
@@ -125,10 +125,10 @@ public:
 	if( optionTypes_.find( key ) != optionTypes_.end() ) {
 	    std::string msg = std::string( "fsdict::Getopt::specifyOption: Key " ) + key + "was specified before";
 	    throw Exception( "msg" );
-	    
+
 	}
 	optionTypes_[ key ]  = valueType;
-	optionValues_[ key ] = defaultValue; 
+	optionValues_[ key ] = defaultValue;
     }
 
     void setOption( std::string const& key, std::string const& value ) {
@@ -141,13 +141,13 @@ public:
     /**
      * @name Trigger Command line Parsing
      */
-    //@{ 
+    //@{
 
     /**
      * @brief This option permits only options of the form option=value, and regular arguments.
      */
     void getOptions( size_t argc, char const** argv ) {
-	
+
 	progName_ = argv[0];
 
 	for( size_t i = 1; i < argc; ++i ) {
@@ -172,7 +172,7 @@ public:
 
 
     void getOptionsAsSpecified( size_t argc, char const** argv ) {
-	
+
 	progName_ = argv[0];
 
 	std::string keyWaitsForValue;
@@ -192,7 +192,7 @@ public:
 		if( pos != std::string::npos ) { // '=' inside the string
 		    key = word.substr( 2, pos - 2 );
 		    std::string value = word.substr( pos + 1 );
-		    
+
 		    if( optionTypes_.find( key ) == optionTypes_.end() ) {
 			std::string msg = "fsdict::Getopt::getOptionsAsSpecified: unknown option ";
 			msg += key;
@@ -246,7 +246,7 @@ public:
 		 ++it ) {
 		msg += *it + ",";
 	    }
-	    
+
 	    throw Exception( msg );
 	}
 
@@ -265,17 +265,17 @@ public:
     //@} end trigger command line parsing
 
 
-    
+
     /**
      * @name Access options and arguments
      */
-    //@{ 
+    //@{
 
 
     void addArgument( std::string value ) {
 	arguments_.push_back( value );
     }
-    
+
     const std::string& getProgName() const {
 	return progName_;
     }
@@ -301,7 +301,7 @@ public:
     }
 
     typedef std::map< std::string, ValueType >::const_iterator OptionIterator;
-    
+
     OptionIterator optionsBegin() const {
 	return optionTypes_.begin();
     }
@@ -357,4 +357,3 @@ private:
 
 } // eon
 #endif
-

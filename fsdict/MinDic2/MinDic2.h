@@ -14,19 +14,19 @@ namespace fsdict {
 
 
     /**
-     * class MinDic2 performs the construction and usage of minimal acyclic 
-     * finite state automata for large finite dictionaries. 
-     * It follows an algorithm described in 
+     * class MinDic2 performs the construction and usage of minimal acyclic
+     * finite state automata for large finite dictionaries.
+     * It follows an algorithm described in
      * Jan Daciuk et. al., Incremental Construction of Minimal Acyclic
      * Finite-State Automata, 2000.
      *
      * Many ideas for the implementation are adapted from a C-program written
      * by Stoyan Mihov.
-     * 
-     * While MinDic uses perfect hashing to store annotations with the entries, MinDic2 
-     *  ... 
      *
-     * Note that a MinDic2 inherits from TransTable and so offers all of TransTable's 
+     * While MinDic uses perfect hashing to store annotations with the entries, MinDic2
+     *  ...
+     *
+     * Note that a MinDic2 inherits from TransTable and so offers all of TransTable's
      * interface to the guts of the automaton. However this might change in the future.
      *
      *
@@ -54,9 +54,9 @@ namespace fsdict {
 		dicPos_( minDic_->getRoot() )
 		{
 	    }
-	    
+
 	    /**
-	     * 
+	     *
 	     */
 	    bool walk( wchar_t c ) {
 		dicPos_ = minDic_->walk( dicPos_, c );
@@ -87,7 +87,7 @@ namespace fsdict {
 	    bool isFinal() const {
 		return minDic_->isFinal( dicPos_ );
 	    }
-	    
+
 	    AnnType_t getAnnotation() {
 		return minDic_->getAnnotationAtState( dicPos_ );
 	    }
@@ -132,8 +132,8 @@ namespace fsdict {
 
 
 	/**
-	 * Get a State object of the automaton's root/ start state. 
-	 * @return a State object of the automaton's root/ start state. 
+	 * Get a State object of the automaton's root/ start state.
+	 * @return a State object of the automaton's root/ start state.
 	 * @see State
 	 */
 	inline State getRootState() const {
@@ -152,13 +152,13 @@ namespace fsdict {
 	 * @param a file containing a compiled MinDic. (often: *.mdic)
 	 */
 	inline void loadFromFile( const char* binFile );
-	
+
 	/**
 	 * @brief Load a compiled MinDic from an open file stream.
 	 * @param fi a c-style file pointer.
 	 */
 	inline void loadFromStream( FILE* fi );
-	
+
 	/**
 	 * @brief dump MinDic automaton to a file in binary form.
 	 * @param binFile File to write the automaton into.
@@ -172,7 +172,7 @@ namespace fsdict {
 	inline void writeToStream( FILE* fo ) const;
 
 	//@}
-	
+
 	/**
 	 * @name Construction of a new MinDic
 	 */
@@ -191,7 +191,7 @@ namespace fsdict {
 
 	/**
 	 * @brief prepares the object for construction of a new MinDic.
-	 * Call before calling addToken() for the first time. 
+	 * Call before calling addToken() for the first time.
 	 */
 	inline void initConstruction();
 
@@ -226,13 +226,13 @@ namespace fsdict {
 	 */
 	inline int getFirstAnn( StateId_t state );
 
- 	//@}
+	//@}
 
     protected:
 	inline const AnnType_t& annotationsAt( size_t n ) const;
 
     private:
-	
+
 	mutable size_t count_; // is used for counting during printing
 
 	// Those vars are used for construction

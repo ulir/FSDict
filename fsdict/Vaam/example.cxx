@@ -10,7 +10,7 @@ int main() {
 
     fsdict::MinDic<> baseDic;
     baseDic.loadFromFile( "fsdict/Vaam/Test/small.base.mdic" ); // small.base.mdic was created by the tool compileMD
-    
+
     fsdict::Vaam vaam( baseDic, "fsdict/Vaam/Test/small.patterns.txt" );
     vaam.setMaxNrOfPatterns( 3 );
 

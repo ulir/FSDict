@@ -42,6 +42,3 @@ use encoding 'utf8';
     my $modern = Pattern::applyInstruction( "vbelthaͤter", "[(ü_v,0)(t_th,4)(ä_aͤ,5)]", reverse => 1 );
     if( $modern ne "übeltäter" ) { die "Test failed"; }
 }
-
-
-

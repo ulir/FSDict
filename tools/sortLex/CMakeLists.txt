@@ -4,8 +4,8 @@ link_directories (${csl_BINARY_DIR}/csl)
 add_executable(sortLex sortLex.cxx)
 target_link_libraries (sortLex csl)
 
-install( 
+install(
   TARGETS sortLex
   DESTINATION bin
-  
+
   )

@@ -42,7 +42,7 @@ class State:
 
     def getTrans(self, flooorIdx, x):
         return self.__getHelper(self.transpositionFloors[floorIdx], x)
-        
+
     def get(self, floorIdx, x):
         return self.__getHelper(self.floors[floorIdx], x)
 
@@ -66,8 +66,8 @@ class State:
     def __getHelper(self, floor, x):
         bitPos = self.getBitPos(x)
         return (floor & (1<<bitPos) ) != 0
-        
-    
+
+
     def getFinalInfo(self):
         """
         Return a vector of numbers in [-1,0..distance] where the i-th number is the lowest floor whose i-th bit is set to 1.
@@ -92,7 +92,7 @@ class State:
                                            01101
                                             000
                                              0
-                            
+
                  We return:  suffixMatch = 01101 .
         At run-time, during parallel traversal of the Levenshtein FSA and the dictionary FSA, we can use this info in the following way: Once we reach such a state, where onlz the topmost
         floor has active states, we don't continue with the regular parallel traversal - instead we trz to match a couple of different suffixes of the pattern from the current state in the
@@ -108,7 +108,7 @@ class State:
 
         suffixMatch = self.floors[self.conf.distance]
         return suffixMatch
-        
+
 
     def printState(self):
         for floorIdx in range(self.conf.distance, -1, -1):
@@ -148,7 +148,7 @@ class LevAut:
         print "STATES_START"
         for state in self.states:
             print "%d\t%s\t%s\t%s" % (
-                count, 
+                count,
                 ",".join([str(x) for x in state.transitions]),
                 ",".join([str(x) for x in state.getFinalInfo()]),
                 state.getSuffixMatch(),
@@ -222,7 +222,7 @@ class MakeAut:
         id = levAut.addState(root)
         uniqueStates[root] = id # add to the hash of unique states
         workStack.append(root) # add to the workStack, so it's processed below.
-       
+
         while workStack:
             state = workStack.pop()
             #            state.printState()
@@ -241,7 +241,7 @@ class MakeAut:
                         self.logger.info("Created %d states." % levAut.getNrOfStates())
 
                 state.transitions.append(nextStateId)
-                
+
         self.logger.info("Nr of states: %s" % len(levAut.states))
         count = 0
         return levAut
@@ -268,27 +268,27 @@ class MakeAut:
             if floorIdx > 0 and not self.conf.noTranspositions:
                 nextState.transpositionFloors[floorIdx] |= (state.floors[floorIdx-1] & (transition << 1))
                 nextState.floors[floorIdx] |= (state.transpositionFloors[floorIdx] & (transition >> 1))
-                
+
         self.normalizeState(nextState)
         return nextState
-                    
+
 
 def main():
     description = """
 %(prog)s computes universal deterministic Levenshtein automata.
     """
-    
+
     epilog = """
-The universal Levenshtein automaton for distance k can be used to recognize, for a given pattern p, the set of 
+The universal Levenshtein automaton for distance k can be used to recognize, for a given pattern p, the set of
 strings s where the Levenshtein distance between p and s does not exceed k.
 
-Those automata are universal in the sense that they don't depend on the pattern p: they are determined only by 
+Those automata are universal in the sense that they don't depend on the pattern p: they are determined only by
 the distance threshold k and the set of edit operations you want to allow.
 
-In the current implementation, this set of edit operations defaults to substitution, deletion, insertion and the 
+In the current implementation, this set of edit operations defaults to substitution, deletion, insertion and the
 transposition of two adjacent characters. Use the --no-transpositions flag to omit tanspositions.
 
-You can use this script to build the Levenahtein automata you need offline, once. This script returns the 
+You can use this script to build the Levenahtein automata you need offline, once. This script returns the
 transition table as static CPP arrays. You can simply paste it to your code base, and access them at runtime.
     """
 

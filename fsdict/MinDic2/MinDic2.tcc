@@ -3,7 +3,7 @@ namespace fsdict {
 	inline MinDic2::MinDic2( const char* dicFile ) {
 		if( dicFile ) {
 			loadFromFile( dicFile );
-		}	
+		}
 	}
 
 	inline void MinDic2::loadFromFile( const char* binFile ) {
@@ -26,13 +26,13 @@ namespace fsdict {
 	    if( elementsRead != 1 ) {
 		throw exceptions::badInput( "fsdict::MinDic2::loadFromStream: could not read Header" );
 	    }
-	    
+
 	    if( header_.getMagicNumber() != magicNumber_ ) {
 		throw exceptions::badDictFile( "MinDic2: Magic number comparison failed.\n" );
 	    }
-	    
+
 	    nrOfKeys_ = header_.getNrOfKeys();
-	    
+
 	    // read the TransTable
 	    TransTable_t::loadFromStream( fi );
 	}
@@ -102,13 +102,13 @@ namespace fsdict {
 		std::wifstream fileHandle( txtFile );
 		fileHandle.imbue( FSDICT_UTF8_LOCALE ); // imbue the stream with csl's custom utf8 locale
 		if( !fileHandle.good() ) {
-		    throw exceptions::badFileHandle( "Couldn't open file '" + 
-						     std::string( txtFile ) + 
+		    throw exceptions::badFileHandle( "Couldn't open file '" +
+						     std::string( txtFile ) +
 						     "' for reading." );
 		}
 
 		std::wstring line;
-		
+
 		size_t lineCount = 0;
 		while( std::getline( fileHandle, line ).good() )  {
 
@@ -197,7 +197,7 @@ namespace fsdict {
 		if( ! ( nrOfKeys_ %  100000 ) ) {
 			std::wcerr	<< nrOfKeys_ /1000 << "k tokens processed. "
 						<< TransTable_t::getNrOfStates() / 1000 << "k states."
-						<< "key was: " << key 
+						<< "key was: " << key
 						<< std::endl;
 		}
 
@@ -286,7 +286,7 @@ namespace fsdict {
 
 // 			} // if couldWalk
 // 			else {
-// 				throw exceptions::badDictFile( "suso-string seems to be corrupted." ); 
+// 				throw exceptions::badDictFile( "suso-string seems to be corrupted." );
 // 			}
 // 			++transitions;
 // 		} // while
@@ -304,5 +304,3 @@ namespace fsdict {
 	}
 
 } //eon
-
-

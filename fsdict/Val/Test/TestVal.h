@@ -19,9 +19,9 @@ namespace fsdict {
 	void testPrint();
 	void testBasics();
 	void testWordBorders();
-// 	void testConstructionDetails();
-// 	void lookupAllKeys();
-	
+//	void testConstructionDetails();
+//	void lookupAllKeys();
+
     private:
 	std::string path_;
 
@@ -46,7 +46,7 @@ namespace fsdict {
 	Val::CandidateReceiver receiver;
 
 	val.query( L"theyl", &receiver );
-	
+
 	for( Val::CandidateReceiver::const_iterator it = receiver.begin(); it != receiver.end(); ++it ) {
 	    it->print();
 	}
@@ -60,16 +60,16 @@ namespace fsdict {
      * test the basic methods for reading access like getRoot, walk, isFinal etc.
      */
     void TestVal::testBasics() {
- 	MinDic<> baseDic( "../fsdict/Vaam/Test/small.base.mdic" );
+	MinDic<> baseDic( "../fsdict/Vaam/Test/small.base.mdic" );
 	MinDic<> filterDic( "../fsdict/Vaam/Test/small.filter.mdic" );
 	Val val( baseDic,  "../fsdict/Vaam/Test/small.patterns.txt" );
-	
+
 	Val::CandidateReceiver answers;
 
 	// a standard variant
 	CPPUNIT_ASSERT( val.query( std::wstring( L"xachen" ), &answers ) );
 	CPPUNIT_ASSERT( answers.size() == 1 );
-	Interpretation& answer = answers.at( 0 ); 
+	Interpretation& answer = answers.at( 0 );
 	CPPUNIT_ASSERT( answer.getBaseWord() == L"aachen" );
 	CPPUNIT_ASSERT( answer.getInstruction().size() == 1 );
 	CPPUNIT_ASSERT( answer.getInstruction().at( 0 ).getLeft() == L"a" );
@@ -99,22 +99,22 @@ namespace fsdict {
 
 	val.setMinNrOfPatterns( 1 );
 	CPPUNIT_ASSERT( ! val.query( std::wstring( L"aachen" ), &answers ) );
-	
+
 	val.setMinNrOfPatterns( 2 );
 	CPPUNIT_ASSERT( ! val.query( std::wstring( L"xachen" ), &answers ) );
 	CPPUNIT_ASSERT( val.query( std::wstring( L"xxchen" ), &answers ) );
-	
+
 	val.setMinNrOfPatterns( 0 );
 
 
-// 	///////// FILTER DIC ///////////////////////////////
+//	///////// FILTER DIC ///////////////////////////////
 
-// 	// without the filterDic_ this should be a variant
-// 	CPPUNIT_ASSERT( val.query( std::wstring( L"hanne" ), &answers ) );
+//	// without the filterDic_ this should be a variant
+//	CPPUNIT_ASSERT( val.query( std::wstring( L"hanne" ), &answers ) );
 
-// 	// now it should be filtered
-// 	val.setFilterDic( filterDic );
-// 	CPPUNIT_ASSERT( ! val.query( std::wstring( L"hanne" ), &answers ) );
+//	// now it should be filtered
+//	val.setFilterDic( filterDic );
+//	CPPUNIT_ASSERT( ! val.query( std::wstring( L"hanne" ), &answers ) );
 
     }
 
@@ -122,15 +122,15 @@ namespace fsdict {
     // stolen from testVaam
     void TestVal::testWordBorders() {
 	std::wcout << "*** TestVal::testWordBorders ***" << std::endl;
- 	MinDic<> baseDic;
+	MinDic<> baseDic;
 	baseDic.initConstruction();
 	baseDic.addToken( L"abra", 0 );
 	baseDic.addToken( L"abracadabra", 0 );
 	baseDic.finishConstruction();
 	Val val( baseDic, "../fsdict/Val/Test/patterns.borders.txt" );
-	
+
 	Val::CandidateReceiver answers;
-	
+
 	// // This is the word as it is in the dic
 	// val.query( L"abracadabra", &answers  );
 	// CPPUNIT_ASSERT_EQUAL( (size_t) 1, (size_t) answers.size() );
@@ -142,12 +142,12 @@ namespace fsdict {
 	// CPPUNIT_ASSERT_EQUAL( (size_t) 1, (size_t) answers.size() );
 	// CPPUNIT_ASSERT( answers.at(0).getBaseWord() == L"abracadabra" );
 	// CPPUNIT_ASSERT( answers.at(0).getWord() == L"bebracadabra" );
-	
+
 	// // wordBegin pattern does NOT work in the middle
 	// answers.clear();
 	// val.query( L"abracadbebra", &answers  );
 	// CPPUNIT_ASSERT_EQUAL( (size_t) 0, (size_t) answers.size() );
-	
+
 	// // standard patterns works also at beginning and end
 	// answers.clear();
 	// val.query( L"zebracadabra", &answers  );
@@ -167,13 +167,13 @@ namespace fsdict {
 	CPPUNIT_ASSERT_EQUAL( (size_t)1, (size_t)answers.size() );
 	CPPUNIT_ASSERT( answers.at(0).getBaseWord() == L"abracadabra" );
 	CPPUNIT_ASSERT( answers.at(0).getWord() == L"abracadabpo" );
-	
+
 	// wordEnd pattern works at the end of word that is prefix of another one.
 	answers.clear();
 	val.query( L"abpo", &answers  );
 	CPPUNIT_ASSERT_EQUAL( (size_t)1, (size_t)answers.size() );
 	CPPUNIT_ASSERT( answers.at(0).getBaseWord() == L"abra" );
-	
+
 
 	// wordEnd pattern does NOT work in the middle
 	answers.clear();
@@ -217,7 +217,7 @@ namespace fsdict {
 	CPPUNIT_ASSERT( answers.at(0).getBaseWord() == L"abracadabra" );
 	CPPUNIT_ASSERT( answers.at(0).getWord() == L"acadabra"  );
 
-	
+
     }
 
 } // namespace fsdict

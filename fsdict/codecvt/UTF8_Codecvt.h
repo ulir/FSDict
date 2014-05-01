@@ -36,7 +36,7 @@ namespace fsdict {
 	virtual int do_length(state_type& state, const char *first1, const char *last, size_t len) const {
 	    return len * sizeof( char );
 	}
-    
+
 	virtual int do_max_length() const throw() {
 	    return 4;
 	}
@@ -47,7 +47,7 @@ namespace fsdict {
 
 	virtual result do_in(state_type& state, const char *from, const char *fromEnd, const char *&fromNext,
 			     wchar_t *to, wchar_t *toEnd, wchar_t *&toNext) const {
-	
+
 
 	    const unsigned int leadByteMasks[5] = {256, 256, 31, 15, 7};
 
@@ -62,7 +62,7 @@ namespace fsdict {
 		    *to = *from;
 		    ++to; ++from;
 		}
-		else if( *from & 0xC0 ) { // multibyte leadbyte: at least two 1 bits at beginning 
+		else if( *from & 0xC0 ) { // multibyte leadbyte: at least two 1 bits at beginning
 		    // find out how many bytes the whole sequence has (that is, how many leading 1-bits there are)
 		    char leadByte = *from << 2;
 		    size_t nrOfBytes = 2;
@@ -72,7 +72,7 @@ namespace fsdict {
 		    }
 
 		    *to = *from & leadByteMasks[nrOfBytes];
-		
+
 		    if( from + nrOfBytes - 1 >= fromEnd ) {
 			return partial;
 		    }
@@ -118,20 +118,20 @@ namespace fsdict {
 			std::wcout<< "to-Buffer too small" <<std::endl;
 			return partial;
 		    }
- 
+
 		    *to = ( *from >> 6 ) | 0xC0;
 		    *( to + 1 ) = ( *from & 0x3F ) | 0x80;
-		
+
 		    to += 2;
 		}
-		else if( *from < 0x10000 ) { // 3 bytes		
+		else if( *from < 0x10000 ) { // 3 bytes
 		    if( to + 2 >= toEnd ) {
 			return partial;
 		    }
 		    *( to + 2 ) = ( *from & 0x3F ) | 0x80;
 		    *( to + 1 ) = ( ( *from >> 6 ) & 0x3F ) | 0x80;
 		    *to = ( *from >> 12 ) | 0xE0;
-		
+
 		    to += 3;
 		}
 		else { // 4 bytes
@@ -143,7 +143,7 @@ namespace fsdict {
 		    *( to + 2 ) = ( ( *from >> 6 ) & 0x3F ) | 0x80;
 		    *( to + 1 ) = ( ( *from >> 12 ) & 0x3F ) | 0x80;
 		    *to = ( *from >> 18 ) | 0xF0;
-		
+
 		    to += 4;
 		}
 

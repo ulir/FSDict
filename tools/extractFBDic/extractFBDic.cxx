@@ -30,7 +30,7 @@ int main( int argc, const char** argv ) {
 	}
 	else if( options.hasOption( "stat" ) ) {
 	    std::wcerr << "This option is currently not implemented for FBDic"<< std::endl;
-	    
+
 	}
 	else t.getFWDic().printDic();
 

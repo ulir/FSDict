@@ -25,7 +25,7 @@ int main( int argc, char const** argv ) {
 
     options.getOptionsAsSpecified( argc, argv );
 
-    
+
     if( options.hasOption( "help" ) ) {
 	printHelp();
 	return EXIT_SUCCESS;
@@ -34,15 +34,15 @@ int main( int argc, char const** argv ) {
 	printHelp();
 	return EXIT_FAILURE;
     }
-    
+
     // create a DictSearch-object
     fsdict::DictSearch dictSearch;
 
     fsdict::INIConfig config( options.getOption( "config" ) );
     dictSearch.readConfiguration( config );
-    
-    
-    
+
+
+
     std::wstring query;
     fsdict::DictSearch::CandidateSet candSet;
 
@@ -51,11 +51,11 @@ int main( int argc, char const** argv ) {
 	machineReadable = true;
     }
 
-    
+
     while( std::getline( std::wcin, query ).good() ) {
 	candSet.clear(); // empty the CandidateSet
 	dictSearch.query( query, &candSet ); // execute lookup
-	
+
 #ifndef FSDICT_DICTSEARCH_PRINTNONE
 	std::sort( candSet.begin(), candSet.end() ); // sort candidates following a very coarse order relation
 	if( candSet.empty() ) {
@@ -76,5 +76,5 @@ int main( int argc, char const** argv ) {
 	}
 #endif
     }
-    
+
 }

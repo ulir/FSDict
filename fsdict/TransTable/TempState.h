@@ -60,7 +60,7 @@ namespace fsdict {
 	    Iterator( TempState& myTempState ) : myTempState_( myTempState ),
 						       index_( 0 ) {
 	    }
- 
+
 	    bool isValid() const {
 		return ( index_ < ( myTempState_.transitions_.size() ) );
 	    }
@@ -77,7 +77,7 @@ namespace fsdict {
 		++index_;
 		return myTempState_.transitions_.at( index_ );
 	    }
-	    
+
 
 	private:
 	    TempState& myTempState_;
@@ -116,7 +116,7 @@ namespace fsdict {
 
 	~TempState() {
 	}
-	
+
 	inline InternalSize_t getPhValue() const {
 	    return phSum_ + ( isFinal() ? 1 : 0 );
 	}
@@ -135,7 +135,7 @@ namespace fsdict {
 
 		throw exceptions::fsdictException("TempState: new transition violating alphabetical order");
 	    }
-	    
+
 	    transitions_.push_back( Transition( label, target, getPhValue() ) );
 	    susoString_.at( susoString_.size() - 1 ) = label;
 	    susoString_.push_back( 0 );
@@ -151,7 +151,7 @@ namespace fsdict {
 
 	    susoString_.clear();
 	    susoString_.push_back( 0 );
-	    
+
 	    annotation_ = 0;
 	    isFinal_ = false;
 	    phSum_ = 0;
@@ -181,7 +181,7 @@ namespace fsdict {
 	    }
 	    isFinal_ = true;
 	}
-	
+
 	/**
 	 * returns true iff state is marked as final
 	 * @returns true iff state is marked as final

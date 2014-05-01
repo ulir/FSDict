@@ -26,12 +26,12 @@ int main(int argc, char const** argv) {
 	    fsdict::MinDic2 t;
 
 	    t.initConstruction();
-	    
+
 	    std::wstring line;
 	    int annotation = 0;
 
 	    while( std::getline( std::wcin, line ), std::wcin.good() ) {
-		
+
 		t.parseAnnotation( &line, &annotation );
 		t.addToken( line.c_str(), annotation );
 	    }
@@ -40,12 +40,12 @@ int main(int argc, char const** argv) {
 	    }
 
 	    t.finishConstruction();
-	    
+
 	    t.writeToFile( opt.getArgument( 0 ).c_str() );
-	    
+
 	    //   t.toDot();
 	    //   t.printCells();
-	    
+
 	} catch ( std::exception& ex ) {
 	    std::wcout<<"compileMD failed: "<<ex.what()<<std::endl;
 	    return(1);
@@ -56,23 +56,23 @@ int main(int argc, char const** argv) {
 	try {
 	    fsdict::MinDic2 t;
 	    t.compileDic( argv[1] );
-	    
+
 	    t.writeToFile( argv[2] );
-	    
+
 	    //   t.toDot();
 	    //   t.printCells();
-	    
+
 	} catch ( std::exception& ex ) {
 	    std::wcout<<"compileMD failed: "<<ex.what()<<std::endl;
 	    return(1);
 	}
-	
+
     }
     else {
 	printHelp();
 	exit( 1 );
     }
-    
+
 }
 
 

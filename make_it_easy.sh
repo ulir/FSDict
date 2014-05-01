@@ -2,7 +2,7 @@
 # This shell script builds a number of executables
 # It is designed as an alternative to the cmake build generator,
 # in case it is not installed or nt running properly.
-# 
+#
 # Another advantage of executables built that way that they are stand-alone,
 # they do not rely on libcsl.so .
 

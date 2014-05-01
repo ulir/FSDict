@@ -35,7 +35,7 @@ namespace fsdict {
 	testSpecified();
 	testFailure();
     }
-    
+
 
     /**
      * test the basic functionality
@@ -44,7 +44,7 @@ namespace fsdict {
 	// test old way, without any specification of options
 	char const* argv[] = { "progname", "--flag1=1", "--flag2=value", "arg1", "arg2" };
 	int argc = 5;
-	
+
 	Getopt getopt;
 	getopt.getOptions( argc, argv );
 
@@ -63,13 +63,13 @@ namespace fsdict {
     void TestGetopt::testSpecified() {
 	if( 1 ) { // create artificial block
 	    Getopt getopt;
-	
+
 	    getopt.specifyOption( "flag1", Getopt::VOID );
 	    getopt.specifyOption( "flag2", Getopt::STRING );
 	    getopt.specifyOption( "flag3", Getopt::STRING );
 	    char const* argv[] = { "progname", "--flag1", "--flag2=value", "--flag3", "value3", "arg1", "arg2" };
 	    int argc = 7;
-	
+
 	    getopt.getOptionsAsSpecified( argc, argv );
 
 	    CPPUNIT_ASSERT( getopt.hasOption( "flag1" ) );

@@ -4,7 +4,7 @@ link_directories (${csl_BINARY_DIR}/csl)
 add_executable(lookupTT lookupTT.cxx)
 target_link_libraries (lookupTT csl)
 
-install( 
+install(
   TARGETS lookupTT
   DESTINATION bin
   )

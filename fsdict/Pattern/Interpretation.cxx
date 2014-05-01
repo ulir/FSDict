@@ -12,26 +12,26 @@ namespace fsdict {
     }
 
     bool Interpretation::operator<( Interpretation const& other ) const {
-	
+
 	//std::wcout << "compare " << this  << ", " << &other << std::endl;
 
 	// compare the sum of hist patterns and std lev distance
-	int compare = 
-	    ( getInstruction().size() + getLevDistance() ) - 
+	int compare =
+	    ( getInstruction().size() + getLevDistance() ) -
 	    ( other.getInstruction().size()  + other.getLevDistance() );
-	
+
 	// In case of equality, let the one with smaller lev distance be smaller
 	if( compare == 0 ) {
 	    compare = getLevDistance() - other.getLevDistance();
 	}
-	
+
 	if( compare != 0 ) return ( compare < 0 );
 
 	// if still equal, decide on alphabetical order
 	compare = wcscmp( getWord().c_str(), other.getWord().c_str() );
 
 	if( compare != 0 ) return ( compare > 0 );
-	    
+
 	// otherwise: do it the very un-efficient way and compare the pretty-print alphabetically
 	// this should assure that only equal interpretations return 0
 	return ( wcscmp( toString().c_str(), other.toString().c_str() ) > 0 );
@@ -119,7 +119,7 @@ namespace fsdict {
 	levDistance_ = wcstol( str.substr( offset, end - offset ).c_str(), &dummy, 10 );
 
 	baseWordScore_ = -1;
-	
+
 	return end;
 
     }
@@ -130,7 +130,7 @@ namespace fsdict {
 	os<<",dist="<< getLevDistance();
 	//os<<",baseWordScore="<<baseWordScore_;
     }
-	
+
     std::wstring Interpretation::toString() const {
 	//return word_ + L":" + baseWord_ + L"+" + instruction_.toString() + L",dist=" + levDistance_;
 	std::wostringstream oss;
@@ -147,7 +147,7 @@ namespace fsdict {
 	    begin = posPattern->getPosition() + posPattern->getLeft().length();
 	}
 	os<<baseWord_.substr( begin ); // print unchanged suffix of the baseWord
-	    
+
     }
 
 } // eon

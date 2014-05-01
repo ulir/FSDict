@@ -25,7 +25,7 @@ namespace fsdict {
      * @see fsdict::LevDEA, fsdict::LevFilter, fsdict::LevFilter::CandidateReceiver
      *
      * @todo At the moment the levenshtein threshold can only be set once at construction. It should be easy to provide
-     *       some method like setDistance() to change this anytime. 
+     *       some method like setDistance() to change this anytime.
      * @todo remove fixed-length string components. Change interface to std::wstring
      *
      * @author Ulrich Reffle, <uli@cis.uni-muenchen.de>
@@ -42,7 +42,7 @@ namespace fsdict {
 
 	/**
 	 * @brief Create an MSMatch object with a levenshtein threshold \c k and a path specifying a file with a compiled FBDic.
-	 * 
+	 *
 	 * @param k the levenshtein threshold: MSMatch will extract candidates with distance lower or equal to \c k
 	 * @param FBDicFile a path specifying a file with a compiled FBDic
 	 */
@@ -56,7 +56,7 @@ namespace fsdict {
 	inline void initialize();
 
 	/**
-	 * @brief returns the highest threshold to be set. The setting of a higher distance (in the constructor or with setDistance() ) will 
+	 * @brief returns the highest threshold to be set. The setting of a higher distance (in the constructor or with setDistance() ) will
 	 * trigger an exception
 	 */
 	inline static size_t getMaximumDistance() {
@@ -138,7 +138,7 @@ namespace fsdict {
 	inline void intersect( int dicPos, LevDEA::Pos levPos, int depth );
 	inline void intersectFirst( int dicPos, LevDEA::Pos levPos, int depth );
 	inline void intersectSecond( int dicPos, LevDEA::Pos levPos, int depth );
-    
+
 	/**
 	 * @brief Sends the current value in word_ to the candidateReceiver.
 	 */

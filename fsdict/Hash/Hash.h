@@ -23,26 +23,26 @@ namespace fsdict {
 	/**
 	 * constructor
 	 *
-	 * @param[in/out] keyBuffer a reference to a c-string, where the keys are stored. 
+	 * @param[in/out] keyBuffer a reference to a c-string, where the keys are stored.
 	 * @param[in] estimatedNrOfKeys an estimation that helps to choose the right size of the hashtable
 	 * @param[in/out] lengthOfKeyBuffer
 	 * @todo think about the heuristics concerning the buffer initialization size
 	 */
 	inline Hash( size_t estimatedNrOfKeys, charType_t*& keyBuffer, size_t& lengthOfKeyBuffer );
-	
+
 	/**
 	 * insert a key into the hash table
 	 * @param key
 	 */
 	inline size_t findOrInsert( const charType_t* key );
-	
+
 	/**
 	 * look up a key in the hash table
 	 * @param key
 	 * @return a value >0 iff the key was found, 0 otherwise
 	 */
 	inline size_t find(const charType_t* key ) const;
-	
+
 	inline void reset();
 
 	inline size_t getTableSize() const;
@@ -109,9 +109,9 @@ namespace fsdict {
 	static const int HASHC2 = 107;
 	/*@}*/
     };
-    
+
     template< class charType_t >
-    inline Hash< charType_t >::Hash( size_t estimatedNrOfKeys, charType_t*& keyBuffer, size_t& lengthOfKeyBuffer ) : 
+    inline Hash< charType_t >::Hash( size_t estimatedNrOfKeys, charType_t*& keyBuffer, size_t& lengthOfKeyBuffer ) :
 	table_( estimatedNrOfKeys * 20, 0 ),
 	nrOfKeys_( 0 ),
 	keyBuffer_( keyBuffer ),
@@ -125,7 +125,7 @@ namespace fsdict {
 	    reallocKeyBuffer( estimatedNrOfKeys * 10 );
 	}
     }
-    
+
     template< class charType_t >
     inline size_t Hash< charType_t >::find( const charType_t* key ) const {
 	uint_t slot = getHashCode( key );

@@ -22,7 +22,7 @@ namespace fsdict {
 	typedef SizeType__ InternalSize_t ;
 
 	/**
-	 * StateId_t should be 8 bytes whenever 
+	 * StateId_t should be 8 bytes whenever
 	 * SizeType__ is 8 bytes
 	 */
 	typedef SizeType__ StateId_t;
@@ -30,13 +30,13 @@ namespace fsdict {
 	typedef TransTable< TT_STANDARD, InternalChar_t, InternalSize_t > TransTable_t;
 	typedef Cell< TT_STANDARD, InternalChar_t, InternalSize_t > Cell_t;
 	typedef TempState< TransTable_t > TempState_t;
-	
-	
+
+
 	/**
 	 *
 	 */
 	inline TransTable();
-	
+
 	/**
 	 * Destructor
 	 */
@@ -62,7 +62,7 @@ namespace fsdict {
 	inline void createBinary( char const * binFile );
 
 	/**
-	 * 
+	 *
 	 */
 	void writeToStream( FILE* fo ) const;
 
@@ -89,7 +89,7 @@ namespace fsdict {
 	 * declare a root (or start state) of the automaton.
 	 */
 	inline void setRoot( StateId_t rootId );
-	
+
 	/// returns the root
 	inline StateId_t getRoot() const;
 
@@ -111,7 +111,7 @@ namespace fsdict {
 	inline uint_t walk( StateId_t state, char16 c ) const;
 
 	/**
-	 * 
+	 *
 	 */
 	inline uint_t walkStr( StateId_t state, const wchar_t* str ) const;
 
@@ -131,7 +131,7 @@ namespace fsdict {
 	    if( stateId >= getNrOfCells() ) {
 		throw exceptions::outOfRange( "fsdict::TransTable_standard::getAnnotationAtState: invalid cell index" );
 	    }
-	    return cells_[ stateId ].getValue(); 
+	    return cells_[ stateId ].getValue();
 	}
 
 	inline Cell_t* getCells() {
@@ -167,12 +167,12 @@ namespace fsdict {
 	 *
 	 * This method is private here because suso-strings are avaliable ONLY DURING CONSTRUCTION
 	 * of a new dictionary.
-       	 */
+	 */
 	inline const wchar_t* getSusoString( StateId_t state ) const;
 
 	/**
 	 * This number specifies the maximum size of the area that is considered when
-	 * looking for a slot. Free cells 
+	 * looking for a slot. Free cells
 	 */
 	static const size_t searchWindow = 1000;
 
@@ -228,7 +228,7 @@ namespace fsdict {
 		nrOfCells_ = transTable.nrOfCells_;
 		root_ = transTable.root_;
 	    }
-	    
+
 
 	private:
 	    bits64 magicNumber_;
@@ -239,7 +239,7 @@ namespace fsdict {
 	Header header_;
 
 	StateId_t root_;
-	
+
 
 	/**
 	 * The number of states. Note that this value is updated during construction

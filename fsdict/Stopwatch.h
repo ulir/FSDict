@@ -11,25 +11,25 @@ namespace fsdict {
 	inline void start();
 	inline unsigned long long readSeconds() const;
 	inline unsigned long long readMilliseconds() const;
-	
+
     private:
 	timeb start_;
     };
-    
+
     inline Stopwatch::Stopwatch() {
 	start();
     }
-    
+
     inline void Stopwatch::start() {
 	ftime( &start_ );
     }
-    
+
     inline unsigned long long Stopwatch::readSeconds() const {
 	timeb now;
 	ftime( &now );
 	return now.time - start_.time;
     }
-    
+
     inline unsigned long long Stopwatch::readMilliseconds() const {
 	timeb now;
 	ftime( &now );
@@ -37,5 +37,5 @@ namespace fsdict {
     }
 
 } // ns csl
-    
+
 #endif

@@ -17,9 +17,9 @@ namespace fsdict {
 	 * @brief creates an empty Pattern at position 0
 	 */
 	inline PosPattern();
-	
+
 	inline PosPattern( const std::wstring& left, const std::wstring& right, size_t position );
-	
+
 	inline bool operator==( PosPattern const& other ) const;
 
 	inline void clear();
@@ -32,7 +32,7 @@ namespace fsdict {
 	inline size_t getPosition() const;
 
 	inline void setPosition( size_t p );
-	
+
 	inline void print( std::wostream& os = std::wcout ) const;
 
 	inline std::wstring toString() const;
@@ -43,21 +43,21 @@ namespace fsdict {
 	 * @return A new offset pointing to the first character not used for the parse
 	 */
 	inline size_t parseFromString( std::wstring const& str, size_t offset = 0 );
-	
 
-	
+
+
     private:
 	size_t position_;
     }; // class PosPattern
-    
+
     PosPattern::PosPattern() :
 	Pattern(),
 	position_( 0 ) {
     }
 
     PosPattern::PosPattern( const std::wstring& left, const std::wstring& right, size_t position ) :
- 	Pattern( left, right ),
- 	position_( position ) {
+	Pattern( left, right ),
+	position_( position ) {
     }
 
     bool PosPattern::operator==( PosPattern const& other ) const {
@@ -68,10 +68,10 @@ namespace fsdict {
 	Pattern::clear();
 	position_ = 0;
     }
-    
+
     inline bool PosPattern::empty() const {
-	return ( Pattern::empty() && 
-		 ( position_ == 0 ) 
+	return ( Pattern::empty() &&
+		 ( position_ == 0 )
 	    );
     }
 

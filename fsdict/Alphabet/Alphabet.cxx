@@ -12,7 +12,7 @@ namespace fsdict {
 	magicNumber_( 42 ),
 	hasChar_( Global::maxNrOfChars, false )
     {
-	
+
     }
 
     /**
@@ -50,7 +50,7 @@ namespace fsdict {
 
 	size_t readElements = fread( &header_, sizeof( Header ), 1, fi );
 	if( readElements != 1 ) throw exceptions::fsdictException( "fsdict::Alphabet::loadFromStream: Errors while reading Header." );
-	
+
 	if ( ( header_.magicNumber_ != magicNumber_ ) )
 	    throw exceptions::badDictFile( "fsdict::Alphabet::loadFromStream: Magic number comparison failed.\n" );
 

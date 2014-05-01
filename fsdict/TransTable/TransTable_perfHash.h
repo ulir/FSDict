@@ -38,7 +38,7 @@ namespace fsdict {
 	typedef SizeType__ InternalSize_t ;
 
 	/**
-	 * StateId_t should be 8 bytes whenever 
+	 * StateId_t should be 8 bytes whenever
 	 * InternalSize_t is 8 bytes
 	 */
 	typedef InternalSize_t StateId_t;
@@ -64,9 +64,9 @@ namespace fsdict {
 
 		//std::wcerr << "Create state on Automaton " << &tt << (tt.readyToRead()?L"yo": L"no") <<  std::endl;
 	    }
-	    
+
 	    /**
-	     * 
+	     *
 	     */
 	    bool walk( wchar_t c ) {
 		dicPos_ = transTable_->walkPerfHash( dicPos_, c, &perfHashValue_ );
@@ -106,7 +106,7 @@ namespace fsdict {
 	    bool isFinal() const {
 		return transTable_->isFinal( dicPos_ );
 	    }
-	    
+
 	private:
 
 	    State( const TransTable_t& transTable, StateId_t dicPos, size_t perfHashValue ) :
@@ -120,7 +120,7 @@ namespace fsdict {
 	    size_t perfHashValue_;
 	}; // class State
 
-	
+
 	/******************** CONSTRUCTORS / DESTRUCTOR ********************/
 
 	/**
@@ -138,7 +138,7 @@ namespace fsdict {
 	virtual bool readyToWrite() const;
 
 	/****************** BASIC ACCESS TO THE TRANSITION TABLE **********************/
-	
+
 	/**
 	 * @brief perform one step inside the automaton
 	 * @param state the state to start from
@@ -148,7 +148,7 @@ namespace fsdict {
 	inline StateId_t walk( StateId_t state, wchar_t c ) const;
 
 	/**
-	 * 
+	 *
 	 */
 	inline StateId_t walkStr( StateId_t state, const wchar_t* str ) const;
 
@@ -176,14 +176,14 @@ namespace fsdict {
 	inline StateId_t getRoot() const;
 
 	/**
-	 * Get a State object of the automaton's root/ start state. 
-	 * @return a State object of the automaton's root/ start state. 
+	 * Get a State object of the automaton's root/ start state.
+	 * @return a State object of the automaton's root/ start state.
 	 * @see State
 	 */
 	inline State getRootState() const {
 	    return State( *this );
 	}
-	
+
 	/**
 	 * @brief returns true iff state is marked as final
 	 * @param state id of a state
@@ -200,7 +200,7 @@ namespace fsdict {
 	 *
 	 * @param[in] key the key to look up
 	 * @param[out] tokID if key was found, this variable will hold the respective index. Otherwise, it gets an undefined value.
-	 * 
+	 *
 	 * @return true iff key was found
 	 */
 	inline bool getTokenIndex( const wchar_t* key, size_t* tokID ) const;
@@ -237,7 +237,7 @@ namespace fsdict {
 	 * declare a root (or start state) of the automaton.
 	 */
 	inline void setRoot( StateId_t rootId );
-	
+
 
 	/******************** SERIALIZATION ********************/
 
@@ -259,7 +259,7 @@ namespace fsdict {
 	inline void writeToFile( char* binFile );
 
 	/**
-	 * 
+	 *
 	 */
 	void writeToStream( FILE* fo ) const;
 
@@ -294,7 +294,7 @@ namespace fsdict {
     private:
 	/**
 	 * This number specifies the maximum size of the area that is considered when
-	 * looking for a slot. Free cells 
+	 * looking for a slot. Free cells
 	 */
 	static const size_t searchWindow = 1000;
 
@@ -355,7 +355,7 @@ namespace fsdict {
 		lengthOfSusoStrings_ = transTable.lengthOfSusoStrings_;
 		root_ = transTable.root_;
 	    }
-	    
+
 
 	private:
 	    bits64 magicNumber_;
@@ -367,7 +367,7 @@ namespace fsdict {
 	Header header_;
 
 	StateId_t root_;
-	
+
 
 	/**
 	 * The number of states. Note that this value is updated during construction

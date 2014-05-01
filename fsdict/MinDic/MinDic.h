@@ -16,17 +16,17 @@ namespace fsdict {
 
 
     /**
-     * @brief class MinDic performs the construction and usage of minimal acyclic 
-     * finite state automata for large finite dictionaries. 
+     * @brief class MinDic performs the construction and usage of minimal acyclic
+     * finite state automata for large finite dictionaries.
      *
-     * It follows an algorithm described in 
+     * It follows an algorithm described in
      * Jan Daciuk et. al., Incremental Construction of Minimal Acyclic
      * Finite-State Automata, 2000.
      *
      * Many ideas for the implementation are adapted from a C-program written
      * by Stoyan Mihov.
-     * 
-     * Note that a MinDic inherits from TransTable and so offers all of TransTable's 
+     *
+     * Note that a MinDic inherits from TransTable and so offers all of TransTable's
      * interface to the guts of the automaton. However this might change in the future.
      *
      * @author Ulrich Reffle, <uli@cis.uni-muenchen.de>
@@ -35,7 +35,7 @@ namespace fsdict {
      */
     template< class AnnType = int >
     class MinDic : public TransTable< TT_PERFHASH, uint16_t >
-		 , public iDictionary< AnnType > 
+		 , public iDictionary< AnnType >
     {
     public:
 	typedef TransTable< TT_PERFHASH, uint16_t > TransTable_t;
@@ -55,7 +55,7 @@ namespace fsdict {
 	 * It is best to think of a State -object as a pawn in a board game. By using MinDic's getRootState()
 	 * you receive a pawn positioned at the automaton's root state. From there you can either move it along-side
 	 * a transition using walk() or request a new pawn using getTransitionTarget().
-	 * 
+	 *
 	 */
 	class State {
 	public:
@@ -67,7 +67,7 @@ namespace fsdict {
 		dicPos_( minDic_->getRoot() ),
 		perfHashValue_( 0 ) {
 	    }
-	    
+
 	    /**
 	     * @param c
 	     */
@@ -75,7 +75,7 @@ namespace fsdict {
 		dicPos_ = minDic_->walkPerfHash( dicPos_, c, &perfHashValue_ );
 		return isValid();
 	    }
-	    
+
 	    /*
 	     * @brief If the state-object is 'walked' using a character c although the current state has no such
 	     *        transition, the state becomes invalid. Some people like to introduce a "failure state" or "trap state",
@@ -114,7 +114,7 @@ namespace fsdict {
 		return State( *minDic_, newPos, tmpPHValue );
 	    }
 
-	    
+
 	    /**
 	     * @brief returns a c-string containing all characters which are the label of a transition leaving
 	     *        the current state
@@ -122,7 +122,7 @@ namespace fsdict {
 	    const wchar_t* getSusoString() const {
 		return minDic_->getSusoString( dicPos_ );
 	    }
-	    
+
 	    /**
 	     * @see perfHashValue_
 	     */
@@ -143,7 +143,7 @@ namespace fsdict {
 	    bool isFinal() const {
 		return minDic_->isFinal( dicPos_ );
 	    }
-	    
+
 	    /**
 	     *
 	     */
@@ -152,7 +152,7 @@ namespace fsdict {
 	    }
 
 	private:
-	    
+
 	    State( const MinDic< AnnType >& minDic, StateId_t dicPos, size_t perfHashValue ) :
 		minDic_( &minDic ),
 		dicPos_( dicPos ),
@@ -252,8 +252,8 @@ namespace fsdict {
 			}
 		    }
 		} while( ! ( stack_.empty() || // quit if stack is empty or if final state is reached for the 1st time
-			     ( stack_.top().first.isFinal() && stack_.top().second == 0 ) 
-			     ) 
+			     ( stack_.top().first.isFinal() && stack_.top().second == 0 )
+			     )
 		    );
 		return *this;
 	    }
@@ -273,13 +273,13 @@ namespace fsdict {
 	 * @param a file containing a compiled MinDic. (optional; often: *.mdic)
 	 */
 	MinDic( const char* dicFile = 0 );
-	
-	
+
+
 	/**
 	 * @brief The copy constructor is NOT IMPLEMENTED at the moment
 	 */
 	MinDic( MinDic< AnnType_t > const& other );
-	
+
 
 	/**
 	 * @name Lookup
@@ -299,7 +299,7 @@ namespace fsdict {
 	inline bool lookup( std::wstring const& key, AnnType_t* annotation = 0 ) const;
 
 	inline bool hasPrefix( std::wstring const& prefix ) const;
-	
+
 
 
 	/**
@@ -311,8 +311,8 @@ namespace fsdict {
 	inline const AnnType_t& getAnnotation( size_t perfHashValue ) const;
 
 	/**
-	 * Get a State object of the automaton's root/ start state. 
-	 * @return a State object of the automaton's root/ start state. 
+	 * Get a State object of the automaton's root/ start state.
+	 * @return a State object of the automaton's root/ start state.
 	 * @see State
 	 */
 	inline State getRootState() const {
@@ -331,7 +331,7 @@ namespace fsdict {
 	inline TokenIterator tokensEnd() const {
 	    return TokenIterator();
 	}
-	
+
 	//@}
 
 
@@ -344,13 +344,13 @@ namespace fsdict {
 	 * @param a file containing a compiled MinDic. (often: *.mdic)
 	 */
 	inline void loadFromFile( const char* binFile );
-	
+
 	/**
 	 * @brief Load a compiled MinDic from an open file stream.
 	 * @param fi a c-style file pointer.
 	 */
 	inline void loadFromStream( FILE* fi );
-	
+
 	/**
 	 * @brief dump MinDic automaton to a file in binary form.
 	 * @param binFile File to write the automaton into.
@@ -364,7 +364,7 @@ namespace fsdict {
 	inline void writeToStream( FILE* fo ) const;
 
 	//@}
-	
+
 	/**
 	 * @name Construction of a new MinDic
 	 */
@@ -378,12 +378,12 @@ namespace fsdict {
 
         /**
          * @brief Set the key-value delimiter to be used during the parsing of txt input files.
-	 */ 
+	 */
         inline void setKeyValueDelimiter( wchar_t delimiter );
 
 	/**
 	 * @brief This method parses an input line (provided as param str). If str has
-	 *        an annotation attached to the key, this annotation is clipped from str 
+	 *        an annotation attached to the key, this annotation is clipped from str
 	 *        and stored in the param annotation
 	 * @param[in/out] str
 	 * @param[out] annotation
@@ -392,7 +392,7 @@ namespace fsdict {
 
 	/**
 	 * @brief prepares the object for construction of a new MinDic.
-	 * Call before calling addToken() for the first time. 
+	 * Call before calling addToken() for the first time.
 	 */
 	inline void initConstruction();
 
@@ -404,7 +404,7 @@ namespace fsdict {
 
 	/**
 	 * @brief Finalize the construction
-	 * Call after calling addToken() for the last time. 
+	 * Call after calling addToken() for the last time.
 	 */
 	inline void finishConstruction();
 
@@ -429,13 +429,13 @@ namespace fsdict {
 	 */
 	inline int getFirstAnn( StateId_t state );
 
- 	//@}
+	//@}
 
     protected:
 	inline const AnnType_t& annotationsAt( size_t n ) const;
 
     private:
-	
+
 	mutable size_t count_; // is used for counting during printing
 
 	// Those vars are used for construction

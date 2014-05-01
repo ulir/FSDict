@@ -6,7 +6,7 @@
 #include "./LevDEA.h"
 
 namespace fsdict {
-	
+
     LevDEA::LevDEA( int init_k ) : k_( init_k ),
 				   transitions_(0),
 				   finalInfo_(0),
@@ -14,7 +14,7 @@ namespace fsdict {
     {
 	setThreshold( init_k );
     }
-    
+
     LevDEA::~LevDEA() {
     }
 
@@ -70,7 +70,7 @@ namespace fsdict {
 	}
 	calcCharvec();
     }
-    
+
     void LevDEA::loadPattern_utf8( const char* p ) {
 	std::wstring patternWide_;
 	UTF8Locale::string2wstring( std::string( p ), patternWide_ );
@@ -82,7 +82,7 @@ namespace fsdict {
 	    charvecs_.at( *c ) = 0;
 	}
     }
-    
+
     void LevDEA::calcCharvec() {
 	bits64 bit = 1ll<<( pattern_.length()-1 );
 	for( std::wstring::const_iterator c = pattern_.begin(); c != pattern_.end(); ++c ) {
@@ -94,7 +94,7 @@ namespace fsdict {
 	    bit >>= 1;
 	}
     }
-    
+
     void LevDEA::printTable() const {
     }
 
@@ -106,7 +106,7 @@ namespace fsdict {
 	}
 	std::cout << "-------------" << std::endl;
     }
-    
+
     void LevDEA::printBits( const bits64& n ) const {
 	int i;
 	for( i = 63;i >= 0;--i ) {

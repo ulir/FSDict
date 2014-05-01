@@ -9,7 +9,7 @@ namespace fsdict {
 	annHash_( 0 ),
 	keyValueDelimiter_( Global::keyValueDelimiter )
     {
-	
+
     }
 
     inline FBDicString::FBDicString( char const* dicFile ) :
@@ -60,24 +60,24 @@ namespace fsdict {
 	loadFromStream( fi );
 	fclose( fi );
     }
-    
+
     inline void FBDicString::loadFromStream( FILE* fi ) {
-	size_t freadReturn = 0; 
+	size_t freadReturn = 0;
 	freadReturn = fread( &header_, sizeof( Header ), 1, fi );
 	if( freadReturn != 1 ) {
-	    throw exceptions::badDictFile( "FBDicString: Failure during reading of header.\n" );	    
+	    throw exceptions::badDictFile( "FBDicString: Failure during reading of header.\n" );
 	}
 
 	if ( ( header_.getMagicNumber() != magicNumber_ ) ) {
 	    throw exceptions::badDictFile( "FBDicString: Magic number comparison failed.\n" );
 	}
-	
+
 	sizeOfAnnStrings_ = header_.getSizeOfAnnStrings();
 	FBDic_t::loadFromStream( fi );
 	annStrings_ = (uchar*) malloc( sizeOfAnnStrings_ * sizeof( uchar ) );
 	freadReturn = fread( annStrings_, sizeof( uchar ), sizeOfAnnStrings_, fi );
 	if( freadReturn != sizeOfAnnStrings_ ) {
-	    throw exceptions::badDictFile( "FBDicString: Failure during reading of annStrings.\n" );	    
+	    throw exceptions::badDictFile( "FBDicString: Failure during reading of annStrings.\n" );
 	}
 
     }
@@ -92,7 +92,7 @@ namespace fsdict {
 	writeToStream( fo );
 	fclose( fo );
     }
-    
+
     inline void FBDicString::writeToStream( FILE* fo ) const {
 	fwrite( &header_, sizeof( Header ), 1, fo );
 	FBDic_t::writeToStream( fo );
@@ -102,7 +102,7 @@ namespace fsdict {
 
     inline void FBDicString::initConstruction() {
 	FBDic_t::initConstruction();
-	
+
     }
 
     inline void FBDicString::finishConstruction() {
@@ -115,41 +115,41 @@ namespace fsdict {
 
     inline void FBDicString::compileDic( const char* lexFile ) {
 	initConstruction();
-	
+
 	std::ifstream fileHandle( lexFile );
 	if( !fileHandle.good() ) {
-	    throw exceptions::badFileHandle( "Couldn't open file '" + 
-					     std::string( lexFile ) + 
+	    throw exceptions::badFileHandle( "Couldn't open file '" +
+					     std::string( lexFile ) +
 					     "' for reading." );
 	}
 
-	
+
 	struct stat f_stat;
 	stat( lexFile, &f_stat );
 	size_t estimatedNrOfKeys = f_stat.st_size / 100;
 	if( estimatedNrOfKeys < 1000 ) estimatedNrOfKeys = 1000; // set a minimum of 1000
 
 	//std::wcerr<<"Estimate about "<< estimatedNrOfKeys << " Keys."<< std::endl;
-	
+
 	annHash_ = new Hash< uchar >( estimatedNrOfKeys, annStrings_, sizeOfAnnStrings_ );
 
 
 	uchar bytesIn[Global::lengthOfLongStr];
 	// set the last byte to 0. So we can recognize when an overlong string was read by getline().
-	bytesIn[Global::lengthOfLongStr - 1] = 0; 
+	bytesIn[Global::lengthOfLongStr - 1] = 0;
 
 	wchar_t key[Global::lengthOfLongStr];
 	uchar* annotationStr = 0;
 
 	while( fileHandle.getline(( char* ) bytesIn, Global::lengthOfLongStr ) )  {
- 	    if ( bytesIn[Global::lengthOfLongStr-1] != 0 ) {
+	    if ( bytesIn[Global::lengthOfLongStr-1] != 0 ) {
 		throw exceptions::badInput( "fsdict::FBDicString::compileDic: Maximum length of input line violated (set by Global::lengthOfLongStr)" );
 	    }
-	    
+
 	    /////////////////// PARSE THE INPUT STRING
 	    uchar *c;
 	    c = ( uchar* )strchr( ( char* )bytesIn, keyValueDelimiter_ );
-	    
+
 	    if( c ) {
 		*c = 0;
 		annotationStr = ( c + 1 );
@@ -165,7 +165,7 @@ namespace fsdict {
 	    }
 
 	    size_t offset = annHash_->findOrInsert( annotationStr );
-	    
+
 	    FBDic_t::addToken( key, offset );
 
 	}
@@ -182,7 +182,7 @@ namespace fsdict {
 	printf( "**********\nFBDicString Analysis\n**********\nannotation strings: %.3f MB\n\n",
 		(double)header_.getSizeOfAnnStrings() / 1048576
 	    );
-	
+
     }
 
 }

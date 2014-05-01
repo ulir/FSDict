@@ -29,7 +29,7 @@ namespace fsdict {
 	 * @brief set up a comparison based on the sum of levenshtein or pattern edits.
 	 *
 	 * Give the levenshtein operations a marginally higher punishment, so that
-	 * if the sums are equal, the one with less lev. operations and more pattern 
+	 * if the sums are equal, the one with less lev. operations and more pattern
 	 * operations will win.
 	 */
 	bool operator<( Interpretation const& other ) const;
@@ -67,7 +67,7 @@ namespace fsdict {
 	size_t getBaseWordScore() const;
 
 	/**
-	 * @brief returns the instruction that was used to turn @c baseWord into @c word 
+	 * @brief returns the instruction that was used to turn @c baseWord into @c word
 	 * @deprecated Use getHistInstruction instead!
 	 */
 	Instruction& getInstruction();
@@ -87,9 +87,9 @@ namespace fsdict {
 	 * @brief const version of getHistInstruction()
 	 */
 	Instruction const& getHistInstruction() const;
-	
+
 	// @} // END Getters
-	
+
 	/**
 	 * @name Setters
 	 */
@@ -117,11 +117,11 @@ namespace fsdict {
 	 */
 	// @{
 	/**
-	 * @brief prints a string-representation of the interpretation to stdout or to another std::wstream 
+	 * @brief prints a string-representation of the interpretation to stdout or to another std::wstream
 	 * specified as argument.
 	 */
 	void print( std::wostream& os = std::wcout ) const;
-	
+
 	std::wstring toString() const;
 
 	/**
@@ -145,7 +145,7 @@ namespace fsdict {
 	Instruction instructionOCR_;
 
 	/**
-	 * @brief 
+	 * @brief
 	 *
 	 */
 	size_t levDistance_;
@@ -158,7 +158,7 @@ namespace fsdict {
 	int baseWordScore_;
 
 
-	    
+
     }; // class Interpretation
 
 

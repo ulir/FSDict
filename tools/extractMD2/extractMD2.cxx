@@ -18,7 +18,7 @@ int main( int argc, const char** argv ) {
 		  <<"--stat=1\tto print statistics of the MinDic"<<std::endl
 		  <<"--dot=1\tto print dotcode for the MinDic"
 		  <<std::endl<<std::endl;
-	
+
 	exit( 1 );
     }
     try {

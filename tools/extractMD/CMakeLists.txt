@@ -4,8 +4,8 @@ link_directories (${csl_BINARY_DIR}/csl)
 add_executable(extractMD extractMD.cxx)
 target_link_libraries (extractMD csl)
 
-install( 
+install(
   TARGETS extractMD
   DESTINATION bin
-  
+
   )

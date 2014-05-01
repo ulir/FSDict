@@ -13,7 +13,7 @@ namespace fsdict {
      */
     class TestComputeInstruction : public CppUnit::TestFixture  {
 
-  	CPPUNIT_TEST_SUITE( TestComputeInstruction );
+	CPPUNIT_TEST_SUITE( TestComputeInstruction );
 	CPPUNIT_TEST( testBasics );
 	CPPUNIT_TEST( testProfilerSetting );
 	CPPUNIT_TEST_SUITE_END();
@@ -24,12 +24,12 @@ namespace fsdict {
 
 	void run();
     private:
-	
+
     }; // class TestPattern
 
     CPPUNIT_TEST_SUITE_REGISTRATION( TestComputeInstruction );
 
-    
+
     void TestComputeInstruction::run() {
 	testBasics();
 	testProfilerSetting();
@@ -44,7 +44,7 @@ namespace fsdict {
 	ci.connectPatternProbabilities( pp );
 
 	std::vector< Instruction > instructions;
-	
+
 
 	// all operations are tested separately
 
@@ -94,7 +94,7 @@ namespace fsdict {
 	CPPUNIT_ASSERT( instructions.at( 0 ).size() == 1 );
 	CPPUNIT_ASSERT( instructions.at( 0 ).at( 0 ) == PosPattern( L"x", L"yz", 1 ) );
 
-	
+
 	pp.clear();
 	pp.setDefault( PatternProbabilities::PatternType( 0, 1 ), 0.00001 ); // standard ins
 	pp.setDefault( PatternProbabilities::PatternType( 1, 0 ), 0.00001 ); // standard del
@@ -102,7 +102,7 @@ namespace fsdict {
 
 	pp.setDefault( PatternProbabilities::PatternType( 2, 1 ), 0.00001 ); // standard merge
 	pp.setDefault( PatternProbabilities::PatternType( 1, 2 ), 0.00001 ); // standard split
-	
+
 	instructions.clear();
 	CPPUNIT_ASSERT( ci.computeInstruction( L"abcde", L"abxcde", &instructions ) );
 
@@ -200,15 +200,15 @@ namespace fsdict {
 	pp.setDefault( PatternProbabilities::PatternType( 0, 1 ), 0.00001 );
 	pp.setDefault( PatternProbabilities::PatternType( 2, 1 ), 0.00001 );
 	pp.setDefault( PatternProbabilities::PatternType( 1, 2 ), 0.00001 );
-	
+
 	instructions.clear();
 	CPPUNIT_ASSERT( ci.computeInstruction( L"muh", L"mxuh", &instructions ) ); // 1 ins inside the word
 
 	std::wcout << "size is "<< instructions.size() << std::endl;
 
- 	for( std::vector< Instruction >::const_iterator it = instructions.begin(); it != instructions.end(); ++it ) {
- 	    it->print();std::wcout<<std::endl;
- 	}
+	for( std::vector< Instruction >::const_iterator it = instructions.begin(); it != instructions.end(); ++it ) {
+	    it->print();std::wcout<<std::endl;
+	}
 
 	CPPUNIT_ASSERT( instructions.size() == 3 );
 	CPPUNIT_ASSERT( instructions.at( 0 ).size() == 1 );
@@ -226,41 +226,41 @@ namespace fsdict {
 	CPPUNIT_ASSERT( instructions.at( 1 ).size() == 1 );
 	CPPUNIT_ASSERT( instructions.at( 1 ).at( 0 ) == PosPattern( L"m", L"xm", 0 ) );
 	instructions.clear();
-	
+
 	////// smartMerge //////
 	// now those annoying pseudo-merges should disappear
 	pp.setSmartMerge( true );
-	
+
 	CPPUNIT_ASSERT( ci.computeInstruction( L"muh", L"mxuh", &instructions ) ); // 1 ins inside the word
 	CPPUNIT_ASSERT( instructions.size() == 1 );
 	CPPUNIT_ASSERT( instructions.at( 0 ).size() == 1 );
 	CPPUNIT_ASSERT( instructions.at( 0 ).at( 0 ) == PosPattern( L"", L"x", 1 ) );
 	instructions.clear();
-	
+
 	CPPUNIT_ASSERT( ci.computeInstruction( L"muh", L"xmuh", &instructions ) ); // 1 ins at beginning
 	CPPUNIT_ASSERT( instructions.size() == 1 );
 	CPPUNIT_ASSERT( instructions.at( 0 ).size() == 1 );
 	CPPUNIT_ASSERT( instructions.at( 0 ).at( 0 ) == PosPattern( L"", L"x", 0 ) );
 	instructions.clear();
 
-	
+
 	// What about spaces in words? Here's a real-world example
 	CPPUNIT_ASSERT( ci.computeInstruction( L"eure churfuerstliche", L"fuerstltche", &instructions ) );
 	instructions.clear();
-	
-	
+
+
 	// use only sub as default operations
 	pp.clear();
 	pp.setDefault( PatternProbabilities::PatternType( 1, 1 ), 1 );
-	
+
 	CPPUNIT_ASSERT( ! ci.computeInstruction( L"muh", L"xmuh", &instructions ) ); // ins (not allowed)
 	CPPUNIT_ASSERT( instructions.empty() );
 
 	instructions.clear();
-	
+
 	CPPUNIT_ASSERT( ! ci.computeInstruction( L"galich", L"lich", &instructions )  ); // del (not allowed)
 	CPPUNIT_ASSERT( instructions.empty() );
-	
+
 	instructions.clear();
 
 	CPPUNIT_ASSERT( ! ci.computeInstruction( L"glich", L"galich", &instructions ) ); // ins (not allowed)
@@ -282,9 +282,9 @@ namespace fsdict {
 	pp.setDefault( fsdict::PatternWeights::PatternType( 0, 1 ), fsdict::PatternWeights::UNDEF );
 	pp.setDefault( fsdict::PatternWeights::PatternType( 1, 0 ), 1e-5 );
 
-	ci.computeInstruction( L"ickorell", L"corell" );	
-	
-	
+	ci.computeInstruction( L"ickorell", L"corell" );
+
+
     }
 
 

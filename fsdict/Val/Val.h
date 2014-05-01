@@ -15,18 +15,18 @@ namespace fsdict {
 	typedef MinDic<> MinDic_t;
 
 	typedef Vaam< MinDic_t >::CandidateReceiver CandidateReceiver;
-	
+
 	static const size_t INFINITE = (size_t)-1;
 
 	/**
 	 * @brief A trivial construtor, taking the input ressources as arguments
 	 *
 	 * @param baseDic a reference to a MinDic_t that serves as @c baseDic
-	 * @param patternFile path to a file containing the spelling variant patterns 
-	 (see class description for some more details). 
+	 * @param patternFile path to a file containing the spelling variant patterns
+	 (see class description for some more details).
 	*/
 	inline Val( MinDic_t const& baseDic, const char* patternFile );
-	
+
 
 	/**
 	 * @name Configuration
@@ -69,19 +69,19 @@ namespace fsdict {
 	 *
 	 * You can write your own class that implements the interface iCandidateReceiver to receive all answers,
 	 * but you can also use Vaam's subclass CandidateReceiver.
-	 * 
+	 *
 	 */
 	inline bool query( std::wstring const& word, iInterpretationReceiver* interpretations ) const;
 
 	//@}
-	
-	
+
+
     private:
 
 
 	////////////////////// CLASS POSITION /////////////////////////
 	/**
-	 * 
+	 *
 	 */
 	class Position {
 	public:
@@ -91,7 +91,7 @@ namespace fsdict {
 		nrOfPatternsApplied_( nrOfPatternsApplied ) {
 		mother_ = mother;
 	    }
-	    
+
 	    void addPosPattern( const PosPattern& posPattern ) {
 		posPattern_ = posPattern;
 	    }
@@ -103,7 +103,7 @@ namespace fsdict {
 	    MinDic_t::State dicPos_;
 
 	    /**
-	     * @brief Each Position holds one posPattern - this may be an "empty" or dummy pattern. 
+	     * @brief Each Position holds one posPattern - this may be an "empty" or dummy pattern.
 	     * @see mother_
 	     */
 	    PosPattern posPattern_;
@@ -122,28 +122,28 @@ namespace fsdict {
 	     * Every Position was created as the successor ("child") of another position.
 	     * We need this information to trace back the whole instruction looking at the
 	     * distinct posPattern_ s stored with each Position.
-	     */ 
+	     */
 	    std::pair< int, int > mother_;
-	    
+
 	}; // class Position
-	
+
 
 	class StackItem : public std::vector< Position > {
 	public:
 	    StackItem() :
 		lookAheadDepth_( 0 ) {
 	    }
-	    
+
 	    void clear() {
 		std::vector< Position >::clear();
 		// somehow reset dicPos_???
 	    }
-	    
+
 	    size_t lookAheadDepth_;
 	    // don't forget this class inherits from std::vector< Position >
-	    
+
 	}; // class StackItem
-	
+
 
 	class Stack : public std::vector< StackItem > {
 	public:
@@ -180,9 +180,9 @@ namespace fsdict {
 
 	MinDic_t const* baseDic_;
 
-	PatternGraph patternGraph_; 
+	PatternGraph patternGraph_;
 
-	
+
 	Global::CaseMode caseMode_;
 
 	size_t minNrOfPatterns_;

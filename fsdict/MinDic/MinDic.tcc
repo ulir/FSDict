@@ -4,7 +4,7 @@ namespace fsdict {
 	inline MinDic< AnnType_t >::MinDic( const char* dicFile ) {
 	    if( dicFile ) {
 		loadFromFile( dicFile );
-	    }	
+	    }
 	    keyValueDelimiter_ = Global::keyValueDelimiter;
 	}
 
@@ -123,13 +123,13 @@ namespace fsdict {
 		std::wifstream fileHandle( txtFile );
 		fileHandle.imbue( FSDICT_UTF8_LOCALE ); // imbue the stream with csl's custom utf8 locale
 		if( !fileHandle.good() ) {
-		    throw exceptions::badFileHandle( "Couldn't open file '" + 
-						     std::string( txtFile ) + 
+		    throw exceptions::badFileHandle( "Couldn't open file '" +
+						     std::string( txtFile ) +
 						     "' for reading." );
 		}
 
 		std::wstring line;
-		
+
 		size_t lineCount = 0;
 		while( std::getline( fileHandle, line ).good() )  {
 
@@ -171,7 +171,7 @@ namespace fsdict {
 
 	template< class AnnType_t >
 	inline void MinDic< AnnType_t >::addToken( const wchar_t* key, const AnnType_t& annotation ) {
-	    
+
 	    static size_t commonPrefix, lengthOfKey;
 		static StateId_t storedState;
 
@@ -180,7 +180,7 @@ namespace fsdict {
 		key = key;
 
 		//wprintf(L"input: %ls -> %d\n", key, annotation );
-		
+
 
 		// remark: maybe this could be spared if we remember the length during widechar-conversion
 		lengthOfKey = wcslen( key );
@@ -189,11 +189,11 @@ namespace fsdict {
 		if( lengthOfKey == 0 ) {
 		    throw exceptions::badInput( "fsdict::MinDic: Insertion of empty key " );
 		}
-		
+
 		if( lengthOfKey > Global::lengthOfStr - 1 ) {
 		    throw exceptions::badInput( "MinDic: Global::string_length sets the maximum string length for an entry of a MinDic. Maximum violated" );
 		}
-		
+
 		// check alphabetical order
 		if( *lastKey_ && ( wcscmp( lastKey_, key ) >= 0 ) ) {
 			std::wcerr<<"Alphabetical order violated:"<<std::endl
@@ -237,7 +237,7 @@ namespace fsdict {
 		if( ! ( nrOfKeys_ %  100000 ) ) {
 			std::wcerr	<< nrOfKeys_ /1000 << "k tokens processed. "
 						<< TransTable_t::getNrOfStates() / 1000 << "k states."
-						// << "key was: " << key 
+						// << "key was: " << key
 						<< std::endl;
 		}
 
@@ -251,7 +251,7 @@ namespace fsdict {
 		storedState = storeTempState( state ); // store it
 		hashtable_->insert( state, storedState ); // add it to the hashtable
 	    }
-	    
+
 	    return storedState;
 	}
 
@@ -275,7 +275,7 @@ namespace fsdict {
 	inline bool MinDic< AnnType_t >::lookup( std::wstring const& key, AnnType_t* annotation ) const {
 	    return lookup( key.c_str(), annotation );
 	}
-	
+
 	template< class AnnType_t >
 	inline bool MinDic< AnnType_t >::hasPrefix( std::wstring const& prefix ) const {
 	    if( ! readyToRead() ) {
@@ -301,7 +301,7 @@ namespace fsdict {
 			return false;
 		}
 	}
-	
+
 	template< class AnnType_t >
 	inline bool MinDic< AnnType_t >::getAnnotation( const wchar_t* key, AnnType_t* annotation ) const {
 		std::cerr<<"fsdict::MinDic::getAnnotation: This method is deprecated. Instead, use method lookup() with the same signature"<<std::endl;
@@ -336,7 +336,7 @@ namespace fsdict {
 // 		std::wcout << *it << std::endl;
 // 	    }
 // 	}
-    
+
 	template< class AnnType_t >
 	inline void MinDic< AnnType_t >::printDic_rec( StateId_t pos, int depth, size_t perfHashValue ) const {
 		int newPos;
@@ -349,20 +349,20 @@ namespace fsdict {
 
 
 
-			
+
 			if( ( newPos = walkPerfHash( pos, *transitions, &newPerfHashValue ) ) ) {
 				w[depth] = *transitions;
 				if( isFinal( newPos ) ) {
 				    w[depth+1] = 0;
 				    std::wcout<< w <<"#"<<getAnnotation( newPerfHashValue )<<std::endl;
-				    
+
 				    if( ( ++count_ % 100000 ) == 0 ) fprintf( stderr, "%d\n", (int)count_ );
 				} // if isFinal
 				printDic_rec( newPos, depth + 1, newPerfHashValue );
 
 			} // if couldWalk
 			else {
-			    throw exceptions::badDictFile( "suso-string seems to be corrupted." ); 
+			    throw exceptions::badDictFile( "suso-string seems to be corrupted." );
 			}
 			++transitions;
 		} // while
@@ -384,5 +384,3 @@ namespace fsdict {
 	}
 
 } //eon
-
-

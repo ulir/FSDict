@@ -1,7 +1,7 @@
 /**
 @page msFilter_manual msFilter Manual
 
-msFilter is a command line tool that uses fsdict::MSMatch to perform approximate search on dictionaries. 
+msFilter is a command line tool that uses fsdict::MSMatch to perform approximate search on dictionaries.
 The underlying technology uses Universal Levenshtein Automata as described in the following publication:<br>
 "S. Mihov and K. Schulz. Fast approximate search in large dictionaries. Computational Linguistics, 30, 2004."<br>
 Please refer to the class documentation of fsdict::LevDEA and fsdict::MSMatch for details.
@@ -10,7 +10,7 @@ Please refer to the class documentation of fsdict::LevDEA and fsdict::MSMatch fo
 Before using msFilter to perform approximate search in a dictionary, this dictionary has to be compiled into a binary file
 representing a finite state automaton.
 
-Refer to the @link fbDic_manual FBDic Manual @endlink to get details about 
+Refer to the @link fbDic_manual FBDic Manual @endlink to get details about
 the specified format of your source dictionary and the simple procedure to compile it into a binary file.
 
 @section msFilter_manual_usage Usage of the tool msFilter
@@ -43,7 +43,7 @@ This output mode is the default and is designed to be readable for human eyes.
 
 @subsection msFilter_manual_machine_readable Machine-readable output
 Often the output of msFilter is supposed to be parsed by some script - in this case, choose the option <tt>--humanReadable=1</tt>
-for msFilter to return all matches in one line, separated by '|'. Usually, this kind of output is much easier to handle and parse - 
+for msFilter to return all matches in one line, separated by '|'. Usually, this kind of output is much easier to handle and parse -
 note that in this mode you will receive exactly one line as an answer for each query. In case of an empty answer set an empty line ("\n")
 is returned.
 

@@ -50,7 +50,7 @@ namespace fsdict {
 	/**
 	 * @brief return the string value at the specified offset in the annotation buffer
 	 *
-	 * 
+	 *
 	 */
 	inline uchar const* getAnnByOffset( size_t offset ) const;
 
@@ -74,8 +74,8 @@ namespace fsdict {
 
 	class Header {
 	public:
-	    Header() : 
-		magicNumber_( 0 ), 
+	    Header() :
+		magicNumber_( 0 ),
 		sizeOfAnnStrings_( 0 ) {
 	    }
 
@@ -85,7 +85,7 @@ namespace fsdict {
 	    size_t getSizeOfAnnStrings() const {
 		return sizeOfAnnStrings_;
 	    }
-	    
+
 	    void set( const FBDicString& mds ) {
 		magicNumber_ = mds.magicNumber_;
 		sizeOfAnnStrings_ = mds.sizeOfAnnStrings_;
@@ -102,7 +102,7 @@ namespace fsdict {
 
 	Hash< uchar >* annHash_;
 
-	uchar keyValueDelimiter_;	
+	uchar keyValueDelimiter_;
 
 	mutable size_t count_; // is used for counting during printing
     }; // class FBDicString

@@ -107,9 +107,9 @@ static char * strstrip(char * s)
 {
     static char l[ASCIILINESZ+1];
 	char * last ;
-	
+
     if (s==NULL) return NULL ;
-    
+
 	while (isspace((int)*s) && *s) s++;
 	memset(l, 0, ASCIILINESZ+1);
 	strcpy(l, s);
@@ -362,7 +362,7 @@ double iniparser_getdouble(dictionary * d, const char * key, double notfound)
     std::istringstream sstream( str, std::istringstream::in );
 
 
-    // make sure the deciaml point setting is in basic style, i.e., a '.' 
+    // make sure the deciaml point setting is in basic style, i.e., a '.'
     std::locale loc( FSDICT_UTF8_LOCALE, new std::numpunct< char >() );
     sstream.imbue( loc );
 
@@ -516,7 +516,7 @@ static line_status iniparser_line(
     char * section,
     char * key,
     char * value)
-{   
+{
     line_status sta ;
     char        line[ASCIILINESZ+1];
     int         len ;
@@ -530,7 +530,7 @@ static line_status iniparser_line(
         sta = LINE_EMPTY ;
     } else if (line[0]=='#') {
         /* Comment line */
-        sta = LINE_COMMENT ; 
+        sta = LINE_COMMENT ;
     } else if (line[0]=='[' && line[len-1]==']') {
         /* Section name */
         sscanf(line, "[%[^]]", section);
@@ -568,8 +568,8 @@ static line_status iniparser_line(
         /* Generate syntax error */
         sta = LINE_ERROR ;
     }
- 
-    
+
+
      return sta ;
 }
 
@@ -653,7 +653,7 @@ dictionary * iniparser_load(const char * ininame)
 
         /* Get rid of spaces at end of line */
         while( (len >=0 ) &&
-	       (isspace(line[len] ) ) 
+	       (isspace(line[len] ) )
 	    ) {
             line[len]=0 ;
             len-- ;

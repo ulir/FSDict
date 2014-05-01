@@ -8,8 +8,8 @@
  */
 void printHelp() {
     std::wcerr << "Use like: compileFBDic <inFile.lex> [<outFile.fbdic>]"<<std::endl
-	       << "If no <binDic> is provided, output is written to inFile.fbdic." << std::endl; 
-    
+	       << "If no <binDic> is provided, output is written to inFile.fbdic." << std::endl;
+
 }
 
 int main( int argc, char const** argv ) {

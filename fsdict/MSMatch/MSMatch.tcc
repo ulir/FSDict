@@ -13,7 +13,7 @@ namespace fsdict {
 	}
 
 	dictBW_ = 0;
- 	levDEASecond_ = new LevDEA( k_ );
+	levDEASecond_ = new LevDEA( k_ );
     }
 
     template<>
@@ -29,13 +29,13 @@ namespace fsdict {
 	levDEAFirst_ = new LevDEA( 0 );
 	levDEASecond_ = new LevDEA( 0 );
     }
-    
+
     template<>
     inline MSMatch< STANDARD >::~MSMatch() {
 	if( dictFW_ ) delete( dictFW_ );
 	if( levDEASecond_ ) delete( levDEASecond_ );
     }
-    
+
     template<>
     inline MSMatch< FW_BW >::~MSMatch() {
 	if( fbDic_ ) delete( fbDic_ );
@@ -104,21 +104,21 @@ namespace fsdict {
 	    CandidateMap::iterator pos = results_.find( *wordCorrectDir );
 	    if( pos == results_.end() ) {
 	      //printf( "MATCH FIRST TIME :%ls, dist is %d\n", wordCorrectDir, levDistance ); // DEBUG
-		results_.insert( std::pair< std::wstring, std::pair< size_t, int > >( 
-				     *wordCorrectDir, 
-				     std::pair< size_t, int >( 
-					 levDistance, 
-					 dictFW_->getAnnotation( perfHashValue ) 
-					 ) 
+		results_.insert( std::pair< std::wstring, std::pair< size_t, int > >(
+				     *wordCorrectDir,
+				     std::pair< size_t, int >(
+					 levDistance,
+					 dictFW_->getAnnotation( perfHashValue )
+					 )
 				     )
 		    );
 	    }
 	    else {
 		// printf( "MATCH AGAIN:%ls, dist is %d\n", wordCorrectDir, levDistance ); // DEBUG
 		// (pos->second).first holds the lev.-distance of the candidate
- 		if( (pos->second).first > levDistance ) {
- 		    (pos->second).first = levDistance;
- 		}
+		if( (pos->second).first > levDistance ) {
+		    (pos->second).first = levDistance;
+		}
 	    }
 
 	} // if match was found
@@ -128,7 +128,7 @@ namespace fsdict {
 //	    printf( "word is %s, dicpos is %d, Try with %c(%d)\n", word_, dicPos, alph_.decode( *c ), *c );
 	    if( ( newLevPos = levDEASecond_->walk( levPos, *c ) ).isValid() ) {
 		newDicPos = curDict_->walk( dicPos, *c );
-		
+
 
 		assert( newDicPos != 0 ); // the transition always exists
 		word_[depth] = *c;
@@ -179,58 +179,58 @@ namespace fsdict {
 	    results_.insert( std::pair< std::wstring, std::pair< size_t, int > >( std::wstring( pattern_ ), std::pair< size_t, int >( 0, ann ) ) );
 	}
     }
-    
+
     template<>
     inline void MSMatch< FW_BW >::queryCases_1() {
 	uint_t pos = 0;
 
-     	// 0 | 0,1 errors
- 	reverse_ = false;
- 	curDict_ = dictFW_;
- 	if( ( pos = curDict_->walkStr( curDict_->getRoot(), patLeft_ ) ) ) {
+	// 0 | 0,1 errors
+	reverse_ = false;
+	curDict_ = dictFW_;
+	if( ( pos = curDict_->walkStr( curDict_->getRoot(), patLeft_ ) ) ) {
 	    levDistanceFirst_ = 0;
- 	    word_ = patLeft_;
+	    word_ = patLeft_;
 	    minDistSecond_ = 0;
 	    levDEASecond_->setThreshold( 1 );
- 	    levDEASecond_->loadPattern( patRight_ );
- 	    intersectSecond( pos, LevDEA::Pos( 0, 0 ), wcslen( patLeft_ ) );
- 	}
+	    levDEASecond_->loadPattern( patRight_ );
+	    intersectSecond( pos, LevDEA::Pos( 0, 0 ), wcslen( patLeft_ ) );
+	}
 
-     	// 1 | 0 errors
-  	reverse_ = true;
- 	curDict_ = dictBW_;
- 	if( ( pos = curDict_->walkStr( curDict_->getRoot(), patRightRev_ ) ) ) {
+	// 1 | 0 errors
+	reverse_ = true;
+	curDict_ = dictBW_;
+	if( ( pos = curDict_->walkStr( curDict_->getRoot(), patRightRev_ ) ) ) {
 	    levDistanceFirst_ = 0;
- 	    word_ = patRightRev_;
+	    word_ = patRightRev_;
 	    minDistSecond_ = 1;
 	    levDEASecond_->setThreshold( 1 );
- 	    levDEASecond_->loadPattern( patLeftRev_ );
+	    levDEASecond_->loadPattern( patLeftRev_ );
 	    intersectSecond( pos, LevDEA::Pos( 0, 0 ), wcslen( patRightRev_ ) );
- 	}
+	}
     }
-    
+
     template<>
     inline void MSMatch< FW_BW >::queryCases_2() {
 	uint_t pos = 0;
-	
+
 //	printf( "0 | 0,1,2 errors\n" );
 	// 0 | 0,1,2 errors
- 	reverse_ = false;
- 	curDict_ = dictFW_;
+	reverse_ = false;
+	curDict_ = dictFW_;
 	// load pattern outside the if-statement: we need it anyways in the next case
 	levDEASecond_->loadPattern( patRight_ );
- 	if( ( pos = curDict_->walkStr( curDict_->getRoot(), patLeft_ ) ) ) {
+	if( ( pos = curDict_->walkStr( curDict_->getRoot(), patLeft_ ) ) ) {
 	    levDistanceFirst_ = 0;
- 	    word_ = patLeft_;
+	    word_ = patLeft_;
 	    minDistSecond_ = 0;
 	    levDEASecond_->setThreshold( 2 );
- 	    intersectSecond( pos, LevDEA::Pos( 0, 0 ), wcslen( patLeft_ ) );
- 	}
+	    intersectSecond( pos, LevDEA::Pos( 0, 0 ), wcslen( patLeft_ ) );
+	}
 
 //	printf( "1 | 0,1 errors\n" );
- 	// 1 | 0,1 errors
- 	reverse_ = false;
- 	curDict_ = dictFW_;
+	// 1 | 0,1 errors
+	reverse_ = false;
+	curDict_ = dictFW_;
 	minDistFirst_ = 1;
 	levDEAFirst_->setThreshold( 1 );
 	levDEAFirst_->loadPattern( patLeft_ );
@@ -241,39 +241,39 @@ namespace fsdict {
 
 //	printf( "2 | 0 errors\n" );
 	// 2 | 0 errors
- 	reverse_ = true;
- 	curDict_ = dictBW_;
- 	if( ( pos = curDict_->walkStr( curDict_->getRoot(), patRightRev_ ) ) ) {
+	reverse_ = true;
+	curDict_ = dictBW_;
+	if( ( pos = curDict_->walkStr( curDict_->getRoot(), patRightRev_ ) ) ) {
 	    levDistanceFirst_ = 0;
- 	    word_ = patRightRev_;
+	    word_ = patRightRev_;
 	    minDistSecond_ = 2;
 	    levDEASecond_->setThreshold( 2 );
- 	    levDEASecond_->loadPattern( patLeftRev_ );
- 	    intersectSecond( pos, LevDEA::Pos( 0, 0 ), wcslen( patRightRev_ ) );
- 	}
+	    levDEASecond_->loadPattern( patLeftRev_ );
+	    intersectSecond( pos, LevDEA::Pos( 0, 0 ), wcslen( patRightRev_ ) );
+	}
     }
 
     template<>
     inline void MSMatch< FW_BW >::queryCases_3() {
-  	uint_t pos = 0;
+	uint_t pos = 0;
 
-     	// 0 | 0,1,2,3 errors
- 	reverse_ = false;
- 	curDict_ = dictFW_;
+	// 0 | 0,1,2,3 errors
+	reverse_ = false;
+	curDict_ = dictFW_;
 	// load pattern outside the if-statement: we need it anyways in the next case
 	levDEASecond_->loadPattern( patRight_ );
- 	if( ( pos = curDict_->walkStr( curDict_->getRoot(), patLeft_ ) ) ) {
+	if( ( pos = curDict_->walkStr( curDict_->getRoot(), patLeft_ ) ) ) {
 	    levDistanceFirst_ = 0;
- 	    word_ = patLeft_;
+	    word_ = patLeft_;
 	    // printf( "FOUND FIRST:%ls, dist of 1st part is 0\n", word_ );
 	    minDistSecond_ = 0;
 	    levDEASecond_->setThreshold( 3 );
- 	    intersectSecond( pos, LevDEA::Pos( 0, 0 ), wcslen( patLeft_ ) );
- 	}
+	    intersectSecond( pos, LevDEA::Pos( 0, 0 ), wcslen( patLeft_ ) );
+	}
 
- 	// 1 | 0,1,2 errors
- 	reverse_ = false;
- 	curDict_ = dictFW_;
+	// 1 | 0,1,2 errors
+	reverse_ = false;
+	curDict_ = dictFW_;
 	levDEAFirst_->setThreshold( 1 );
 	levDEAFirst_->loadPattern( patLeft_ );
 	minDistFirst_ = 1;
@@ -293,13 +293,13 @@ namespace fsdict {
 	    //printf( "FOUND FIRST:%ls, dist of 1st part is 0\n", word_ );
 	    levDEASecond_->setThreshold( 3 );
 	    minDistSecond_ = 2;
-	    
+
 	    intersectSecond( pos, LevDEA::Pos( 0, 0 ), wcslen( patRightRev_ ) );
 	}
 
 	// 2 | 1 errors
- 	reverse_ = true;
- 	curDict_ = dictBW_;
+	reverse_ = true;
+	curDict_ = dictBW_;
 	levDEAFirst_->setThreshold( 1 );
 	levDEAFirst_->loadPattern( patRightRev_ );
 	minDistFirst_ = 1;
@@ -311,7 +311,7 @@ namespace fsdict {
 
 
 
-    
+
 
     template<>
     inline void MSMatch< STANDARD >::intersect( int dicPos, LevDEA::Pos levPos, int depth ) {
@@ -329,7 +329,7 @@ namespace fsdict {
 		}
 		static std::vector< size_t > startPositions;
 		startPositions.clear();
-		
+
 		if( curLevDEA_->startSuffixMatch( newLevPos, &startPositions ) ) {
 		    for( std::vector< size_t >::const_iterator offset = startPositions.begin(); offset!= startPositions.end(); ++offset ) {
 			matchSuffix( newDicPos, *offset );
@@ -346,7 +346,7 @@ namespace fsdict {
     inline void MSMatch< Mode >::reportMatch( const std::wstring& str, size_t distance ) {
 	// push word and annotated value into the output list
 	// follow the word through the automaton once more to get the perfect hashing value
-	static size_t perfHashValue; 
+	static size_t perfHashValue;
 	static uint_t dicPos2;
 
 	//std::wcout << "Report " << word_ << std::endl;
@@ -374,7 +374,7 @@ namespace fsdict {
 	    return true;
 	}
 	else return false;
-		
+
     }
 
     template<>
@@ -383,7 +383,7 @@ namespace fsdict {
 
 	candReceiver_ = &candReceiver;
 	wcscpy( pattern_, pattern );
-	
+
 	curLevDEA_ = levDEASecond_;
 	curLevDEA_->setThreshold( k_ );
 	curLevDEA_->loadPattern( pattern );
@@ -402,7 +402,7 @@ namespace fsdict {
 	}
 
 	candReceiver_ = &candReceiver; // is not necessary at the moment
-	
+
 	// std::wcout << "query=" << pattern << std::flush;
 	// std::wcout << ",results=" << &results_ << std::flush;
 	// std::wcout << ",size=" << results_.size() << std::endl;
@@ -426,13 +426,13 @@ namespace fsdict {
 	// split pattern into 2 halves
 	size_t patLength = wcslen( pattern_ );
 	size_t patCenter = (size_t) ( patLength / 2 );
-	size_t cLeft = 0, cRight = 0;	
+	size_t cLeft = 0, cRight = 0;
 	for ( size_t i = 0; i < patLength; ++i ) {
 	    if( i < patCenter ) patLeft_[cLeft++] = pattern_[i];
 	    else patRight_[cRight++] = pattern_[i];
 	}
 	patLeft_[cLeft] = patRight_[cRight] = 0;
-	
+
 	// reverse patterns
 	for( int i = cLeft - 1, iRev = 0; i >=0; --i, ++iRev ) patLeftRev_[iRev] = patLeft_[i];
 	for( int i = cRight - 1, iRev = 0; i >=0; --i, ++iRev ) patRightRev_[iRev] = patRight_[i];
@@ -456,8 +456,8 @@ namespace fsdict {
 	}
 	return ( ! results_.empty() );
     }
-    
-	
+
+
 
 } // eon
 

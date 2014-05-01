@@ -14,13 +14,14 @@ Vaam - An interface to the (V)ariant-(a)ware (a)pproximate (m)atcher
 
  my $vaam = new Vaam( distance => 1,
                       dicFile => 'some_dict.mdic',
-		      patternFile => 'some_patterns.txt' )
+                      patternFile => 'some_patterns.txt' )
 
  my $answer = $vaam->lookup( "theyl" );
 
 =head1 DESCRIPTION
 
-This module uses the binary 'vaamFilter' (originally written in c++) to provide a perl interface for Vaam.
+This module uses the binary 'vaamFilter' (originally written in c++)
+to provide a perl interface for Vaam.
 
 Comments, bug reports etc. are appreciated, write to: uli@cis.uni-muenchen.de
 
@@ -31,11 +32,12 @@ package Vaam;
 
 use IPC::Open2;
 
-=pod 
+=pod
 
 =head1 CONSTRUCTOR
 
-The new() constructor uses 'key => value' syntax for its arguments, where the keys 'dicFile' and 'patternFile'
+The new() constructor uses 'key => value' syntax for its arguments,
+where the keys 'dicFile' and 'patternFile'
 are obligatory.
 
 All allowed keys are:
@@ -48,11 +50,13 @@ path to a .mdic dictionary file
 
 =item B<patternFile> => 'some_patterns.txt'
 
-path to a plaintext file defining a set of patterns with each line simply giving left and right side separated by a SPACE
+path to a plaintext file defining a set of patterns with each line
+simply giving left and right side separated by a SPACE
 
 =item B<distance> => N
 
-to allow up to N standard-levenshtein edit operations (apart from the variant patterns). Defaults to 0.
+to allow up to N standard-levenshtein edit operations
+(apart from the variant patterns). Defaults to 0.
 
 =item B<vaamBinary> => '/some/where/binary'
 
@@ -64,7 +68,8 @@ Allow only interpretations with N or more pattern applications. Defaults to 0.
 
 =item B<maxNrOfPatterns> => N
 
-Allow only interpretations with at most N pattern applications. Defaults to infinite.
+Allow only interpretations with at most N pattern applications.
+Defaults to infinite.
 
 =back
 
@@ -87,7 +92,7 @@ sub new {
 
 	#print $self->{vaamBinary}, "\n"; exit;
     }
-    
+
     if( !$self->{dicFile} || !$self->{patternFile} ) {
 	warn "Perl::Vaam: provide arguments 'dicFile' and 'patternFile' as arguments for the constructor.\n";
 	return undef;
@@ -105,7 +110,6 @@ sub new {
 
     print "$binary\n";
     open2( $self->{BINARY_OUT}, $self->{BINARY_IN}, $binary ) or die "Perl::Vaam: $!";
-    
 
     if( defined $self->{encoding} ) {
 	if( $self->{encoding} eq 'iso' ) {
@@ -133,13 +137,13 @@ sub new {
 	warn "Vaam.pm: vaam executable seems not to be initialised in machine-readable mode";
 	return undef;
     }
-    
+
     bless( $self, $class );
     return $self;
 }
 
 
-=pod 
+=pod
 
 =head1 METHODS
 
@@ -148,7 +152,7 @@ sub new {
 
 =item setSlimMode( $bool )
 
-set slimMode to true or false. In slimMode Vaam does not create an answer-object but just 
+set slimMode to true or false. In slimMode Vaam does not create an answer-object but just
 returns the string as it gets it from the binary.
 
 =cut
@@ -187,11 +191,11 @@ sub lookup {
     unless( $self->{slimMode} ) {
 	for my $intString ( split( /\|/, $output ) ) { # for all interpretations
 	    my %int; my $instruction;
-	    
+
 	    if( ( $int{candidate}, $int{modernWord}, $instruction, $int{distance} ) = ( $intString =~ m/(.+?):(.+?)\+\[(.*?)\],dist=(.+?)/ ) ) {
-		
+
 		@{$int{instruction}} = (); # see that instruction is defined even if it remains empty
-		
+
 		while( $instruction =~ m/\((.*?):(.*?),(\d+)\)/g ) { # for all posPatterns of the instruction
 		    push( @{$int{instruction}}, { left => $1, right => $2, pos => $3 } );
 		}
@@ -199,7 +203,7 @@ sub lookup {
 		    $answer->{foundInLex} = 1;
 		}
 		push( @ints, \%int );
-		
+
 	    }
 	    else {
 		# error?!
@@ -213,8 +217,7 @@ sub lookup {
 
 =item close()
 
-Close pipe to binary 
-
+Close pipe to binary
 
 =cut
 sub close {
@@ -235,4 +238,3 @@ Ulrich Reffle<uli@cis.uni-muenchen.de>, 2008
 1;
 
 __END__
-

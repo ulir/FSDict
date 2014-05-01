@@ -21,11 +21,11 @@ int main() {
 
     tempState.reset();
     tempState.addTransition( L'x', st, 0 );
-    st = t.storeTempState( tempState );    
+    st = t.storeTempState( tempState );
 
     tempState.reset();
     tempState.addTransition( L'y', st, 0 );
-    st = t.storeTempState( tempState );    
+    st = t.storeTempState( tempState );
 
     t.finishConstruction();
 

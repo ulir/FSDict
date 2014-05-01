@@ -34,7 +34,7 @@ techniques for channel and language modelling have to be taken into
 account.
 
 This module is under construction. Please do help to extend the 'Known Issues' section at the end of this page.
-Also, this manual is work in progress. For now it concentrates on practical issues for the usage of the module. Some more details 
+Also, this manual is work in progress. For now it concentrates on practical issues for the usage of the module. Some more details
 about the algorithms that were used will be added.
 
 @section example_io Example: Input/Output
@@ -96,12 +96,12 @@ Unfortunately the resulting data structure is pretty large ( less than 62MB for 
 
 @section configuration Configuration
 The parameters that affect the candidate set are obvious: For the modern and for the historical dictionary, the result
-depends on the choice of the dictionaries themselves, and the upper bound of edit operations that are allowed for 
+depends on the choice of the dictionaries themselves, and the upper bound of edit operations that are allowed for
 approximate search. In practice it makes sense to allow more edit operations for longer words - so the distance bound
 can be set in relation to the length of the query word. For the hypothetical dictionary, additional parameters are the set
 of orthographical variants and an upper bound for the number of applied variant patterns.
 
-For configuration of the lookup in modern and historical dictionaries, DictSearch provides configuration objects via the 
+For configuration of the lookup in modern and historical dictionaries, DictSearch provides configuration objects via the
 following two methods:
 <ul>
 <li>fsdict::DictSearch::ConfigLookup& fsdict::DictSearch::getConfigModern()</li>
@@ -110,7 +110,7 @@ following two methods:
 
 
 Please consult the class reference of fsdict::DictSearch::ConfigLookup or the demo program below for details on how to set
-the above mentioned parameters. 
+the above mentioned parameters.
 
 @subsection hypothetic_configuration Initialising and configuring the hypothetic dictionary
 The hypothetic dictionary uses a slightly extended object for configuration:
@@ -135,7 +135,7 @@ of this page.
     dictSearch.getConfigModern().setDict( "path-to/some/modern.fbdic" );
     // configure approx. search on modern dict. with distance bound 2
     dictSearch.getConfigModern().setDLev( 2 );
-    
+
     // set a historical dictionary
     dictSearch.getConfigHistoric().setDict( "path-to/some/historical.fbdic" );
     // configure approx. search on modern dict. to choose default distance bounds according to the word length
@@ -146,13 +146,13 @@ of this page.
 
 
 @section lookup Lookup
-Different dictionaries, orthographic variants, approximate lookup: The answer to a DictSearch-query is more complex than it is for conventional 
+Different dictionaries, orthographic variants, approximate lookup: The answer to a DictSearch-query is more complex than it is for conventional
 fuzzy dictionary lookup. We hope we have found a way to keep things simple if the user is not interested in the details, and yet to keep things
 clear even if maybe the left side of the 3rd variant pattern of the 16th candidate is of special interest.
 
 The method fsdict::DictSearch::query( std::wstring const& word, fsdict::DictSearch::CandidateSet* candSet ) works with an input and an output argument.
 - fsdict::DictSearch::Interpretation, an extension of class fsdict::Interpretation - holds one candidate.
-- fsdict::DictSearch::CandidateSet is a container that holds a set of such interpretations. It is comparable to (in fact, implemented as) a std::vector< fsdict::DictSearch::Interpretation >, providing the standard access methods like begin(), end(), at() (see 
+- fsdict::DictSearch::CandidateSet is a container that holds a set of such interpretations. It is comparable to (in fact, implemented as) a std::vector< fsdict::DictSearch::Interpretation >, providing the standard access methods like begin(), end(), at() (see
 the class reference).
 
 This code-snippet shows a very simple way to query DictSearch. A more detailed example can be found at the bottom of this page.
@@ -164,7 +164,7 @@ while( std::getline( std::wcin, query ).good() ) {
    candSet.clear(); // empty the CandidateSet
    dictSearch.query( query, &candSet ); // execute lookup
    std::sort( candSet.begin(), candSet.end() ); // sort candidates following a very coarse order relation
-	
+
    for( fsdict::DictSearch::CandidateSet::const_iterator it = candSet.begin(); it != candSet.end(); ++it ) {
       std::wcout <<  it->getWord() << std::endl;
       std::wcout <<  "  baseWord="  << it->getBaseWord() << std::endl;
@@ -200,7 +200,7 @@ int main() {
     dictSearch.getConfigModern().setDict( "../fsdict/DictSearch/Test/small.modern.fbdic" );
     // configure approx. search on modern dict. with distance bound 2
     dictSearch.getConfigModern().setDLev( 2 );
-    
+
     // set a historical dictionary
     dictSearch.getConfigHistoric().setDict( "../fsdict/DictSearch/Test/small.historical.fbdic" );
     // configure approx. search on modern dict. to choose default distance bounds according to the word length
@@ -215,7 +215,7 @@ int main() {
 	candSet.clear(); // empty the CandidateSet
 	dictSearch.query( query, &candSet ); // execute lookup
 	std::sort( candSet.begin(), candSet.end() ); // sort candidates following a very coarse order relation
-	
+
 	for( fsdict::DictSearch::CandidateSet::const_iterator it = candSet.begin(); it != candSet.end(); ++it ) {
 	    std::wcout <<  it->getWord() << std::endl;
 	    std::wcout <<  "  baseWord="  << it->getBaseWord() << std::endl;
@@ -225,7 +225,7 @@ int main() {
 	    std::wcout << std::endl;
 	}
     }
-    
+
 }
 @endcode
 

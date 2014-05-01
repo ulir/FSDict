@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 #
-# This script reads from STDIN and returns to STDOUT all the occuring characters in alphabetical 
-# order. 
+# This script reads from STDIN and returns to STDOUT all the occuring characters in alphabetical
+# order.
 #
 # Author: Uli Reffle, <uli@reffle.de>
 # Sept 2004

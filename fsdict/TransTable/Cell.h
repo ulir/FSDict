@@ -4,7 +4,7 @@
 
 namespace fsdict {
     /**
-     * Represents one unit of the sparse table implementation in TransTable  
+     * Represents one unit of the sparse table implementation in TransTable
      * \author Uli Reffle <uli@reffle.de>
      * \date Jan 2007
      */

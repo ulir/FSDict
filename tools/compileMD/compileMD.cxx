@@ -41,7 +41,7 @@ int main(int argc, char const** argv) {
     fsdict::MinDic< int > t;
 
     if( options.hasOption( "delimiter" ) ) {
-	
+
 	if( options.getOption( "delimiter" ) == "\\t" ) { // special hack to correctly interpret the \t character.
 	    options.setOption( "delimiter", "\t" );
 	}
@@ -61,7 +61,7 @@ int main(int argc, char const** argv) {
 	try {
 
 	    t.initConstruction();
-	    
+
 	    std::wstring line;
 	    int annotation = 0;
 
@@ -73,13 +73,13 @@ int main(int argc, char const** argv) {
 		throw fsdict::exceptions::badInput( "MinDic::compileDic: Encoding error in input sequence." );
 	    }
 	    t.finishConstruction();
-	    
+
 	    t.writeToFile( options.getArgument( 0 ).c_str() );
-	    
+
 	    //   t.toDot();
 	    //   t.printCells();
 	    return EXIT_SUCCESS;
-	    
+
 	} catch ( fsdict::exceptions::fsdictException& ex ) {
 	    std::wcout<<"compileMD failed: "<<ex.what()<<std::endl;
 	    return EXIT_FAILURE;
@@ -93,7 +93,7 @@ int main(int argc, char const** argv) {
 	try {
 	    std::string inFile = options.getArgument( 0 );
 	    std::string outFile;
-	    
+
 	    if( options.getArgumentCount() == 2 ) {
 		outFile = options.getArgument( 1 );
 	    }
@@ -109,19 +109,17 @@ int main(int argc, char const** argv) {
 	    }
 
 	    t.compileDic( inFile.c_str() );
-	    
+
 	    t.writeToFile( outFile.c_str() );
-	    
+
 	    //   t.toDot();
 	    //   t.printCells();
-	    
+
 	} catch ( std::exception& ex ) {
 	    std::wcout<<"compileMD failed: "<<ex.what()<<std::endl;
 	    return EXIT_FAILURE;
 	}
-	
+
     }
-    
+
 }
-
-

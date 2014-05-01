@@ -11,8 +11,8 @@ or
 @code
 ./program_that_prints_lex_to_stdout | compileMD --stdin=1 foo.mdic
 @endcode
-In the following, whatever is said about "the .lex file" (especially about encoding and sorting), of course, also applies 
-to data that is piped to compileMD via stdin. 
+In the following, whatever is said about "the .lex file" (especially about encoding and sorting), of course, also applies
+to data that is piped to compileMD via stdin.
 
 A .lex file is a text file of the form:
 @code
@@ -22,7 +22,7 @@ charlie#54
 @endcode
 That is, an alphabetically sorted list of keys, followed by a '#' delimiter symbol and some integer value
 which is stored with the key. If delimiter and integer are omitted, the value 0 will be annotated with each key.
-The specified integer value has no pre-defined meaning - it simply will be returned when the respective string is 
+The specified integer value has no pre-defined meaning - it simply will be returned when the respective string is
 looked up. So you can use the annotation to remember that Bill is 50 years old, or that Anna's favourite number is 42,
 or that the string 'charlie' appears 54 times in your corpus.
 

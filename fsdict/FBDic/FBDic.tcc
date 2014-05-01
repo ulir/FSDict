@@ -29,14 +29,14 @@ namespace fsdict {
     void FBDic< AnnType_t >::initConstruction() {
 	nrOfTokens_ = 0;
 	fwDic_.initConstruction();
-	
+
     }
 
     template< class AnnType_t >
     void FBDic< AnnType_t >::addToken( std::wstring const& entry, AnnType_t annotation ) {
 	fwDic_.addToken( entry.c_str(), annotation );
 	++nrOfTokens_;
-	
+
 	Global::reverse( entry, &reversedKey_ );
 	entries_.push_back( DictEntry( std::wstring( reversedKey_ ), annotation ) );
     }
@@ -66,8 +66,8 @@ namespace fsdict {
 	std::wifstream fileHandle( txtFile );
 	fileHandle.imbue( FSDICT_UTF8_LOCALE ); // imbue the stream with the environment's standard locale
 	if( !fileHandle.good() ) {
-	    throw exceptions::badFileHandle( "Couldn't open file '" + 
-					     std::string( txtFile ) + 
+	    throw exceptions::badFileHandle( "Couldn't open file '" +
+					     std::string( txtFile ) +
 					     "' for reading." );
 	}
 
@@ -81,7 +81,7 @@ namespace fsdict {
 	    fwDic_.parseAnnotation( &line, &annotation );
 	    addToken( line, annotation );
 	}
-	
+
 	finishConstruction();
     }
 
@@ -89,13 +89,13 @@ namespace fsdict {
     template< class AnnType_t >
     inline void FBDic< AnnType_t >::loadFromFile( const char* binFile ) {
 	FILE* fi = fopen( binFile, "rb" );
-	
+
 	if( ! fi ) {
 	    throw exceptions::badFileHandle( std::string( "FBDic: Couldn't open file '" ) +
 					     std::string( binFile ) +
 					     std::string( "' for reading." ) );
 	}
-	
+
 	loadFromStream( fi );
 	fclose( fi );
     }
@@ -134,7 +134,7 @@ namespace fsdict {
     template< class AnnType_t >
     inline void FBDic< AnnType_t >::writeToStream( FILE* fo ) const {
 
-	
+
 	// write the header
 	fwrite( &header_, sizeof( Header ), 1, fo );
 

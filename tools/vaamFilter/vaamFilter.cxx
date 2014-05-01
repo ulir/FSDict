@@ -9,17 +9,17 @@
 
 /**
  * Vaam
- * 
+ *
  * @file
  * @brief vaamFilter is a command-line tool for the usage of the class Vaam.
  * It is invoked with a distance bound \c k, a compiled minimized dictionary \c dic
  * and a file containing a set of patterns \c P.
- * 
+ *
  * Please consult the documentation of class fsdict::Vaam for details.
  *
  * @see fsdict::Vaam
  * @author Ulrich Reffle, <uli@cis.uni-muenchen.de>
- * 
+ *
  */
 
 
@@ -45,7 +45,7 @@ void printHelp() {
 	      << "--maxNrOfPatterns=N       Allow only interpretations with at most N pattern applications. Defaults to INFINITE." << std::endl
 	      << std::endl
 	      << "--patternDelimiter=c      Lets symbol c appear as the delimiter between left and right pattern side in the output." << std::endl
-	      << "                          Note that this will NOT affect the expected form of the pattern-file." << std::endl  
+	      << "                          Note that this will NOT affect the expected form of the pattern-file." << std::endl
 	      << "--machineReadable         Print (even more) machine-readable output, i.e. all answers in one line, separated by '|'" << std::endl
 	      << "--noStatusMessage         In machineReadable mode, vaamFilter prints a status message at the very beginning."  << std::endl
 	      << "                          Use this optionto suppress this status message." << std::endl
@@ -53,7 +53,7 @@ void printHelp() {
 	      << "                          But the default is likely to change to the csl utf8 locale." << std::endl
 	      << std::endl
 	      << "--printQuery              Print the query word to STDOUT. (Mostly for debug purposes.) " << std::endl
-	
+
 	      << std::endl;
 }
 
@@ -71,7 +71,7 @@ int main(int argc, const char** argv ) {
 	opt.specifyOption( "systemlocale", fsdict::Getopt::VOID );
 	opt.specifyOption( "printQuery", fsdict::Getopt::VOID );
 	opt.getOptionsAsSpecified( argc, argv );
-	
+
 
 	std::locale::global( std::locale("") ); // set the environment's default locale
 
@@ -108,7 +108,7 @@ int main(int argc, const char** argv ) {
 	    minDic = new fsdict::MinDic<>( opt.getArgument( 1 ).c_str() );
 	    baseDic = minDic;
 	}
-    
+
 
 	Vaam_t vaam( *baseDic, opt.getArgument( 2 ).c_str() );
 
@@ -147,7 +147,7 @@ int main(int argc, const char** argv ) {
 	if( machineReadable && ( ! opt.hasOption( "noStatusMessage" ) ) ) {
 	    std::wcout << "fsdict::Vaam: READY [machineReadable=true]" << std::endl;
 	}
-    
+
 	while( std::getline( std::wcin, query ).good() ) {
 	    ++nrOfQueries;
 	    answers.clear();
@@ -160,7 +160,7 @@ int main(int argc, const char** argv ) {
 
 	    std::sort( answers.begin(), answers.end() );
 
-	    sumOfCandidates += answers.size(); 
+	    sumOfCandidates += answers.size();
 
 	    if( answers.empty() ) {
 		std::wcout<<query<<":NONE"<<std::endl;
@@ -177,8 +177,8 @@ int main(int argc, const char** argv ) {
 		// new line for each interpretation of the query
 		for( std::vector< fsdict::Interpretation >::const_iterator it = answers.begin(); it!= answers.end(); ++it ) {
 		    std::wcout << it->getWord() << ":"
-			       << it->getBaseWord() 
-			       << "+" << it->getInstruction() 
+			       << it->getBaseWord()
+			       << "+" << it->getInstruction()
 			       << ",dist=" << it->getLevDistance();
 
 		    if( minDicString ) {
@@ -189,19 +189,19 @@ int main(int argc, const char** argv ) {
 		    std::wcout<<std::endl;
 		}
 	    }
-	
+
 	} // for all input
 
 	if( errno == EILSEQ ) {
 	    throw fsdict::exceptions::badInput( "fsdict::vaamFilter: Input encodig error" );
 	}
-    
+
 
 	if( fbdic ) {
 	    delete( fbdic );
 	    fbdic = 0;
 	}
-    
+
 	if( minDic ) {
 	    delete( minDic );
 	    minDic = 0;
@@ -210,7 +210,7 @@ int main(int argc, const char** argv ) {
 	    delete( minDicString );
 	    minDicString = 0;
 	}
-    
+
     } catch( fsdict::exceptions::fsdictException& ex ) {
 	std::wcerr << "Caught exception: " << ex.what() << std::endl;
 	return EXIT_FAILURE;
@@ -218,5 +218,3 @@ int main(int argc, const char** argv ) {
 
     return EXIT_SUCCESS;
 }
-
-

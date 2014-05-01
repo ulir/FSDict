@@ -69,7 +69,7 @@ namespace fsdict {
 	 * @return the right side of the pattern
 	 */
 	inline const std::wstring& getRight() const;
-	
+
 	/**
 	 * @brief returns if pattern is "empty"
 	 */
@@ -127,15 +127,15 @@ namespace fsdict {
 	left_( left ),
 	right_( right ) {
     }
-    
+
     const std::wstring& Pattern::getLeft() const {
 	return left_;
     }
-    
+
     const std::wstring& Pattern::getRight() const {
 	return right_;
     }
-    
+
     inline void Pattern::setLeft( std::wstring const& left ) {
 	left_ = left;
     }
@@ -154,7 +154,7 @@ namespace fsdict {
     void Pattern::print( std::wostream& os ) const {
 	os << getLeft() << leftRightDelimiter_ << getRight();
     }
-    
+
     std::wstring Pattern::toString() const {
 	return getLeft() + leftRightDelimiter_ + getRight();
     }

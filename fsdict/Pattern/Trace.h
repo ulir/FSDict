@@ -9,7 +9,7 @@
 namespace fsdict {
 
     typedef Instruction Trace;
-    
+
 } // eon
 
 

@@ -6,7 +6,7 @@
 namespace fsdict {
 
     wchar_t Pattern::leftRightDelimiter_ = L':';
-    
+
     // all other methods are defined inline.
 
 } // eon

@@ -1,4 +1,3 @@
-
 /*-------------------------------------------------------------------------*/
 /**
    Copyright (c) 2000-2011 by Nicolas Devillard.
@@ -8,7 +7,7 @@
    @date    Sep 2007
    @version 3.0
    @brief   Parser for ini files.
-  
+
    Ported to c++, Ulrich Reffle, 2010
    Here's the license  notice from Nicolas' project:
    Copyright (c) 2000-2011 by Nicolas Devillard.
@@ -44,7 +43,7 @@
 #define _INIPARSER_H_
 
 /*---------------------------------------------------------------------------
-   								Includes
+								Includes
  ---------------------------------------------------------------------------*/
 
 #include<fstream>
@@ -66,7 +65,7 @@ extern "C" {
 }
 
 /*---------------------------------------------------------------------------
-   								Macros
+								Macros
  ---------------------------------------------------------------------------*/
 /** For backwards compatibility only */
 #define iniparser_getstr(d, k)  iniparser_getstring(d, k, NULL)

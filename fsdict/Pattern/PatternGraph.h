@@ -16,13 +16,13 @@
 namespace fsdict {
 
     /**
-     * @brief A specialised variant of the Aho-Corasick trie to search 
+     * @brief A specialised variant of the Aho-Corasick trie to search
      * in the set of left or right sides of a PatternSet.
      *
      * For the sake of simplicity and efficiency, the implementation details of
-     * class \c PatternSet are used here: Internally we use simple \c size_t variables 
+     * class \c PatternSet are used here: Internally we use simple \c size_t variables
      * to refer to a \c Pattern instead of using the official and public \c PatternRef
-     * interface. 
+     * interface.
      *
      * @author Ulrich Reffle, 2008
      */
@@ -31,7 +31,7 @@ namespace fsdict {
 	class Alphabet {
 
 	public:
-	
+
 	    void initConstruction() {
 		custom2std_.push_back( 0 ); // let 0 map to 0
 	    }
@@ -39,7 +39,7 @@ namespace fsdict {
 	    void addChar( wchar_t c ) {
 		if( ( std2custom_.size() > (size_t)c ) && std2custom_.at( c ) ) {
 		    //std::wcout<<c<<L" already in alphabet"<<std::endl;
-		    
+
 		}
 		else {
 		    if( (size_t)c >= std2custom_.size()  ) {
@@ -87,21 +87,21 @@ namespace fsdict {
 	    std::vector< wchar_t > std2custom_;
 	    std::vector< wchar_t > custom2std_;
 	};
-	
+
 	// a string and an index into the list of patterns (from PatternSet)
 	typedef std::vector< std::pair< std::wstring, size_t > > Replacements_t;
-	
+
 
 	class InternalState {
 	public:
 	    InternalState( Alphabet const& alph ) :
 		alph_( &alph ), errorLink_( 0 ), prefixLength_( 0 ), isFinal_( false ) {
-		
+
 		transitions_.resize( alph_->size(), 0 );
 	    }
-	    
+
 	    /**
-	     * Returns the target stateIndex when walking with char c (Only in the trie, no errorlinks!). 
+	     * Returns the target stateIndex when walking with char c (Only in the trie, no errorlinks!).
 	     *
 	     * @return the stateIndex of the follow-up state when walking in the trie with char c. ( 0 for fail state)
 	     */
@@ -120,7 +120,7 @@ namespace fsdict {
 		transitions_.at( alph_->encode( c ) ) = targetStateIndex;
 	    }
 
-	    
+
 	    class TransIterator {
 	    public:
 		TransIterator( InternalState const* myIntState, size_t labelIndex = 0 ) : myInternalState_( myIntState ),
@@ -140,7 +140,7 @@ namespace fsdict {
 		}
 
 		std::pair< wchar_t, size_t > operator*() {
-		    return std::make_pair( myInternalState_->allLabels_.at( labelIndex_ ), 
+		    return std::make_pair( myInternalState_->allLabels_.at( labelIndex_ ),
 				      myInternalState_->getTransTarget( myInternalState_->allLabels_.at( labelIndex_ ) ) );
 		}
 
@@ -166,19 +166,19 @@ namespace fsdict {
 
 	class State {
 	public:
-	    typedef InternalState::TransIterator iterator;  
+	    typedef InternalState::TransIterator iterator;
 
 	    inline State() :
 		myGraph_( 0 ),
 		stateIndex_( 0 ) {
-		
+
 	    }
 
 	    inline State( const PatternGraph& myGraph, size_t stateIndex ) :
 		myGraph_( &myGraph ),
 		stateIndex_( stateIndex ) {
 	    }
-	    
+
 	    inline bool operator==( State const& other ) {
 		return( ( myGraph_ == other.myGraph_  ) && // compare pointers
 			( stateIndex_ == stateIndex_ ) );
@@ -191,14 +191,14 @@ namespace fsdict {
 		}
 
 	    /**
-	     * walk in the AC-Trie. Use error links when needed. 
+	     * walk in the AC-Trie. Use error links when needed.
 	     *
 	     * @return the "distance" from the root to the target state
 	     */
 	    inline bool walk( wchar_t c );
 
 	    inline bool walkErrorLink();
-	    
+
 	    /**
 	     * walk in the trie only - do not use error links
 	     * if walk is not possible, stay where you are
@@ -227,7 +227,7 @@ namespace fsdict {
 	     * @return the "distance" from the root to the target state
 	     */
 	    inline size_t getPrefixLength() const;
-	    
+
 	    inline bool isFinal() const;
 
 	    /**
@@ -247,30 +247,30 @@ namespace fsdict {
 	private:
 	    friend class PatternGraph;
 	    friend class InternalState;
-	    
+
 	    const PatternGraph* myGraph_;
 	    size_t stateIndex_;
-	    
+
 	}; // class State
 
-	
+
 	enum Direction {FORWARD, BACKWARD};
 	enum IndexSide {INDEX_LEFT, INDEX_RIGHT};
-	
 
-	
+
+
 	inline PatternGraph( Direction dir = FORWARD, IndexSide indexSide = INDEX_LEFT );
 
 	inline void loadPatterns( const char* patternFile );
 
 	inline State getRoot() const;
 
-	inline size_t getNrOfPatterns() const; 
+	inline size_t getNrOfPatterns() const;
 
 	inline void toDot() const;
 
 
-	// *** PRIVATE of PATTERNGRAPH *** 
+	// *** PRIVATE of PATTERNGRAPH ***
     private:
 
 
@@ -289,14 +289,14 @@ namespace fsdict {
 	 */
 	inline State newState();
 
-	
+
 	Alphabet alph_;
 
 	/**
 	 * Don't forget the realloc-trouble here !!!
 	 */
 	std::vector< InternalState > states_;
-	
+
 	size_t nrOfPatterns_;
 
     };
@@ -354,7 +354,7 @@ namespace fsdict {
     inline PatternGraph::State::iterator PatternGraph::State::transEnd() const {
 	return InternalState::TransIterator( &( myGraph_->states_.at( stateIndex_ ) ), myGraph_->states_.at( stateIndex_ ).allLabels_.size() );
     }
-    
+
     inline bool PatternGraph::State::isFinal() const {
 	return myGraph_->states_.at( stateIndex_ ).isFinal_;
     }
@@ -409,7 +409,7 @@ namespace fsdict {
 	alph_.finishConstruction();
 
 	states_.push_back( InternalState( alph_ ) ); // failure state at position 0
-	states_.push_back( InternalState( alph_ ) ); // root at position 1 
+	states_.push_back( InternalState( alph_ ) ); // root at position 1
 
 	std::wstring indexed, replacement;
 	for( PatternList_t::const_iterator pattern = patternList().begin() + 1; // skip 1st pattern: it's the empty pattern!
@@ -428,7 +428,7 @@ namespace fsdict {
 		replacement = replacementRef;
 	    }
 
-	    
+
 	    State state = getRoot();
 
 	    // *** find common prefix ***
@@ -438,11 +438,11 @@ namespace fsdict {
 		 ++c ) {
 		// do nothing else
 	    }
-	    
+
 	    // *** add suffix ***
 	    // prevent the vector from re-allocating during the process
 	    states_.reserve( states_.size() + ( indexed.end() - c ) );
-	    
+
 	    State lastState = state;
 	    for( ;
 		 c != indexed.end();
@@ -475,22 +475,22 @@ namespace fsdict {
 	while( ! queue.empty() ) {
 	    size_t parent = queue.front();
 	    queue.pop();
-	    
+
 	    for( std::wstring::const_iterator c = states_.at( parent ).allLabels_.begin();
 		 c !=  states_.at( parent ).allLabels_.end();
 		 ++c ) {
 		queue.push( states_.at( parent ).getTransTarget( *c ) );
-		
+
 		size_t current = queue.back();
 		size_t parentBack = parent;
 		size_t back = 0;
-		
+
 		while( ( back == 0 ) && ( parentBack != 0 ) ) {
 		    parentBack = states_.at( parentBack ).errorLink_;
 		    back = states_.at( parentBack ).getTransTarget( *c );
 		}
 		if( parentBack == 0 ) back = 1;
-		
+
 		if( states_.at( back ).isFinal_ ) {
 		    states_.at( current ).isFinal_ = true;
 		    // copy all replacements of 'back' to 'current'
@@ -512,7 +512,7 @@ namespace fsdict {
 	std::wcout<< "Digraph PatternGraph { //DOTCODE"<<std::endl
 		  <<"rankdir=LR; //DOTCODE"<<std::endl
 		  <<"ordering=out; //DOTCODE"<<std::endl;
-	
+
 
 	size_t count = 0;
 	for( std::vector< InternalState >::const_iterator st = states_.begin() ; st != states_.end(); ++st ) {
@@ -534,7 +534,7 @@ namespace fsdict {
 		std::wcout << count << "->" << st->getTransTarget( *c ) << "[label=\"" << *c <<"\"] // DOTCODE" << std::endl;
 	    }
 	    std::wcout << count << "->" << st->errorLink_ << "[color=red, constraint=false] // DOTCODE" << std::endl;
-	
+
 
 	    ++count;
 	}

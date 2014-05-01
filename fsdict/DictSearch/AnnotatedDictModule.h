@@ -9,7 +9,7 @@ namespace fsdict {
 
     /**
      * @brief This implementation of DictSearch::iDictModule is used for lexica containing historical variants,
-     *        including a specification of all possible links to modern words. 
+     *        including a specification of all possible links to modern words.
      */
     class DictSearch::AnnotatedDictModule : public fsdict::DictSearch::AbstractDictModule {
     public:
@@ -48,7 +48,7 @@ namespace fsdict {
 
 	/**
 	 * @brief connects the configuration to a certain dictionary
-	 * 
+	 *
 	 * @param dict a const reference to an existing dictionary.
 	 */
 	void setDict( FBDicString const& dict ) {
@@ -56,10 +56,10 @@ namespace fsdict {
 	    dict_ = &dict;
 	    disposeDict_ = false;
 	}
-	    
+
 	/**
-	 * @brief Loads a dictionary from the hard disk and connects it to the configuration 
-	 * 
+	 * @brief Loads a dictionary from the hard disk and connects it to the configuration
+	 *
 	 * @param dictFile a path to a file storing a dictionary of type FBDicString
 	 */
 	void setDict( char const* dictFile ) {
@@ -86,20 +86,20 @@ namespace fsdict {
 
 
 
-	    
+
 	bool query( std::wstring const& query, DictSearch::iResultReceiver* answers ) {
 	    if( getDict() ) {
 		msMatch_.setFBDic( *( getDict() ) );
 		msMatch_.setDistance( getDLevByWordlength( query.length() ) );
 		msMatch_.setCaseMode( getCaseMode() );
-		
+
 		AnswerProcessor ap( *this, answers );
 		return msMatch_.query( query.c_str(), ap );
 
 	    }
 	    else return false;
 	}
-	    
+
     private:
 	class AnswerProcessor : public LevFilter::CandidateReceiver {
 	public:
@@ -114,13 +114,13 @@ namespace fsdict {
 	    void receive( const wchar_t *str, int levDistance, int annotation ) {
 		std::wstring interpretationsString;
 		UTF8Locale::string2wstring( (char*)( myDictModule_.getDict()->getAnnByOffset( annotation ) ), interpretationsString );
-		
+
 		size_t startPos = 0;
 		size_t endPos = 0;
 		do {
 		    endPos = interpretationsString.find( '|', startPos + 1 );
 		    if( endPos == std::wstring::npos ) endPos = interpretationsString.size();
-		    
+
 		    Interpretation interp;
 		    interp.parseFromString( interpretationsString.substr( startPos, endPos - startPos  ) );
 		    interp.setLevDistance( levDistance );
@@ -134,7 +134,7 @@ namespace fsdict {
 	    void reset() {
 		throw exceptions::fsdictException( "reset() not implemented in AnswerProcessor of fsdict::StringDictModule" );
 	    }
-	    
+
 
 	private:
 	    AnnotatedDictModule& myDictModule_;

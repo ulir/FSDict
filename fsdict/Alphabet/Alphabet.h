@@ -29,7 +29,7 @@ namespace fsdict {
 	Header header_;
 
 	std::vector<bool> hasChar_;
-	
+
     public:
 
 
@@ -39,7 +39,7 @@ namespace fsdict {
 	const ConstCharIterator begin() const {
 	    return allChars_.begin();
 	}
-	
+
 	ConstCharIterator end() const {
 	    return allChars_.end();
 	}
@@ -60,7 +60,7 @@ namespace fsdict {
 	 * Loads a dumped Alphabet from the given stream
 	 */
 	void loadFromStream( FILE* fi );
-	
+
 	/**
 	 * Dumps the Alphabet in its current state to the given stream
 	 */

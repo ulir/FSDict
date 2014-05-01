@@ -26,7 +26,7 @@ int main( int argc, const char** argv ) {
 	t.loadFromFile( options.getArgument( 0 ).c_str() );
 
 	TransTable_t::State st = t.getRootState();
-	
+
 	std::wstring word;
 	std::getline( std::wcin, word );
 	std::wstring::const_iterator c = word.begin();
@@ -44,7 +44,7 @@ int main( int argc, const char** argv ) {
 
 	std::wcout<<"} // DOTCODE"<<std::endl;
 	return 0;
-    
+
 
     } catch ( exceptions::fsdictException& ex ) {
 	std::wcerr << "dotPath failed: " << ex.what() << std::endl;

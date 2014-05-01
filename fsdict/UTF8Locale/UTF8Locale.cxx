@@ -9,7 +9,7 @@ namespace fsdict {
 
     UTF8Locale::UTF8Locale() :
 	std::locale( std::locale( std::locale( "C" ), new UTF8_Codecvt() ), new Ctype_OldGerman( std::locale( "C" ) ) )  {
-	
+
     }
 
 }

@@ -2,7 +2,7 @@
 #define FSDICT_TRANSTABLE_CELL_PERFHASH_H FSDICT_TRANSTABLE_CELL_PERFHASH_H
 
 /**
-   Represents one unit of the sparse table implementation in TransTable  
+   Represents one unit of the sparse table implementation in TransTable
    \author Uli Reffle <uli@reffle.de>
    \date Jan 2007
 */
@@ -28,8 +28,8 @@ namespace fsdict {
 	typedef SizeType__ StateId_t;
 	typedef SizeType__ InternalSize_t;
 	typedef InternalCharType__ InternalChar_t;
-	
-	/* type is bit-coded: 
+
+	/* type is bit-coded:
 	 * 0  = 00000000: empty
 	 * 1  = 00000001: transition
 	 * 2  = 00000010: is a state

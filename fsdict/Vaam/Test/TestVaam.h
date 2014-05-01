@@ -24,7 +24,7 @@ namespace fsdict {
 // 	void lookupAllKeys();
 	void testCaseMode();
 	void testWordBorders();
-	
+
     private:
 	std::string path_;
 
@@ -59,7 +59,7 @@ namespace fsdict {
 	PatternGraph::State st3( st );
 	st2 = st.getTransTarget( 't' );
 	CPPUNIT_ASSERT( st == pg.getRoot() );
-	
+
     }
 
     /**
@@ -67,16 +67,16 @@ namespace fsdict {
      */
     void TestVaam::testBasics() {
 	std::wcout << "*** TestVaam::testBasics ***" << std::endl;
- 	MinDic<> baseDic( "../fsdict/Vaam/Test/small.base.mdic" );
+	MinDic<> baseDic( "../fsdict/Vaam/Test/small.base.mdic" );
 	MinDic<> filterDic( "../fsdict/Vaam/Test/small.filter.mdic" );
 	Vaam<> vaam( baseDic,  "../fsdict/Vaam/Test/small.patterns.txt" );
-	
+
 	Vaam<>::CandidateReceiver answers;
 
 	// a standard variant
 	CPPUNIT_ASSERT( vaam.query( std::wstring( L"xachen" ), &answers ) );
 	CPPUNIT_ASSERT_EQUAL( (size_t) 1, (size_t) answers.size() );
-	Interpretation& answer = answers.at( 0 ); 
+	Interpretation& answer = answers.at( 0 );
 	CPPUNIT_ASSERT( answer.getBaseWord() == L"aachen" );
 	CPPUNIT_ASSERT( answer.getInstruction().size() == 1 );
 	CPPUNIT_ASSERT( answer.getInstruction().at( 0 ).getLeft() == L"a" );
@@ -88,7 +88,7 @@ namespace fsdict {
 
 	CPPUNIT_ASSERT( vaam.query( std::wstring( L"uvwx yz" ), &answers ) );
 	CPPUNIT_ASSERT_EQUAL( (size_t) 1, (size_t) answers.size() );
-	Interpretation& answer2 = answers.at( 0 ); 
+	Interpretation& answer2 = answers.at( 0 );
 	CPPUNIT_ASSERT( answer2.getBaseWord() == L"uvwxyz" );
 	CPPUNIT_ASSERT( answer2.getInstruction().size() == 1 );
 	CPPUNIT_ASSERT( answer2.getInstruction().at( 0 ).getLeft() == L"xy" );
@@ -121,11 +121,11 @@ namespace fsdict {
 
 	vaam.setMinNrOfPatterns( 1 );
 	CPPUNIT_ASSERT( ! vaam.query( std::wstring( L"aachen" ), &answers ) );
-	
+
 	vaam.setMinNrOfPatterns( 2 );
 	CPPUNIT_ASSERT( ! vaam.query( std::wstring( L"xachen" ), &answers ) );
 	CPPUNIT_ASSERT( vaam.query( std::wstring( L"xxchen" ), &answers ) );
-	
+
 	vaam.setMinNrOfPatterns( 0 );
 
 
@@ -141,16 +141,16 @@ namespace fsdict {
 
     void TestVaam::testCaseMode() {
 	std::wcout << "*** TestVaam::testCaseMode ***" << std::endl;
- 	MinDic<> baseDic( "../fsdict/Vaam/Test/small.base.mdic" );
+	MinDic<> baseDic( "../fsdict/Vaam/Test/small.base.mdic" );
 	Vaam<> vaam( baseDic,  "../fsdict/Vaam/Test/small.patterns.txt" );
-	
+
 	Vaam<>::CandidateReceiver answers;
-	
+
 	vaam.setCaseMode( Global::restoreCase );
-	
+
 	vaam.query( L"Kleintheyle", &answers  );
 	CPPUNIT_ASSERT_EQUAL( (size_t) 1, (size_t) answers.size() );
-	Interpretation& answer = answers.at( 0 ); 
+	Interpretation& answer = answers.at( 0 );
 	CPPUNIT_ASSERT( answer.getWord() == L"Kleintheyle" );
 	CPPUNIT_ASSERT( answer.getBaseWord() == L"Kleinteile" );
 
@@ -159,15 +159,15 @@ namespace fsdict {
 
     void TestVaam::testWordBorders() {
 	std::wcout << "*** TestVaam::testWordBorders ***" << std::endl;
- 	MinDic<> baseDic;
+	MinDic<> baseDic;
 	baseDic.initConstruction();
 	baseDic.addToken( L"abra", 0 );
 	baseDic.addToken( L"abracadabra", 0 );
 	baseDic.finishConstruction();
 	Vaam<> vaam( baseDic, "../fsdict/Vaam/Test/patterns.borders.txt" );
-	
+
 	Vaam<>::CandidateReceiver answers;
-	
+
 	// this is the word as it is in the dic
 	vaam.query( L"abracadabra", &answers  );
 	CPPUNIT_ASSERT_EQUAL( (size_t) 1, (size_t) answers.size() );
@@ -184,7 +184,7 @@ namespace fsdict {
 	answers.clear();
 	vaam.query( L"abracadbebra", &answers  );
 	CPPUNIT_ASSERT_EQUAL( (size_t) 0, (size_t) answers.size() );
-	
+
 	// standard patterns works also at beginning and end
 	answers.clear();
 	vaam.query( L"zebracadabra", &answers  );
@@ -204,13 +204,13 @@ namespace fsdict {
 	CPPUNIT_ASSERT_EQUAL( (size_t)1, (size_t)answers.size() );
 	CPPUNIT_ASSERT( answers.at(0).getBaseWord() == L"abracadabra" );
 	CPPUNIT_ASSERT( answers.at(0).getWord() == L"abracadabpo" );
-	
+
 	// wordEnd pattern works at the end of word that is prefix of another one.
 	answers.clear();
 	vaam.query( L"abpo", &answers  );
 	CPPUNIT_ASSERT_EQUAL( (size_t)1, (size_t)answers.size() );
 	CPPUNIT_ASSERT( answers.at(0).getBaseWord() == L"abra" );
-	
+
 	// wordEnd pattern does NOT work in the middle
 	answers.clear();
 	vaam.query( L"abpocadabra", &answers  );
@@ -256,7 +256,7 @@ namespace fsdict {
 
 
 
-	
+
     }
 
 

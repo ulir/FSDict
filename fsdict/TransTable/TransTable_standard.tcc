@@ -87,7 +87,7 @@ namespace fsdict {
     template< typename InternalCharType__, typename SizeType__ >
     void TransTable< TT_STANDARD, InternalCharType__, SizeType__ >::finishConstruction() {
 	nrOfCells_ = sizeOfUsedCells_;
-	
+
 	lengthOfSusoStrings_ = susoHash_->getLengthOfKeyStrings();
 	delete( susoHash_ );
 	susoHash_ = 0;
@@ -155,8 +155,8 @@ namespace fsdict {
 	    mightFit = true;
 
 	    // check if all required cells for transitions are available
-	    for ( typename TempState< TransTable_t >::const_TransIterator it = state.transBegin(); 
-		  it != state.transEnd() ; 
+	    for ( typename TempState< TransTable_t >::const_TransIterator it = state.transBegin();
+		  it != state.transEnd() ;
 		  ++it ) {
 		if ( !cells_[slot + it->getLabel()].isEmpty() ) {
 		    mightFit = false;
@@ -191,12 +191,12 @@ namespace fsdict {
 	}
 
 	// insert all transitions
-	for ( typename TempState< TransTable_t >::const_TransIterator it = state.transBegin(); 
-		  it != state.transEnd() ; 
+	for ( typename TempState< TransTable_t >::const_TransIterator it = state.transBegin();
+		  it != state.transEnd() ;
 		  ++it ) {
 	    cells_[slot + it->getLabel()].setTrans( it->getLabel(), it->getTarget() );
 	}
-	
+
 	// update sizeOfUsedCells_
 	sizeOfUsedCells_ = std::max( sizeOfUsedCells_, ( slot + Global::maxNrOfChars + 2 ) );
 
@@ -223,8 +223,8 @@ namespace fsdict {
 
 	const wchar_t* c_comp = getSusoString( comp );
 	typename TempState< TransTable_t >::const_TransIterator tempIt = temp.transBegin();
-	for ( ; 
-		 ( tempIt != temp.transEnd() ) && ( *c_comp != 0 ); 
+	for ( ;
+		 ( tempIt != temp.transEnd() ) && ( *c_comp != 0 );
 		  ++tempIt, ++c_comp ) {
 	    if( tempIt->getLabel() != *c_comp ) return false; // both must have the same char as next label
 	    if ( tempIt->getTarget() != walk( comp, *c_comp ) ) return false; // both must point to the same state
@@ -259,7 +259,7 @@ namespace fsdict {
     }
 
     template< typename InternalCharType__, typename SizeType__ >
-    void 
+    void
     TransTable< TT_STANDARD, InternalCharType__, SizeType__ >
     ::loadFromStream( FILE* fi ) {
 	size_t elementsRead = fread( &header_, sizeof( Header ), 1, fi );
@@ -285,10 +285,10 @@ namespace fsdict {
 
 	sizeOfUsedCells_ = nrOfCells_;
     }
-    
+
 
     template< typename InternalCharType__, typename SizeType__ >
-    void 
+    void
     TransTable< TT_STANDARD, InternalCharType__, SizeType__ >
     ::createBinary( char const* compFile ) {
 	FILE * fo = fopen( compFile, "wb" );
@@ -304,7 +304,7 @@ namespace fsdict {
     }
 
     template< typename InternalCharType__, typename SizeType__ >
-    void 
+    void
     TransTable< TT_STANDARD, InternalCharType__, SizeType__ >
     ::writeToStream( FILE* fo ) const {
 	if ( !fo ) {
@@ -313,7 +313,7 @@ namespace fsdict {
 	std::cerr << "Writing TransTable"<<std::endl;
 	fwrite( &header_, sizeof( Header ), 1, fo );
 	fwrite( cells_, sizeof( Cell_t ), sizeOfUsedCells_, fo );
-	
+
     }
 
     ///////////// DEBUG AND DOT PRINT ///////////////////////////////////////////////
@@ -377,7 +377,7 @@ namespace fsdict {
 	    else if ( cells_[i].isTransition() ) ++transitions;
 	}
 
-	double emptyRatio = ( double( empty ) / double( sizeOfUsedCells_ ) ) * 100; 
+	double emptyRatio = ( double( empty ) / double( sizeOfUsedCells_ ) ) * 100;
 	float cells_MB = (float)( sizeOfUsedCells_ * sizeof( Cell_t ) ) / 1000000;
 
 	printf( "**********\nTransTable Analysis\n**********\nCells:\t%lu (%.3f MB)\nStates:\t%lu\nTransitions:\t%lu\nAnnotations:\t%lu\nEmpty:\t%lu(%2.2f%%)\n\n",

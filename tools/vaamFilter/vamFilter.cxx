@@ -7,17 +7,17 @@
 
 /**
  * Vam
- * 
+ *
  * @file
  * @brief vamFilter is a command-line tool for the usage of the class Vam.
  * It is invoked with a distance bound \c k, a compiled minimized dictionary \c dic
  * and a file containing a set of patterns \c P.
- * 
+ *
  * Please consult the documentation of class fsdict::Vam for details.
  *
  * @see fsdict::Vam
  * @author Ulrich Reffle, <uli@cis.uni-muenchen.de>
- * 
+ *
  */
 int main(int argc, const char** argv ) {
 
@@ -59,7 +59,7 @@ int main(int argc, const char** argv ) {
 	}
 	else {
 	    // all interpretations of the query in one line
-	    
+
 #ifndef FSDICT_VAMFILTER_PRINTNONE
 	    for( std::vector< fsdict::Interpretation >::const_iterator it = answers.begin(); it!= answers.end(); ++it ) {
 		it->print();
@@ -68,14 +68,14 @@ int main(int argc, const char** argv ) {
 	    std::wcout<<std::endl;
 #endif
 	}
-	
+
 //	std::wcout<<watch.readMilliseconds()<<" ms"<<std::endl;
     }
-	
+
 	} catch( fsdict::exceptions::fsdictException& ex ) {
 		std::wcout<<"Caught exception: "<<ex.what()<< std::endl;
 		return 0;
 	}
-		    
+
     return 0;
 }

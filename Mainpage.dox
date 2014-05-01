@@ -19,7 +19,7 @@ The following is a high-level breakdown of what FSDict offers:
 <li>fsdict::MSMatch offers a very efficient method to extract correction candidates
 for a garbled token from a huge lexicon. A command-line interface to this
 class is documented in the @link msFilter_manual msFilter Manual @endlink</li>
-<li>With fsdict::ErrDic and fsdict::createED so-called <em>Error Dictionaries</em> are created and used. 
+<li>With fsdict::ErrDic and fsdict::createED so-called <em>Error Dictionaries</em> are created and used.
 They are powerful tools for the computation of error-profiles for a text.</li>
 <li>fsdict::Vaam is a module to perform approximate lookups in large
  dictionaries, using a combination of standard Levenshtein distance and a

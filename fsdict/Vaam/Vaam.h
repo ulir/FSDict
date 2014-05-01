@@ -20,7 +20,7 @@ namespace fsdict {
 
     /**
      * @brief iInterpretationReceiver is an interface to be implemented by classes which are supposed to
-     *        receive results from the Vaam matcher (see below). 
+     *        receive results from the Vaam matcher (see below).
      *
      * A straight-forward implementation of this interface is Vaam::CandidateReceiver
      */
@@ -43,10 +43,10 @@ namespace fsdict {
      * Besides this class reference, please read the @link vaam_manual Vaam Manual @endlink to get an idea of how to create a Vaam object,
      * how to send queries and how to interpret Vaam's answer.
      *
-     * As input the tool needs 
-     * - a wordList @c baseDic compiled as FSA (use the tool compileMD to get such an automaton from a word list. 
+     * As input the tool needs
+     * - a wordList @c baseDic compiled as FSA (use the tool compileMD to get such an automaton from a word list.
      *
-     * - a file containing a list of patterns, one per line. A line containing 't th' indicates that a 't' in 
+     * - a file containing a list of patterns, one per line. A line containing 't th' indicates that a 't' in
      *   @c baseDic could be transformed to 'th'.
      *
      * - a threshold @c maxNrOfPatterns specifying the maximum number of pattern applications in one word
@@ -58,13 +58,13 @@ namespace fsdict {
      * Definition of the output:
      *
      * We define a so-called hypothetical dictionary @c hypotheticalDic that contains all spelling variants
-     * which can be obtained by applying a sequence of up to @c maxNrOfPatterns variant patterns to any 
+     * which can be obtained by applying a sequence of up to @c maxNrOfPatterns variant patterns to any
      * word of @c baseDic. One entry of @c hypotheticalDic is a triple @c{<word,baseWord,instruction>} where
-     * @c instruction is the above mentioned sequence to get the variant @c word from the original word 
+     * @c instruction is the above mentioned sequence to get the variant @c word from the original word
      * @c baseWord from @c baseDic.
-     * 
+     *
      * For a query @c q the algorithm returns all such triples @c{<word,baseWord,instruction>} from @c hypotheticalDic
-     * where the standard levenshtein distance between @c word and @c q does not exceed 
+     * where the standard levenshtein distance between @c word and @c q does not exceed
      *
      * @see fsdict::Interpretation, fsdict::Instruction, fsdict::PosPattern, fsdict::Pattern
      *
@@ -81,7 +81,7 @@ namespace fsdict {
 	 */
 	typedef MinDicType MinDic_t;
 
-	
+
 
 	/**
 	 * A straight-forward implementation of the interface above.
@@ -94,7 +94,7 @@ namespace fsdict {
 		push_back( interpretation );
 	    }
 	};
-	
+
 
 
     private:
@@ -117,8 +117,8 @@ namespace fsdict {
 	 * @brief A trivial construtor, taking the input ressources as arguments
 	 *
 	 * @param baseDic a reference to a MinDic_t that serves as @c baseDic
-	 * @param patternFile path to a file containing the spelling variant patterns 
-	 (see class description for some more details). 
+	 * @param patternFile path to a file containing the spelling variant patterns
+	 (see class description for some more details).
 	*/
 	Vaam( const MinDic_t& baseDic, const char* patternFile );
 
@@ -149,7 +149,7 @@ namespace fsdict {
 	 * @brief set the base dictionary. This restricts output words to words NOT present in this filterDic.
 	 */
 	inline void setBaseDic( MinDic_t const& baseDic );
-	
+
 	/**
 	 * @brief set a filter dictionary. This restricts output words to words NOT present in this filterDic.
 	 */
@@ -162,7 +162,7 @@ namespace fsdict {
 	inline void setCaseMode( Global::CaseMode caseMode ) {
 	    caseMode_ = caseMode;
 	}
-	
+
 	// @}
 
 	/**
@@ -176,7 +176,7 @@ namespace fsdict {
 	 * but you can also use Vaam's subclass CandidateReceiver.
 	 *
 	 * @return true iff at least one answer was found
-	 * 
+	 *
 	 */
 	inline bool query( std::wstring const& word, iInterpretationReceiver* interpretations ) const;
 
@@ -188,7 +188,7 @@ namespace fsdict {
 
 	////////////////////// CLASS POSITION /////////////////////////
 	/**
-	 * 
+	 *
 	 */
 	class Position {
 	public:
@@ -198,7 +198,7 @@ namespace fsdict {
 		nrOfPatternsApplied_( nrOfPatternsApplied ) {
 		mother_ = mother;
 	    }
-	    
+
 	    void addPosPattern( const PosPattern& posPattern ) {
 		posPattern_ = posPattern;
 	    }
@@ -210,7 +210,7 @@ namespace fsdict {
 	    LevDEA::Pos levPos_;
 
 	    /**
-	     * @brief Each Position holds one posPattern - this may be an "empty" or dummy pattern. 
+	     * @brief Each Position holds one posPattern - this may be an "empty" or dummy pattern.
 	     * @see mother_
 	     */
 	    PosPattern posPattern_;
@@ -229,14 +229,14 @@ namespace fsdict {
 	     * Every Position was created as the successor ("child") of another position.
 	     * We need this information to trace back the whole instruction looking at the
 	     * distinct posPattern_ s stored with each Position.
-	     */ 
+	     */
 	    std::pair< int, int > mother_;
 
 	}; // class Position
 
 
 	////////////////////// CLASS STACKITEM /////////////////////////
-	
+
 	class StackItem : public std::vector< Position > {
 	public:
 	    StackItem( const Vaam& myVaam ) :
@@ -244,19 +244,19 @@ namespace fsdict {
 		patternPos_( myVaam.patternGraph_, 0 ),
 		lookAheadDepth_( 0 ) {
 	    }
-	    
+
 	    void clear() {
 		std::vector< Position >::clear();
 		// somehow reset dicPos_???
 	    }
-	    
+
 	    MDState_t dicPos_;
 	    PatternGraph::State patternPos_;
 	    size_t lookAheadDepth_;
 	    // don't forget this class inherits from std::vector< Position >
-	    
+
 	}; // class StackItem
-	
+
 
 	class Stack : public std::vector< StackItem > {
 	public:
@@ -264,7 +264,7 @@ namespace fsdict {
 		// reserve( 500 );
 	    }
 	};
-	
+
 	void printPosition( const Position& pos ) const;
 
 	/**
@@ -292,11 +292,11 @@ namespace fsdict {
 	PatternGraph patternGraph_;
 	std::vector< std::wstring > leftSidesList_;
 	std::vector< PatternGraph::Replacements_t > rightSides_;
-	
+
 	mutable LevDEA levDEA_;
 	mutable std::wstring query_;
 	mutable bool wasUpperCase_;
-	
+
 	mutable iInterpretationReceiver* interpretations_;
 	mutable bool foundAnswers_;
 	mutable Stack stack_;
@@ -311,11 +311,11 @@ namespace fsdict {
 
 	size_t minNrOfPatterns_;
 	size_t maxNrOfPatterns_;
-	
+
     }; // class Vaam
 
-    
-    
+
+
 } // namespace fsdict
 
 #include "./Vaam.tcc"

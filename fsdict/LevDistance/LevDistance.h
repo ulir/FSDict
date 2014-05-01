@@ -1,9 +1,6 @@
 #ifndef FSDICT_LEVDISTANCE_H
 #define FSDICT_LEVDISTANCE_H FSDICT_LEVDISTANCE_H
 
-
-
-
 namespace fsdict {
 
     /**
@@ -53,7 +50,7 @@ namespace fsdict {
 			matrix_.at( i ).at( j ) = min;
 		    }
 		}
-	    }	    
+	    }
 
 	    return matrix_.at( w1.size() ).at( w2.size() );
 
@@ -95,7 +92,7 @@ namespace fsdict {
 
 	std::vector< std::vector< size_t > > matrix_;
 	size_t matrixSize_;
-	
+
     };
 
 }

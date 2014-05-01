@@ -3,7 +3,7 @@
 
 
 int main( int argc, char** argv ) {
-    
+
     Getopt go;
 
     go.getOptions( argc, argv );

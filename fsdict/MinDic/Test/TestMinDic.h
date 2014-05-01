@@ -27,7 +27,7 @@ namespace fsdict {
 	fsdict::MinDic<> mdic_;
 	std::wstring oneKey_;
 	int oneValue_;
-	
+
     };
 
     CPPUNIT_TEST_SUITE_REGISTRATION( TestMinDic );
@@ -43,7 +43,7 @@ namespace fsdict {
     void TestMinDic::run() {
 	testBasics();
     }
-    
+
 
     /**
      * test the basic methods for reading access like getRoot, walk, isFinal etc.
@@ -70,7 +70,7 @@ namespace fsdict {
 	 */
 	uint_t pos_2 = mdic_.walkStr( mdic_.getRoot(), oneKey_.c_str() );
 	CPPUNIT_ASSERT( pos_1 == pos_2 );
-	
+
 	/*
 	 * test if walking with the empty string works
 	 */

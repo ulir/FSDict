@@ -8,17 +8,17 @@
 
 /**
  * Val
- * 
+ *
  * @file
  * @brief valFilter is a command-line tool for the usage of the class Val.
  * It is invoked with a distance bound \c k, a compiled minimized dictionary \c dic
  * and a file containing a set of patterns \c P.
- * 
+ *
  * Please consult the documentation of class fsdict::Val for details.
  *
  * @see fsdict::Val
  * @author Ulrich Reffle, <uli@cis.uni-muenchen.de>
- * 
+ *
  */
 
 
@@ -44,7 +44,7 @@ void printHelp() {
 	      << "--maxNrOfPatterns=N       Allow only interpretations with at most N pattern applications. Defaults to INFINITE." << std::endl
 	      << std::endl
 	      << "--patternDelimiter=c      Lets symbol c appear as the delimiter between left and right pattern side in the output." << std::endl
-	      << "                          Note that this will NOT affect the expected form of the pattern-file." << std::endl  
+	      << "                          Note that this will NOT affect the expected form of the pattern-file." << std::endl
 	      << "--machineReadable=1       Print (even more) machine-readable output, i.e. all answers in one line, separated by '|'" << std::endl;
 }
 
@@ -89,7 +89,7 @@ int main(int argc, const char** argv ) {
 	minDic = new fsdict::MinDic<>( opt.getArgument( 0 ).c_str() );
 	baseDic = minDic;
     }
-    
+
 
     Val_t val( *baseDic, opt.getArgument( 1 ).c_str() );
 
@@ -133,7 +133,7 @@ int main(int argc, const char** argv ) {
 
 	std::sort( answers.begin(), answers.end() );
 
-	sumOfCandidates += answers.size(); 
+	sumOfCandidates += answers.size();
 
 	if( answers.empty() ) {
 	    std::wcout<<query<<":NONE"<<std::endl;
@@ -149,8 +149,8 @@ int main(int argc, const char** argv ) {
 	else {
 	    // new line for each interpretation of the query
 	    for( std::vector< fsdict::Interpretation >::const_iterator it = answers.begin(); it!= answers.end(); ++it ) {
-		std::wcout << it->getBaseWord() 
-			   << "," << it->getInstruction() 
+		std::wcout << it->getBaseWord()
+			   << "," << it->getInstruction()
 			   << ",dist=" << it->getLevDistance();
 
 		if( minDicString ) {
@@ -161,19 +161,19 @@ int main(int argc, const char** argv ) {
 		std::wcout<<std::endl;
 	    }
 	}
-	
+
     } // for all input
 
     if( errno == EILSEQ ) {
 	throw fsdict::exceptions::badInput( "fsdict::valFilter: Input encodig error" );
     }
-    
+
 
     if( fbdic ) {
 	delete( fbdic );
 	fbdic = 0;
     }
-    
+
     if( minDic ) {
 	delete( minDic );
 	minDic = 0;
@@ -182,7 +182,7 @@ int main(int argc, const char** argv ) {
 	delete( minDicString );
 	minDicString = 0;
     }
-    
+
     } catch( fsdict::exceptions::fsdictException& ex ) {
 	std::wcout << "Caught exception: " << ex.what() << std::endl;
 	return EXIT_FAILURE;
@@ -190,5 +190,3 @@ int main(int argc, const char** argv ) {
 
     return EXIT_SUCCESS;
 }
-
-

@@ -10,7 +10,7 @@ int main() {
 // this is easier for debugging
 #if false
     fsdict::TestVaam testVaam;
-    
+
     testVaam.testWordBorders();
     return( 1 );
 #endif
@@ -19,7 +19,7 @@ int main() {
     // Adds the test to the list of test to run
     CppUnit::TextUi::TestRunner runner;
     runner.addTest( fsdict::TestVaam::suite() );
-    
+
 //     // Change the default outputter to a compiler error format outputter
 //     runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
 // 							 std::cerr ) );
@@ -28,6 +28,6 @@ int main() {
     bool wasSucessful = runner.run();
 
     // Return error code 1 if the one of tests failed.
-    return wasSucessful ? 0 : 1;    
+    return wasSucessful ? 0 : 1;
 
 }

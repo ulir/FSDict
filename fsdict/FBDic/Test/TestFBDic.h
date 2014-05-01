@@ -35,7 +35,7 @@ namespace fsdict {
 	testBasics();
 	testFileDump();
     }
-    
+
 
     /**
      * test the basic methods for reading access like getRoot, walk, isFinal etc.
@@ -47,7 +47,7 @@ namespace fsdict {
 	fbdic.addToken( L"anna", 43 );
 	fbdic.addToken( L"berta", 44 );
 	fbdic.finishConstruction();
-	
+
 	int ann = 0;
 
 	CPPUNIT_ASSERT( fbdic.getFWDic().lookup( L"anna", &ann ) && ann == 43 );
@@ -70,12 +70,12 @@ namespace fsdict {
 	fbdic3.finishConstruction();
 
 
- 	fbdic3.writeToFile( "test_out___.fbdic" );
+	fbdic3.writeToFile( "test_out___.fbdic" );
 
 
 	fsdict::FBDic<> fbdic2( "test_out___.fbdic" );
 
-	
+
 	int ann = 0;
 
 	CPPUNIT_ASSERT( fbdic2.getFWDic().lookup( L"albert", &ann ) && ann == 42 );

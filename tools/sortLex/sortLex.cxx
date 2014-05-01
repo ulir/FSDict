@@ -17,7 +17,7 @@ public:
     bool operator<( const Entry& other ) const {
 	return this->key_ < other.key_;
     }
-    
+
     std::wstring line_;
     std::wstring key_;
 };
@@ -29,7 +29,7 @@ int main( int argc, char** argv ) {
     if( argc != 2 || ! strcmp( argv[1], "-h" ) ) {
 	std::wcerr<<"sortLex - sort .lex dictionary source files to be compiled into a FSA."<<std::endl;
 	std::wcerr<<"Use like: sortLex unsorted.txt > sorted.txt"<<std::endl;
-	return 1; 
+	return 1;
     }
     std::wcerr<<"An easier and faster way to do this is the unix sort tool: $> LC_ALL=C sort -t'#' -k1,1 foo.unsorted > foo.lex"<<std::endl;
 
@@ -39,7 +39,7 @@ int main( int argc, char** argv ) {
 	std::wcout << "Couldn't open file for reading." << std::endl;
 	return 1;
     }
-    
+
     std::wstring line;
     std::vector< Entry > lines;
     while( std::getline( fi, line ).good() ) {

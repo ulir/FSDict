@@ -15,7 +15,7 @@ namespace fsdict {
      * LevDEA gives access to deterministic levenshtein automata.
      * It is an implementation of the concepts described in
      * "S. Mihov and K. Schulz. Fast approximate search in large dictionaries. Computational Linguistics, 30, 2004."
-     * 
+     *
      * @caution This class is one huge memory leak!!!
      *
      * @author Ulrich Reffle
@@ -92,7 +92,7 @@ namespace fsdict {
 
 
 	/**
-	 * Follow a transition in the automaton. Input-char c is translated into 
+	 * Follow a transition in the automaton. Input-char c is translated into
 	 * a bit-vector which then is used as "input symbol" for the automaton.
 	 *
 	 * @param p a start position in the automaton
@@ -166,7 +166,7 @@ namespace fsdict {
     private:
 
 	inline int getTransition( int state, bits64 charvec ) const;
-	
+
 
 	/// holds the current pattern
 	std::wstring pattern_;
@@ -189,7 +189,7 @@ namespace fsdict {
 	bits64 const* suffixMatch_;
 
 	std::vector< bits64 > charvecs_;
-	
+
 	/// The length of the bit-vector used as transition labels.
 	size_t bitVectorLength_;
 
@@ -269,7 +269,7 @@ namespace fsdict {
 	}
 	return true;
     }
-    
+
     inline int LevDEA::getTransition( int state, bits64 charvec ) const {
 	// the state ids are consecutive numbers, each has exactly nrOfTransitions_ transitions in the table.
 	return transitions_[state*nrOfTransitions_ + charvec];

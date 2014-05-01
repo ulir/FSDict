@@ -3,12 +3,12 @@
 fsdict::Vaam is a module for approximate matching in large dictionaries, considering
 spelling variants (defined with a set of rewrite patterns) and also spelling errors
 (using levenshtein distance).
- 
+
 This section is meant to be an application-oriented extension of the class-reference to
 make the beginnings of work with Vaam easier.
 
 @section previous_knowlwedge Previous Knowledge: Compiling dictionary automata
-Vaam heavily relies on finite state technology. So before working with the tool, the 
+Vaam heavily relies on finite state technology. So before working with the tool, the
 dictionary at hand has to be compiled into a minimized deterministic FSA. In the csl library
 the type fsdict::MinDic provides e functionality to create such automata and also to store them
 on a hard disk in order to reload it into the memory for usage. Read the @link minDic_manual MinDic manual @endlink  to learn more about the
@@ -22,7 +22,7 @@ Vaam's most important configuration parameters are
 
 Other, optional configuration parameters are used to fine-tune the behaviour of fsdict::Vaam
 - an upper bound for the number of patterns to be applied to one word (fsdict::Vaam::setMaxNrOfPatterns)
-- an upper bound for the number of edit operations (deletion, substitution, insertion) to be applied to 
+- an upper bound for the number of edit operations (deletion, substitution, insertion) to be applied to
   the word on top of the pattern applications.  (fsdict::Vaam::setDistance)
 
 A ready-to-use Vaam object might be created like this:

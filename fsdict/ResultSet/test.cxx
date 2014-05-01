@@ -43,5 +43,5 @@ int main() {
 	printf( "%ls,%d,%d\n", s[i].getStr(), s[i].getLevDistance(), s[i].getAnn() );
     }
 
-    
+
 }

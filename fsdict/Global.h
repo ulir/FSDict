@@ -27,7 +27,7 @@
 
 #define FSDICT_DECLSPEC __declspec(dllexport)
 #else
-#define FSDICT_DECLSPEC 
+#define FSDICT_DECLSPEC
 #endif
 
 #if defined(_MSC_VER)
@@ -39,13 +39,13 @@ typedef unsigned __int8 uint8_t;
 typedef unsigned __int16 uint16_t;
 typedef unsigned __int32 uint32_t;
 typedef unsigned __int64 uint64_t;
-#endif 
+#endif
 
 
 
 /**
    This namespace covers a system of modules for string processing.
-   @todo 
+   @todo
    - rename typedefs to "fasel_t"
 */
 namespace fsdict {
@@ -62,30 +62,30 @@ namespace fsdict {
     typedef unsigned long long bits64;
     typedef unsigned int StateId_t;
 
-    typedef enum { 
+    typedef enum {
 	/// just 4 bytes per transition (currently not implemented)
-	SLIM, 
+	SLIM,
 
 	/// 8 bytes per transition, multiple values can be stored inside states
 	BASIC,
 
 	/**
-	 * 12 bytes per transition; 
-	 * perfect hashing (ph) provides offset for a single value, 
+	 * 12 bytes per transition;
+	 * perfect hashing (ph) provides offset for a single value,
 	 * "SuperSonic(suso) Mode" provides for each state a string of available transition-labels
 	 * designed to hold huge token dictionaries with some frequency (or other) score
 	 */
 	TOKDIC
     } CellType ;
 
-    typedef enum { 
+    typedef enum {
 	STANDARD,
 	FW_BW
     } MSMatchMode;
 
     namespace Global {
-       
-#ifdef FSDICT_ROOTDIR	
+
+#ifdef FSDICT_ROOTDIR
 	static const std::string cslRootDir( FSDICT_ROOTDIR );
 #endif
 
@@ -124,8 +124,8 @@ namespace fsdict {
 	enum CaseMode { asIs,        /**< don't change anything, take query as it comes*/
 			toLower,     /**< change query to lower case and return all candidates lower case */
 			restoreCase  /**< do search in lower case, but upcase first character of all cands if query was uppercase */
-	}; 
-	
+	};
+
 
 	inline const void reverse(const wchar_t* str, wchar_t* newStr) {
 	    size_t len = wcslen( str );
@@ -181,11 +181,11 @@ namespace fsdict {
 	    }
 
 	    virtual ~fsdictException() throw() {}
-	    
+
 	    virtual const char* what() const throw() {
 		return msg_.c_str();
 	    }
-	    
+
 	private:
 	    const std::string msg_;
 	};
@@ -219,13 +219,13 @@ namespace fsdict {
 	    badFileHandle() {}
 	    badFileHandle( const std::string msg ) : fsdictException( msg ) {}
 	};
-	
+
 	class invalidLevDistance : public fsdictException {
 	public:
 	    invalidLevDistance() {}
 	    invalidLevDistance( const std::string msg ) : fsdictException( msg ) {}
 	};
-	
+
 	class bufferOverflow : public fsdictException {
 	public:
 	    bufferOverflow() {}

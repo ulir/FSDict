@@ -20,12 +20,12 @@ void getStats(int pos, int depth)  {
     static int newPos;
 
     ++count[STATES];
-    
+
     for(c=1;c<= alph->size();++c) {
 //	    std::cout<<"depth="<<depth<<", char="<<(uchar)alph_.decode(c)<<std::endl;
 	if((newPos = t->walk(pos,c))) {
 //	    w[depth] = alph_.decode(c);
-	    
+
 	    if(t->isFinal(newPos)) {
 //		w[depth+1] = 0;
 //		printf("%s",(char*)w);
@@ -40,7 +40,7 @@ void getStats(int pos, int depth)  {
 // 		    }
 // 		}
 //		printf("\n");
-		    
+
 //		if((++count_ % 100000) == 0) fprintf(stderr, "%d\n", count_);
 	    } // if isFinal
 
@@ -56,13 +56,9 @@ int main(int argc, char** argv) {
     memset(count,0,maxCounts * sizeof(int));
 
     getStats(t->getRoot(),0);
-    
+
     for(int i=0; i<2; ++i) {
 	printf("%30s\t %d\n",cats[i],count[i]);
     }
 
-} // end of method 
-
-
-    
-    
+} // end of method

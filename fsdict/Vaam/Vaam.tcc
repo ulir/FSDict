@@ -16,7 +16,7 @@ namespace fsdict {
 	patternGraph_.loadPatterns( patternFile );
     }
 
-    
+
     template< typename MinDicType >
     void Vaam< MinDicType >::setDistance( size_t d ) {
 	levDEA_.setThreshold( d );
@@ -37,7 +37,7 @@ namespace fsdict {
 	query_ = word;
 	interpretations_ = interpretations;
 	foundAnswers_ = false;
-	
+
 	if( ! baseDic_ ) throw fsdict::exceptions::LogicalError( "fsdict::Vaam::query: No baseDic_ loaded." );
 	if( ! baseDic_->readyToRead() ) throw fsdict::exceptions::LogicalError( "fsdict::Vaam::query: baseDic_ not ready to read." );
 
@@ -63,7 +63,7 @@ namespace fsdict {
 
 	return foundAnswers_;
     }
-    
+
     template< typename MinDicType >
     void Vaam< MinDicType >::setFilterDic( iDictionary< int > const& filterDic ) {
 	filterDic_ = &filterDic;
@@ -77,12 +77,12 @@ namespace fsdict {
 
     template< typename MinDicType >
     void Vaam< MinDicType >::query_rec( size_t depth ) const {
-	
+
 // 	std::wcout<<"query_rec( "<<depth<<" ):word="<<baseWord_<<std::endl; // DEBUG
 
 
 	stack_.push_back( StackItem( *this ) );
-	
+
 	// this lets us use the []-operator for stack_ with a somewhat purer conscience
 	// But the at()-operator turned out to be a real bottleneck here ...
 	if( stack_.size() != depth + 2 ) {
@@ -106,14 +106,14 @@ namespace fsdict {
 
 	// erase positions that were added using the wordEndMarker
 	stack_[depth].erase( stack_[depth].begin()+nrOfPositions, stack_[depth].end() );
-	
+
 
 	// for all outgoing transitions
 	for( const wchar_t* c = stack_[depth].dicPos_.getSusoString();
 	     *c;
 	     ++c ) {
 	    stack_.at( depth + 1 ).clear();
-	    
+
 	    stack_[depth + 1].patternPos_ = stack_[depth].patternPos_.getTransTarget( *c );
 
 	    // see which of the Positions can be moved with this *c
@@ -127,36 +127,36 @@ namespace fsdict {
 		    stack_[depth + 1].push_back( Position( newLevPos, position->getNrOfPatternsApplied(), std::make_pair( depth, positionIndex ) ) );
 		}
 	    }
-	    
-	    // set lookAheadDepth_ for next stackItem: 
+
+	    // set lookAheadDepth_ for next stackItem:
 	    if( ! stack_[depth + 1].empty() ) { // set to 0 if new positions exist
 		stack_[depth + 1].lookAheadDepth_ = 0;
 	    }
 	    else { // increment if no new positions exist
 		stack_[depth + 1].lookAheadDepth_ = stack_[depth].lookAheadDepth_ + 1;
 	    }
-	    
+
 	    if( stack_[depth + 1].lookAheadDepth_ <= stack_[depth + 1].patternPos_.getPrefixLength() ) {
 		stack_[depth + 1].dicPos_ = stack_[depth].dicPos_.getTransTarget( *c );
 		baseWord_.resize( depth + 1 );
 		baseWord_.at( depth ) = *c;
-		
+
 		query_rec( depth + 1 );
 	    }
 	}
-	
+
 	stack_.pop_back();
     } // query_rec
-    
+
 
     template< typename MinDicType >
     void Vaam< MinDicType >::applyPatterns( size_t depth ) const {
-	// apply all patterns whose left sides end here 
+	// apply all patterns whose left sides end here
 	if( stack_[depth].patternPos_.isFinal() ) {
 	    // a copy is needed here, because the state must descend the errorlinks in order to find more matches (-->Aho-Corasick alg.)
 	    PatternGraph::State patPos = stack_[depth].patternPos_;
-	    
-	    
+
+
 	    assert( patPos.isFinal() );
 
 	    // for all patterns fitting a suffix of the current path
@@ -164,7 +164,7 @@ namespace fsdict {
 		 rightSide != patPos.getReplacements().end();
 		 ++rightSide ) {
 
-		
+
 		// Here, take the "stripped" version of the pattern without wordBegin- or worEnd-markers
 		size_t sizeOfLeftSide = patternGraph_.stripped_at( rightSide->second ).getLeft().length();
 
@@ -181,7 +181,7 @@ namespace fsdict {
 		    if( ( maxNrOfPatterns_ != Vaam::INFINITE ) && ( position->getNrOfPatternsApplied() == maxNrOfPatterns_ ) )
 			continue;
 
-			
+
 		    LevDEA::Pos newLevPos = levDEA_.walkStr( position->levPos_, patternGraph_.stripped_at( rightSide->second ).getRight().c_str() );
 		    if( newLevPos.isValid() )  {
 			//                              1 more applied pattern than cur position       store current position as 'mother'-position
@@ -224,26 +224,26 @@ namespace fsdict {
     void Vaam< MinDicType >::reportMatch( const Position* cur, int baseWordScore ) const {
 	Interpretation interpretation;
 
-	interpretation.setBaseWord( baseWord_ ); 
+	interpretation.setBaseWord( baseWord_ );
 
 	reportMatch_rec( cur, &interpretation );
 	interpretation.setLevDistance( levDEA_.getDistance( cur->levPos_ ) );
 	interpretation.setBaseWordScore( baseWordScore );
-	
+
 	// find out what word we're talking about by applying the pattern to the baseWord
 	std::wstring word = baseWord_;
 	interpretation.getInstruction().applyTo( &word );
-	interpretation.setWord( word ); 
+	interpretation.setWord( word );
 
 	if( ( filterDic_ && filterDic_->lookup( interpretation.getWord() ) )  || // if there's a filterDic_ and interpretation.word is in it or ..
 	    ( interpretation.getInstruction().size() < minNrOfPatterns_ )
-	    
+
 	    ) {
 	    return;
 	}
 
 	if( wasUpperCase_ ) {
-	    
+
 	    std::wstring tmp = interpretation.getBaseWord();
 	    tmp.at( 0 ) = std::toupper( tmp.at( 0 ), locale_ );
 	    interpretation.setBaseWord( tmp );
@@ -273,6 +273,6 @@ namespace fsdict {
     }
 
 
-    
+
 } // namespace fsdict
 #endif

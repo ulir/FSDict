@@ -4,8 +4,8 @@ link_directories (${csl_BINARY_DIR}/csl)
 add_executable(lookupMDString lookupMDString.cxx)
 target_link_libraries (lookupMDString csl)
 
-install( 
+install(
   TARGETS lookupMDString
   DESTINATION bin
-  
+
   )

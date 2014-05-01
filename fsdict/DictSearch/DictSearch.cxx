@@ -18,9 +18,9 @@ namespace fsdict {
 	}
 	if( vaam_ ) delete vaam_;
 	if( val_ ) delete val_;
-	
+
     }
-    
+
 
 
     void DictSearch::readConfiguration( char const* configFile ) {
@@ -29,7 +29,7 @@ namespace fsdict {
     }
 
     void DictSearch::readConfiguration( INIConfig const& iniConf ) {
-	
+
 	// of all sections in iniConf, find those which start with "dict_" and have a key-value pair "active = true"
 	std::vector< std::string > activeDictionaries;
 	for( INIConfig::SectionIterator section = iniConf.sectionsBegin(); section != iniConf.sectionsEnd(); ++section ) {
@@ -48,16 +48,16 @@ namespace fsdict {
 	    std::wcerr << "cslDictSearch::readConfiguration: load DictModule " << wideName << ", cascadeRank=" << cascadeRank << std::endl;
 
 	    if( ! iniConf.hasKey( *it + ":dict_type" ) ) {
-		throw exceptions::fsdictException( std::string( "fsdict::DictSearch::readConfiguration: dictionary " ) 
+		throw exceptions::fsdictException( std::string( "fsdict::DictSearch::readConfiguration: dictionary " )
 						+ *it + " has no specified dict_type."  );
 	    }
 
 	    // Standard "word-list" dictionaries
 	    if( iniConf.getstring( *it + ":dict_type" ) == std::string( "simple" ) ) {
-	    
-		
+
+
 		DictModule& dm = addDictModule( wideName, iniConf.getstring( *it + ":path" ), cascadeRank );
-		
+
 		dm.setMaxNrOfPatterns( iniConf.getint( *it + ":histPatterns" ) );
 
 		if( std::string( iniConf.getstring( *it + ":ocrErrors" ) ) == "LENGTH_SENSITIVE" ) {
@@ -87,9 +87,9 @@ namespace fsdict {
 	    // annotated dictionaries
 	    else if( iniConf.getstring( *it + ":dict_type" ) == std::string( "annotated" ) ) {
 		AnnotatedDictModule* sdm = new AnnotatedDictModule( *this,
-									wideName, 
-									iniConf.getstring( *it+ ":path" ), 
-                                                			cascadeRank );
+								    wideName,
+								    iniConf.getstring( *it+ ":path" ),
+								    cascadeRank );
 		if( std::string( iniConf.getstring( *it + ":ocrErrors" ) ) == "LENGTH_SENSITIVE" ) {
 		    sdm->setDLevWordlengths();
 		}
@@ -112,28 +112,28 @@ namespace fsdict {
 			throw exceptions::fsdictException( "fsdict::DictSearch::readConfiguration: unknown Global::caseMode" );
 		    }
 		}
-                
+
                 addAnnotatedDictModule( sdm );
 
 
-		
-		
+
+
 	    }
 	    else {
 		throw exceptions::fsdictException( "fsdict::DictSearch::readConfiguration: unknown dict_type for dictionary " + *it );
 	    }
-	    
+
 	} // for all dictModules
 
 	initHypothetic( iniConf.getstring( "language_model:patternFile" ) );
     }
-    
+
 
     void DictSearch::initHypothetic( char const* patternFile ) {
 	if ( vaam_ || val_ ) throw exceptions::LogicalError( "fsdict::DictSearch: Tried to initialise Vaam twice." );
 	vaam_ = new Vaam< VaamDict_t >( dummyDic, patternFile );
 	val_ = new Val( dummyDic, patternFile );
-	
+
 	vaam_->setDistance( 0 );
 	// exclude all output that is provided by levenshtein matcher on modern dict by setting a minNrOfPatterns
 	vaam_->setMinNrOfPatterns( 1 );
@@ -165,7 +165,7 @@ namespace fsdict {
 	externalDictModules_.push_back( &extModule );
 	allDictModules_.insert( std::make_pair( extModule.getCascadeRank(), &extModule ) );
     }
-    
+
 
     bool DictSearch::hasDictModules() const {
 	return ( internalDictModules_.size() + externalDictModules_.size() != 0 );
@@ -178,9 +178,9 @@ namespace fsdict {
 
     bool DictSearch::query( std::wstring const& query, iResultReceiver* answers ) {
 	bool foundAnswers = false;
-	
+
 	size_t cascadeRank = 0;
-	for( std::multimap< size_t, iDictModule* >::const_iterator dm = allDictModules_.begin(); 
+	for( std::multimap< size_t, iDictModule* >::const_iterator dm = allDictModules_.begin();
 	     dm != allDictModules_.end();
 	     ++dm ) {
 	    if( ((*dm).first) > cascadeRank ) {
@@ -191,7 +191,7 @@ namespace fsdict {
 		    cascadeRank = ((*dm).first);
 		}
 	    }
-	    
+
 //	    try {
 		answers->setCurrentDictModule( *( (*dm).second ) );
 		foundAnswers = ( (* (*dm).second ) ).query( query, answers );
@@ -202,7 +202,7 @@ namespace fsdict {
 	return foundAnswers;
 
     }
-    
+
 } // namespace fsdict
 
 

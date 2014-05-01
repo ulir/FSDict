@@ -13,7 +13,7 @@ namespace fsdict {
 	dict_ = NULL;
 	load( iniFile );
     }
-    
+
     INIConfig::~INIConfig() {
 	iniparser_freedict( dict_ );
     }
@@ -24,16 +24,16 @@ namespace fsdict {
 	}
 
 	dict_ = iniparser_load( iniFile.c_str() );
-	
+
 	if( dict_ == 0 ) throw exceptions::fsdictException( "fsdict::INIConfig: Cannot parse file" );
     }
-    
+
     void INIConfig::dump_ini( std::wostream& os ) const {
 	if( dict_ == NULL ) throw exceptions::fsdictException( "fsdict::INIConfig: No configuration loaded" );
 
 	std::string sectionName;
 	std::string sectionNameColon; // holds the section name plus a colon :  "someSection:"
-	
+
 	std::wstring wideSection, wideKey, wideValue; // used for various conversions
 
 	int nsec = iniparser_getnsec( dict_ );
@@ -62,7 +62,7 @@ namespace fsdict {
 		    }
 		    if( !strncmp(dict_->key[j], sectionNameColon.c_str(), sectionNameColon.size() ) ) {
 			UTF8Locale::string2wstring( dict_->key[j], wideKey );
-			if( dict_->val[j] ) { // obviously this can be 0 
+			if( dict_->val[j] ) { // obviously this can be 0
 			    wideValue.clear();
 			}
 			else {
@@ -70,7 +70,7 @@ namespace fsdict {
 			}
 
 			os << wideKey.substr( sectionNameColon.size() ) << " = " << wideValue << std::endl;
-			
+
 		    }
 		}
 	    }
@@ -78,8 +78,8 @@ namespace fsdict {
 	    return ;
 	}
     }
-    
-    
+
+
     bool INIConfig::hasKey( std::string const& key ) const {
 	if( dict_ == NULL ) throw exceptions::fsdictException( "fsdict::INIConfig: No configuration loaded" );
 	return iniparser_find_entry( dict_, key.c_str() );
@@ -93,7 +93,7 @@ namespace fsdict {
 	}
 	return c;
     }
-    
+
     char const* INIConfig::getstring( std::string const& key ) const {
 	if( dict_ == NULL ) throw exceptions::fsdictException( "fsdict::INIConfig: No configuration loaded" );
 	return getstring( key.c_str() );
@@ -121,7 +121,7 @@ namespace fsdict {
 
     bool INIConfig::getbool( std::string const& key ) const {
 	if( dict_ == NULL ) throw exceptions::fsdictException( "fsdict::INIConfig: No configuration loaded" );
-	
+
 	try {
 	    int numericValue = getint( key );
 	    return ( numericValue != 0 );

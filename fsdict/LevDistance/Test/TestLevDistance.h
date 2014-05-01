@@ -21,7 +21,7 @@ namespace fsdict {
 	void testBasics();
 
 
-	
+
     };
 
     CPPUNIT_TEST_SUITE_REGISTRATION( TestLevDistance );
@@ -32,7 +32,7 @@ namespace fsdict {
     void TestLevDistance::run() {
 	testBasics();
     }
-    
+
 
     /**
      * test the basic methods

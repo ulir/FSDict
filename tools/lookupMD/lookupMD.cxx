@@ -32,16 +32,16 @@ int main( int argc, char const** argv ) {
 	else {
 	    minDic = new fsdict::MinDic<>( options.getArgument( 0 ).c_str() );
 	}
-	
 
-	
+
+
 	std::wstring query;
 	while( std::getline( std::wcin, query ).good() ) {
 	    // is this really necessary ??
 	    if ( query.length() > Global::lengthOfLongStr ) {
 		throw exceptions::badInput( "fsdict::lookupMD: Maximum length of input line violated (set by Global::lengthOfLongStr)" );
 	    }
-	    
+
 	    int ann = 0;
 	    if( minDic->lookup( query.c_str(), &ann ) ) {
 		std::wcout<<ann<<std::endl;
@@ -51,7 +51,7 @@ int main( int argc, char const** argv ) {
 	if( errno == EILSEQ ) {
 	    throw exceptions::badInput( "fsdict::lookupMD: Input encoding error" );
 	}
-	
+
     } catch( exceptions::fsdictException& ex ) {
 	std::wcout<<"lookupMD: "<<ex.what()<<std::endl;
 	exit( 1 );

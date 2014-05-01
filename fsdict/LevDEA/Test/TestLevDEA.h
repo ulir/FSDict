@@ -52,7 +52,7 @@ namespace fsdict {
     void TestLevDEA::testWithInputString( std::string msg, std::wstring const& str, bool valid, bool final, int distance ) {
 	std::string narrowStr = UTF8Locale::wstring2string( str );
 	std::string narrowPattern = UTF8Locale::wstring2string( levDEA_.getPattern() );
-	
+
 	std::string msgBase;
 	msgBase += std::string( "pattern=" ) + narrowPattern + ", threshold=" + toString( levDEA_.getThreshold() ) + ", input=" + narrowStr + ". " + msg + " - ";
 
@@ -68,13 +68,13 @@ namespace fsdict {
 	    CPPUNIT_ASSERT_MESSAGE( msgBase + "Should lead to fail state.",  ! p.isValid() );
 	}
     }
-    
+
     void TestLevDEA::testBasics() {
 
 
 	levDEA_.loadPattern( L"1aabbccdd2" );
 
-	
+
 	// Test success cases with 1 edit operation. Those should succeed also fo thesholds >1, so we test those as well.
 	for( size_t threshold = 1; threshold <=2; ++threshold ) {
 	    levDEA_.setThreshold( threshold );
@@ -122,10 +122,10 @@ namespace fsdict {
 
 	testWithInputString( "3 insertions at the end. Should fail.", L"1aabbccdd2xxx", false );
 	testWithInputString( "3 deletions at the end. Should be valid, but not final.", L"1aabbcc", true, false );
-	
+
 	testWithInputString( "sub + trans", L"1xabcbcdd2", true, true, 2 );
 	testWithInputString( "sub + trans 2", L"1aabbccx2d", true, true, 2 );
-	
+
 	// Some cases that occurred during debugging
 	levDEA_.setThreshold( 1 );
 	levDEA_.loadPattern(L"iphone");
@@ -189,7 +189,7 @@ namespace fsdict {
 	p = levDEA_.walkStr( levDEA_.getRoot(), L"iph" );
 	offsets.clear();
 	CPPUNIT_ASSERT_MESSAGE( "startSuffixMatch returns true", levDEA_.startSuffixMatch( p, &offsets ) );
-	
+
 	CPPUNIT_ASSERT_EQUAL_MESSAGE( "Get 1 offset", (size_t)2, offsets.size() );
 	CPPUNIT_ASSERT_EQUAL_MESSAGE( "First and only offset is at pos 2",  (size_t)2, offsets.at( 0 ) );
 	CPPUNIT_ASSERT_EQUAL_MESSAGE( "First and only offset is at pos 3",  (size_t)3, offsets.at( 1 ) );
@@ -206,19 +206,19 @@ namespace fsdict {
 	p = levDEA_.walkStr( levDEA_.getRoot(), L"ih" );
 	offsets.clear();
 	CPPUNIT_ASSERT_MESSAGE( "startSuffixMatch returns false", ! levDEA_.startSuffixMatch( p, &offsets ) );
-	
+
 	p = levDEA_.walkStr( levDEA_.getRoot(), L"ihp" );
 	offsets.clear();
 	CPPUNIT_ASSERT_MESSAGE( "startSuffixMatch returns false", ! levDEA_.startSuffixMatch( p, &offsets ) );
-	
+
 	p = levDEA_.walkStr( levDEA_.getRoot(), L"ihpn" );
 	offsets.clear();
 	CPPUNIT_ASSERT_MESSAGE( "startSuffixMatch returns false", ! levDEA_.startSuffixMatch( p, &offsets ) );
-	
+
 	p = levDEA_.walkStr( levDEA_.getRoot(), L"ihpno" );
 	offsets.clear();
 	CPPUNIT_ASSERT_MESSAGE( "startSuffixMatch returns true", levDEA_.startSuffixMatch( p, &offsets ) );
-	
+
 
 
 

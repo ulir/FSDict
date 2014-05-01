@@ -21,15 +21,15 @@ namespace fsdict {
 	CPPUNIT_TEST( testAnnotatedDictModule );
 	CPPUNIT_TEST_SUITE_END();
 
-	
+
     public:
 	void smokeTest() {
 
 	    // add a modern dict for exact matching, dlev==0
 	    DictSearch ds;
 
-	    
-	    
+
+
 	    DictSearch::CandidateSet result;
 
 	    // lookup in modern dict with dlev 0
@@ -47,7 +47,7 @@ namespace fsdict {
 	    CPPUNIT_ASSERT_EQUAL( (size_t)1, result.size() );
 	    CPPUNIT_ASSERT( L"teile" == result.at( 0 ).getWord()  );
 	    CPPUNIT_ASSERT( result.at( 0 ).getInstruction().empty() );
-	    
+
 
 	    // change dlev to 1, 2
 	    result.clear();
@@ -102,16 +102,16 @@ namespace fsdict {
 // 	    }
 
 	    CPPUNIT_ASSERT( result.size() == 10 );
-	    std::wstring resultWords[10] = { 
+	    std::wstring resultWords[10] = {
 		L"teile", L"feile", L"teilen", L"teyle", L"theile", L"teller", L"feyle", L"teylen", L"theilen", L"theyle"
 	    };
-	    
+
 	    n = 0;
 	    for( DictSearch::CandidateSet::const_iterator it = result.begin(); it != result.end(); ++it, ++n ) {
 //		it->print(); std::wcout << std::endl;
 		CPPUNIT_ASSERT( it->getWord() == resultWords[ n ] );
 	    }
-	    
+
 	    //////////////  ADD A HISTORIC DIC ////////////////////////
 	    DictSearch::DictModule& histDict = ds.addDictModule( L"historic", std::string( "../fsdict/DictSearch/Test/small.historical.fbdic" ) );
 	    histDict.setDLev( 0 );
@@ -134,9 +134,9 @@ namespace fsdict {
 
 
 	void testConfiguration() {
-	    
+
 	}
-	
+
 	void testDLev() {
 	    DictSearch ds;
 	    DictSearch::DictModule& modernDict = ds.addDictModule( L"modern", std::string( "../fsdict/DictSearch/Test/small.modern.fbdic" ) );
@@ -171,7 +171,7 @@ namespace fsdict {
 
 	void testCaseMode() {
 	    DictSearch ds;
-	    
+
 
 	    DictSearch::CandidateSet result;
 
@@ -183,21 +183,21 @@ namespace fsdict {
 	    CPPUNIT_ASSERT( result.size() == 1 );
 	    CPPUNIT_ASSERT( result.at( 0 ).getWord() == L"teile"  );
 	    CPPUNIT_ASSERT( result.at( 0 ).getInstruction().empty() );
-	    
+
 	    result.clear();
 	    ds.query( L"Teile", &result );
 	    CPPUNIT_ASSERT( result.size() == 1 );
 	    CPPUNIT_ASSERT( result.at( 0 ).getWord() == L"Teile"  );
 	    CPPUNIT_ASSERT( result.at( 0 ).getInstruction().empty() );
-	    
+
 	}
 
 	void testAnnotatedDictModule() {
 
 
 	    DictSearch ds;
-	    
-	    
+
+
 	    DictSearch::CandidateSet result;
 
 	    DictSearch::AnnotatedDictModule histDict( ds, L"histDict", "./test.fbds" );
@@ -206,8 +206,8 @@ namespace fsdict {
 	    //histDict.setCaseMode( Global::restoreCase );
 
 	    ds.query( L"theil", &result );
-	    
-	    
+
+
 	}
 
 	void testCascades() {
@@ -215,17 +215,17 @@ namespace fsdict {
 
 	    DictSearch::CandidateSet result;
 
-	    DictSearch::DictModule& exactDict = ds.addDictModule( 
-		L"modernExact", 
-		std::string( "../fsdict/DictSearch/Test/small.modern.fbdic" ), 
+	    DictSearch::DictModule& exactDict = ds.addDictModule(
+		L"modernExact",
+		std::string( "../fsdict/DictSearch/Test/small.modern.fbdic" ),
 		0  // cascadeRank
 		);
 
 	    CPPUNIT_ASSERT(exactDict.getDict());
 
-	    DictSearch::DictModule& fuzzyDict = ds.addDictModule( 
-		L"modernFuzzy", 
-		std::string( "../fsdict/DictSearch/Test/small.modern.fbdic" ), 
+	    DictSearch::DictModule& fuzzyDict = ds.addDictModule(
+		L"modernFuzzy",
+		std::string( "../fsdict/DictSearch/Test/small.modern.fbdic" ),
 		1   // cascadeRank
 		);
 	    fuzzyDict.setDLev( 2 );
@@ -238,18 +238,18 @@ namespace fsdict {
 	    result.clear();
 	    ds.query( L"teite", &result );
 	    std::sort( result.begin(), result.end() );
-	    
+
 	    CPPUNIT_ASSERT_EQUAL( (size_t)3, result.size() );
 	    CPPUNIT_ASSERT( result.at( 0 ).getWord() == L"teile" );
 	    CPPUNIT_ASSERT( result.at( 1 ).getWord() == L"feile" ); // here orderis kind of arbitrary :-/
 	    CPPUNIT_ASSERT( result.at( 2 ).getWord() == L"teilen" );//             ----------
-	    
+
 	}
-	
+
     private:
-	
+
     };
-    
+
 } // namespace fsdict
 
 #endif

@@ -8,23 +8,23 @@ int main( int argc, const char** argv ) {
     std::locale::global( std::locale( "" ) );
 
 
-    try { 
+    try {
 	Getopt options( argc, argv );
-	
+
 	if( options.getArgumentCount() != 2 ) {
 	    std::cerr<<"Use like: "<<argv[0]<<" <txtDic> <binDic>"<<std::endl;
 	    return 1;
 	}
-	
+
 	FBDicString fbds;
-	
+
 	if( options.hasOption( "cislex" ) ) {
 	    fbds.setKeyValueDelimiter( '.' );
 	}
-	
+
 	fbds.compileDic( options.getArgument( 0 ).c_str() );
 	fbds.writeToFile( options.getArgument( 1 ).c_str() );
-	
+
 
     }
     catch( fsdict::exceptions::fsdictException& exc ) {

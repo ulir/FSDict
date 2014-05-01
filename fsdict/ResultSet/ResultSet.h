@@ -49,7 +49,7 @@ namespace fsdict {
 	    listBuffer_.push_back( Item( str, levDistance, annotation ) );
 	    list_.push_back( &( listBuffer_[listBuffer_.size() - 1] ) );
 	}
-	
+
 	/**
 	 * delete all items from the list
 	 */
@@ -114,7 +114,7 @@ namespace fsdict {
 
 
 	/**
-	 * 
+	 *
 	 */
 	static bool cmp( const Item* a, const Item* b ) {
 	    return wcscmp( a->getStr(), b->getStr() ) < 0;
@@ -132,7 +132,7 @@ namespace fsdict {
 	    sort();
 	    std::unique( list_.begin(), list_.end(), is_equal );
 	}
-	
+
     private:
 	std::vector< Item* > list_;
 	std::vector< Item > listBuffer_;

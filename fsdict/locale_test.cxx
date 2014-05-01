@@ -33,9 +33,9 @@ class MyFacet : public std::codecvt<wchar_t, char, mbstate_t> {
 	       const intern_type* __from_end, const intern_type*& __from_next,
 	       extern_type* __to, extern_type* __to_end,
 	       extern_type*& __to_next) const {
-	
+
 	//std::wcout<<L"Hi, I'm the facet"<<std::endl;
-	
+
 	std::ofstream outStream( "hi.txt" );
 	outStream<<"Hi, I'm the facet"<<std::endl;
 	outStream.close();
@@ -68,13 +68,13 @@ class MyFacet : public std::codecvt<wchar_t, char, mbstate_t> {
 	std::cout<<"Hi, I'm the facet: do_max_length"<<std::endl;
 	return 42;
     }
-    
+
 };
 
 int main() {
 
     std::locale myLocale( std::locale(), new MyFacet() );
-    
+
 
 //     std::ofstream outStream( "test.txt" );
 
@@ -84,7 +84,7 @@ int main() {
 //     }
 
 //     outStream.imbue( myLocale );
-    
+
 
 //     if( std::has_facet< std::codecvt<wchar_t, char, mbstate_t> >( std::wcout.getloc() ) ) {
 // 	std::wcout<<"jetzt hat er eins"<<std::endl;
@@ -97,6 +97,6 @@ int main() {
     strBuf.sputc( L'c' );
 
     return 0;
-    
+
 
 }

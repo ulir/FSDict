@@ -19,7 +19,7 @@ namespace fsdict {
      */
     class TestPattern : public CppUnit::TestFixture  {
 
-  	CPPUNIT_TEST_SUITE( TestPattern );
+	CPPUNIT_TEST_SUITE( TestPattern );
 	CPPUNIT_TEST( testPattern );
 	CPPUNIT_TEST( testPatternSet );
 	CPPUNIT_TEST( testPosPattern );
@@ -40,19 +40,19 @@ namespace fsdict {
 
 	void run();
     private:
-	
+
     }; // class TestPattern
 
     CPPUNIT_TEST_SUITE_REGISTRATION( TestPattern );
 
-    
+
     void TestPattern::run() {
-  	testPattern();
-  	testPatternSet();
-  	testPosPattern();
- 	testInstruction();
- 	testInterpretation();
-  	testPatternProbabilities();
+	testPattern();
+	testPatternSet();
+	testPosPattern();
+	testInstruction();
+	testInterpretation();
+	testPatternProbabilities();
 	testPatternGraph();
     }
 
@@ -60,7 +60,7 @@ namespace fsdict {
      * test the basic methods of class Pattern.
      */
     void TestPattern::testPattern() {
-	// test constructor and the getters. 
+	// test constructor and the getters.
 	Pattern p1( L"left", L"right" );
 	CPPUNIT_ASSERT( p1.getLeft() == L"left" );
 	CPPUNIT_ASSERT( p1.getRight() == L"right" );
@@ -76,8 +76,8 @@ namespace fsdict {
 	pSet.loadPatterns( "../fsdict/Pattern/Test/small.patterns.txt" );
 
 	PatternSet::const_iterator pat = pSet.begin();
-	
- 	CPPUNIT_ASSERT( ( pat->getLeft() == L"a" ) && ( pat->getRight() == L"x" ) );
+
+	CPPUNIT_ASSERT( ( pat->getLeft() == L"a" ) && ( pat->getRight() == L"x" ) );
 	++pat;
 	CPPUNIT_ASSERT( ( pat->getLeft() == L"ei" ) && ( pat->getRight() == L"ey" )  );
 	++pat;
@@ -91,12 +91,12 @@ namespace fsdict {
 	++pat;
 
 	CPPUNIT_ASSERT( pat == pSet.end()  );
-       
-	
+
+
     }
 
     void TestPattern::testPosPattern() {
-	
+
 	// construct PosPattern from existing Pattern
 	PosPattern pp1( L"left", L"right", 3 );
 	CPPUNIT_ASSERT( pp1.getLeft() == L"left" );
@@ -111,34 +111,34 @@ namespace fsdict {
 	CPPUNIT_ASSERT( pp2.getLeft() == L"left" );
 	CPPUNIT_ASSERT( pp2.getRight() == L"right" );
 	CPPUNIT_ASSERT( pp2.getPosition() == 3 );
-	
+
 	// if posPattern is not at the beginning of the str
 	str = L"bliblablu(left_right,3)bla";
-    
+
 	PosPattern pp3;
 	size_t end_of_pp = pp3.parseFromString( str, 9 );
 	CPPUNIT_ASSERT( pp3.getLeft() == L"left" );
 	CPPUNIT_ASSERT( pp3.getRight() == L"right" );
 	CPPUNIT_ASSERT( pp3.getPosition() == 3 );
 	CPPUNIT_ASSERT( end_of_pp == 23 );
-	
+
 	// in a realistic Instruction
 	str = L"[(left_right,3)(le_ri,42)]";
-    
+
 	PosPattern pp4;
 	end_of_pp = pp4.parseFromString( str, 1 );
 	CPPUNIT_ASSERT( pp4.getLeft() == L"left" );
 	CPPUNIT_ASSERT( pp4.getRight() == L"right" );
 	CPPUNIT_ASSERT( pp4.getPosition() == 3 );
 	CPPUNIT_ASSERT( end_of_pp == 15 );
-	
+
 	PosPattern pp5;
 	end_of_pp = pp5.parseFromString( str, 15 );
 	CPPUNIT_ASSERT( pp5.getLeft() == L"le" );
 	CPPUNIT_ASSERT( pp5.getRight() == L"ri" );
 	CPPUNIT_ASSERT( pp5.getPosition() == 42 );
 	CPPUNIT_ASSERT( end_of_pp == 25 );
-	
+
 
     }
 
@@ -172,7 +172,7 @@ namespace fsdict {
 	Instruction instr3;
 	instr3.parseFromString( L"[]", 0 );
 	CPPUNIT_ASSERT( instr3.size() == 0 );
-	
+
     }
 
     void TestPattern::testInterpretation() {
@@ -202,9 +202,9 @@ namespace fsdict {
 	CPPUNIT_ASSERT( pp.getWeight( Pattern( L"t", L"th" ) ) == PatternProbabilities::UNDEF );
 	pp.setWeight( Pattern( L"t", L"th" ), 0.35 );
 	CPPUNIT_ASSERT( pp.getWeight( Pattern( L"t", L"th" ) ) == static_cast< float >( 0.35 ) );
-	
+
 	pp.setDefault( PatternProbabilities::PatternType( 1, 2 ), 1.3 );
-	
+
 	CPPUNIT_ASSERT( pp.getWeight( Pattern( L"t", L"th" ) ) == static_cast< float >( 0.35 ) ); // as before
 	CPPUNIT_ASSERT( pp.getWeight( Pattern( L"x", L"yz" ) ) == static_cast< float >( 1.3 ) ); // default value
 	CPPUNIT_ASSERT( pp.getWeight( Pattern( L"xy", L"z" ) ) == PatternProbabilities::UNDEF ); // as before
@@ -226,28 +226,28 @@ namespace fsdict {
 	// implicit copy constructor
 	PatternGraph::State st = pg.getRoot();
 	PatternGraph::State st2 = pg.getRoot();
-	
+
 	// == operator
 	CPPUNIT_ASSERT( st == st2 );
-	
+
 	// basic walk()-operation and isFinal()
 	CPPUNIT_ASSERT( ! st.isFinal() );
 	CPPUNIT_ASSERT( st.walk( 't' ) );
 	CPPUNIT_ASSERT( st.isFinal() );
-	
+
 	st = pg.getRoot();
 	PatternGraph::State st3( st );
 	st2 = st.getTransTarget( 't' );
 	CPPUNIT_ASSERT( st == pg.getRoot() );
-	
-	
+
+
 	/////  Forward, index right
 	PatternGraph pg2( PatternGraph::FORWARD, PatternGraph::INDEX_RIGHT );
 	pg2.loadPatterns( "../fsdict/Val/Test/small.patterns.txt" );
 	pg2.toDot();
 
 	st = pg2.getRoot();
-	
+
 
     }
 

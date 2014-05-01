@@ -7,9 +7,9 @@
 int main(int argc, const char** argv ) {
 
     std::locale::global( std::locale( "de_DE.utf-8" ) );
-    
+
     Getopt opt( argc, argv );
-    
+
     if( opt.getArgumentCount() < 1 ) {
 	std::wcerr<<"so nicht!"<<std::endl;
 	exit( 1 );

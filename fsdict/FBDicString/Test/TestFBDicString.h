@@ -31,11 +31,11 @@ namespace fsdict {
     void TestFBDicString::run() {
 	testBasics();
     }
-    
+
 
     void TestFBDicString::testBasics() {
 	fsdict::FBDicString dic;
-	dic.compileDic( "../fsdict/FBDicString/Test/test.lex" ); 
+	dic.compileDic( "../fsdict/FBDicString/Test/test.lex" );
 
     }
 

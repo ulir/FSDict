@@ -18,10 +18,10 @@ namespace fsdict {
 
 	void testBasics();
 	void testSTDIO();
-	
+
 
     private:
-	
+
     };
 
     CPPUNIT_TEST_SUITE_REGISTRATION( TestUTF8Locale );
@@ -30,7 +30,7 @@ namespace fsdict {
 	testBasics();
 	testSTDIO();
     }
-    
+
 
     /**
      * test the basic methods
@@ -38,7 +38,7 @@ namespace fsdict {
     void TestUTF8Locale::testBasics() {
 
 
-	CPPUNIT_ASSERT_EQUAL_MESSAGE( "Test if decimal point is dot not comma", 
+	CPPUNIT_ASSERT_EQUAL_MESSAGE( "Test if decimal point is dot not comma",
 				      L'.', std::use_facet< std::numpunct< wchar_t > >( UTF8Locale::Instance() ).decimal_point() );
 
 
@@ -72,7 +72,7 @@ namespace fsdict {
 	UTF8Locale::string2wstring( std::wcout.getloc().name(), wideName );
 	std::wcout << "Name " << wideName << std::endl;
 
-	
+
     }
 
 } // namespace fsdict

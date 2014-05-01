@@ -16,7 +16,7 @@ if( @ARGV < 3 ) {
  A small demo program for the perl Vaam interface.
  Query a word and get a Data::Dumper output of the answer aggregate.
  Note that the non-asscii characters are messed up by Data::Dumper, but
- are ok in the data structure. 
+ are ok in the data structure.
 
 HELP
 
@@ -27,7 +27,6 @@ HELP
 my $vaam = new Vaam( distance => shift @ARGV,
 		     dicFile =>  shift @ARGV,
 		     patternFile =>  shift @ARGV,
-		     
     ) or die $!;
 
 

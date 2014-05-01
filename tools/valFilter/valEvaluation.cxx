@@ -8,12 +8,12 @@
 
 /**
  * Vaam
- * 
+ *
  * @file
  *
  * @see fsdict::Vaam
  * @author Ulrich Reffle, <uli@cis.uni-muenchen.de>
- * 
+ *
  */
 
 
@@ -39,7 +39,7 @@ int main(int argc, const char** argv ) {
 	exit( 1 );
     }
 
-    
+
     fsdict::MinDic<> const* baseDic = 0;
     fsdict::FBDic<> const* fbdic = 0;
 
@@ -55,7 +55,7 @@ int main(int argc, const char** argv ) {
 	tmp = new fsdict::MinDic<>();
 	tmp->loadFromFile( opt.getArgument( 0 ).c_str() );
 	baseDic = tmp;
-	
+
     }
 
 
@@ -101,7 +101,7 @@ int main(int argc, const char** argv ) {
 	std::sort( answers.begin(), answers.end() );
 #endif
 
-	sumOfCandidates += answers.size(); 
+	sumOfCandidates += answers.size();
 
 	if( answers.empty() ) {
 #ifndef FSDICT_VAAMFILTER_PRINTNONE
@@ -127,37 +127,37 @@ int main(int argc, const char** argv ) {
 	    }
 #endif
 	}
-	
+
 //	std::wcout<<watch.readMilliseconds()<<" ms"<<std::endl;
     } // for all input
 
     if( errno == EILSEQ ) {
 	throw fsdict::exceptions::badInput( "fsdict::vaamFilter: Input encodig error" );
     }
-    
 
-    std::wcout<<watch.readMilliseconds()<<" ms for "<< nrOfQueries << " queries. AVG: " 
+
+    std::wcout<<watch.readMilliseconds()<<" ms for "<< nrOfQueries << " queries. AVG: "
 	      << (double)watch.readMilliseconds() / (double)nrOfQueries << "ms" << std::endl;
-    std::wcout<<sumOfCandidates << " answers for "<< nrOfQueries << " queries. AVG: " 
+    std::wcout<<sumOfCandidates << " answers for "<< nrOfQueries << " queries. AVG: "
 	      << (double)sumOfCandidates / (double)nrOfQueries << std::endl;
-    
+
 
     if( fbdic ) {
 	delete( fbdic );
 	fbdic = 0;
 	baseDic = 0;
     }
-    
+
     if( baseDic ) {
 	delete( baseDic );
 	baseDic = 0;
     }
-    
+
     } catch( fsdict::exceptions::fsdictException& ex ) {
 	std::wcout<<"Caught exception: "<<ex.what()<< std::endl;
     }
-    
-    
+
+
 
     return 0;
 }

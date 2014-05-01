@@ -772,7 +772,7 @@ IGNORE_PREFIX          =
 
 GENERATE_HTML          = YES
 
-# If the HTML_FOOTER_DESCRIPTION tag is set to YES, Doxygen will 
+# If the HTML_FOOTER_DESCRIPTION tag is set to YES, Doxygen will
 # add generated date, project name and doxygen version to HTML footer.
 
 HTML_FOOTER_DESCRIPTION= NO

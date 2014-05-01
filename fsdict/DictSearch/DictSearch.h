@@ -17,7 +17,7 @@
 // "AnnotatedDictModule.h" is included at the end of this header file!
 
 namespace fsdict {
-    
+
     /**
      * @brief fsdict::DictSearch is a combined interface for approximate dictionary lookup in the context of historical language.
      *
@@ -29,11 +29,11 @@ namespace fsdict {
      * A third component is what we call the "hypothetic dictionary", containing all orthographical variants that
      * can possibly be derived from some word of the modern dictionary and the application of some "orthographical
      * variant patterns". These patterns are simple rewrite rules and can be specified by the user.
-     * 
-     * For a query word @c w the users receive as answer a set of words, containing exact and approximate matches for 
+     *
+     * For a query word @c w the users receive as answer a set of words, containing exact and approximate matches for
      * either of the three dictionaries. In the usual application this answer set is understood as set of correction
-     * candidates for a (probably garbled) token @c w. The task of ranking these candidates is explicitly out of the scope of 
-     * fsdict::DictSearch: To decide for a correction candidate, various other techniques for channel and language modelling have 
+     * candidates for a (probably garbled) token @c w. The task of ranking these candidates is explicitly out of the scope of
+     * fsdict::DictSearch: To decide for a correction candidate, various other techniques for channel and language modelling have
      * to be taken into account.
      *
      * @author Ulrich Reffle<uli@cis.uni-muenchen.de>, 2008
@@ -57,23 +57,23 @@ namespace fsdict {
 	 */
 	class Interpretation : public fsdict::Interpretation {
 	public:
-	    Interpretation() : dictModule_( 0 ) {} 
-	    
-	    Interpretation( fsdict::Interpretation const& interpretation, iDictModule const& dm ) : 
+	    Interpretation() : dictModule_( 0 ) {}
+
+	    Interpretation( fsdict::Interpretation const& interpretation, iDictModule const& dm ) :
 		fsdict::Interpretation( interpretation ),
 		dictModule_( &dm )
-		{} 
+		{}
 
 
 	    /**
 	     *
 	     * set up a comparison based on the sum of levenshtein or pattern edits.
 	     * Give the levenshtein operations a marginally higher punishment, so that
-	     * if the sums are equal, the one with less lev. operations and more pattern 
+	     * if the sums are equal, the one with less lev. operations and more pattern
 	     * operations will win.
 	     */
 	    bool operator<( Interpretation const& other ) const {
-		
+
 		// std::wcout << "op< this=" << this << std::endl;
 		// std::wcout << "op< other=" << &other << std::endl;
 		// std::wcout << "op< this=" << this->toString() << std::endl;
@@ -82,11 +82,11 @@ namespace fsdict {
 		// float compareSumOfOperations =
 		//     ( getInstruction().size() + getLevDistance() * 1.01 ) -
 		//     ( other.getInstruction().size() + other.getLevDistance() * 1.01 );
-		
-		int compareSumOfOperations = 
-		    ( getInstruction().size() + getLevDistance()  ) - 
+
+		int compareSumOfOperations =
+		    ( getInstruction().size() + getLevDistance()  ) -
 		    ( other.getInstruction().size() + other.getLevDistance() );
-		
+
 		if( compareSumOfOperations == 0 ) {
 		    compareSumOfOperations = getLevDistance() - other.getLevDistance();
 		}
@@ -97,19 +97,19 @@ namespace fsdict {
 		    compareSumOfOperations = getWord().compare( other.getWord() );
 		}
 
-		// std::wcout 
-		//     << "BLA:" << getInstruction().size() << L" + " << getLevDistance() << L" - " 
+		// std::wcout
+		//     << "BLA:" << getInstruction().size() << L" + " << getLevDistance() << L" - "
 		//     << other.getInstruction().size() << L" + " << other.getLevDistance() << std::endl
 		//     <<"sum=" << compareSumOfOperations << std::endl
 		//     ;
-		
+
 		if     ( compareSumOfOperations < 0 ) return true;
 		else if( compareSumOfOperations > 0 ) return false;
 		else {
 		    return false;
 		}
 	    }
-	    
+
 
 	    /**
 	     * @brief specify the dictModule which the interpretation comes from
@@ -122,7 +122,7 @@ namespace fsdict {
 	     * @see dictModule_
 	     */
 	    iDictModule const& getDictModule() const { return *dictModule_; }
-	    
+
 	    void print( std::wostream& os = std::wcout ) const {
 		fsdict::Interpretation::print( os );
 		os << "(" << getDictModule().getName() << ")";
@@ -131,7 +131,7 @@ namespace fsdict {
 	    std::wstring toString() const {
 		return fsdict::Interpretation::toString() + L"(" + getDictModule().getName() + L")";
 	    }
-	    
+
 	private:
 	    /**
 	     * @brief A pointer to the dictModule which the interpretation came from
@@ -188,23 +188,23 @@ namespace fsdict {
 		cslInt.setLevDistance( levDistance );
 		receive( cslInt );
 	    }
-	    
+
 	    /**
 	     * @brief This is to fulfill the fsdict::InterpretationReceiver interface
 	     */
 	    void receive( fsdict::Interpretation const& vaam_interpretation ) {
 		myVector_.push_back( fsdict::DictSearch::Interpretation( vaam_interpretation, *currentDictModule_ ) );
 	    }
-	    
+
 	    void handleWordBoundaries( bool b ) {
 	    }
-	    
+
 
 	    /**
 	     * @see currentDictModule_
 	     */
 	    void setCurrentDictModule( iDictModule const& dm ) { currentDictModule_ = &dm; }
-	    
+
 
 
 	    /**
@@ -346,7 +346,7 @@ namespace fsdict {
 	    int getPriority() const {
 		return priority_;
 	    }
-	    
+
 
 	private:
 	    int priority_;
@@ -377,7 +377,7 @@ namespace fsdict {
 
 	    /**
 	     * @brief Sets a static Levenshtein distance threshold for approximate lookup.
-	     * 
+	     *
 	     * If you set a value other than 0 here (which is the default value), the lookup algorithm
 	     * will, for a query word w, return all words w' of the dictionary where the levenshtein distance
 	     * between w and w' does not exceed the given boundary.
@@ -391,27 +391,27 @@ namespace fsdict {
 	    }
 
 	    /**
-	     * @brief configures the approximate lookup in a way that the lev-distance bound (see setDLev() ) depends on 
+	     * @brief configures the approximate lookup in a way that the lev-distance bound (see setDLev() ) depends on
 	     * the word length of the query word.
 	     *
 	     * @param wordlength_1 minimal word length for a query to be searched for with distance bound 1
 	     * @param wordlength_2 minimal word length for a query to be searched for with distance bound 2
 	     * @param wordlength_3 minimal word length for a query to be searched for with distance bound 3
-	     * 
-	     * A search with distance bound n naturally also returns candidates with distances smaller than n. For example, 
+	     *
+	     * A search with distance bound n naturally also returns candidates with distances smaller than n. For example,
 	     * searching with distance 2 will in general return candidates with distance 0,1,2.
-	     * That's why it makes no sense to assign, e.g. wordlength_2=8 and wordlength_1=6. Whenever 
+	     * That's why it makes no sense to assign, e.g. wordlength_2=8 and wordlength_1=6. Whenever
 	     * wordlength_i is smaller than wordlength_i-1 an exception is thrown.
 	     */
 	    void setDLevWordlengths( size_t wordlength_1, size_t wordlength_2, size_t wordlength_3 ) {
-		if( wordlength_2 < wordlength_1 || wordlength_3 < wordlength_2 ) 
+		if( wordlength_2 < wordlength_1 || wordlength_3 < wordlength_2 )
 		    throw exceptions::LogicalError( "fsdict::DictSearch::ConfigLookup::setDLevWordlengths: minimal wordlength for distance i must be greater than for distance i-1" );
 
 		minWordlengths_[1] = wordlength_1;
 		minWordlengths_[2] = wordlength_2;
 		minWordlengths_[3] = wordlength_3;
 	    }
-	    
+
 	    /**
 	     * @brief Sets sensible standard values for word-length dependent distance bounds for approximate search
 	     *
@@ -444,7 +444,7 @@ namespace fsdict {
 	    void setDLevHypothetic( size_t dlev ) {
 		dlev_hypothetic_ = dlev;
 	    }
-	    
+
 
 
 	    //@}
@@ -484,7 +484,7 @@ namespace fsdict {
 	    size_t getDLevHypothetic() const {
 		return dlev_hypothetic_;
 	    }
-	    
+
 
 	    /**
 	     * @brief returns the DictModule's  name
@@ -501,7 +501,7 @@ namespace fsdict {
 	    size_t minNrOfPatterns_;
 	    size_t maxNrOfPatterns_;
 	    size_t dlev_hypothetic_;
-	    
+
 	    Global::CaseMode caseMode_;
 	}; // class AbstractDictModule
 
@@ -564,7 +564,7 @@ namespace fsdict {
 	    /**
 	     * @brief connects the configuration to a certain dictionary.
 	     *        This dictionary will NOT be deleted in the destructor.
-	     * 
+	     *
 	     * @param dict a const reference to an existing dictionary.
 	     */
 	    void setDict( Dict_t const& dict ) {
@@ -572,11 +572,11 @@ namespace fsdict {
 		dict_ = &dict;
 		disposeDict_ = false;
 	    }
-	    
+
 	    /**
 	     * @brief Loads a dictionary from the hard disk and connects it to the configuration.
 	     *        This dictionary will NOT be deleted in the destructor.
-	     * 
+	     *
 	     * @param dictFile a path to a file storing a dictionary of type Dict_t
 	     */
 	    void setDict( char const* dictFile ) {
@@ -603,7 +603,7 @@ namespace fsdict {
 
 
 
-	    
+
 	    bool query( std::wstring const& query, iResultReceiver* answers ) {
 		bool foundAnswers = false;
 		if( getDict() ) {
@@ -622,9 +622,9 @@ namespace fsdict {
 			    getMyDictSearch().val_->setMinNrOfPatterns( 1 ); // get only strictly hypothetic matches
 			    getMyDictSearch().val_->setMaxNrOfPatterns( getMaxNrOfPatterns() );
 			    getMyDictSearch().val_->setCaseMode( getCaseMode() );
-			    
-			    foundAnswers = 
-				getMyDictSearch().val_->query( query, answers ) 
+
+			    foundAnswers =
+				getMyDictSearch().val_->query( query, answers )
 				|| foundAnswers;
 			}
 			else { // use vaam
@@ -633,16 +633,16 @@ namespace fsdict {
 			    getMyDictSearch().vaam_->setMaxNrOfPatterns( getMaxNrOfPatterns() );
 			    getMyDictSearch().vaam_->setDistance( getDLevHypothetic() );
 			    getMyDictSearch().vaam_->setCaseMode( getCaseMode() );
-			
-			    foundAnswers = 
-				getMyDictSearch().vaam_->query( query, answers ) 
+
+			    foundAnswers =
+				getMyDictSearch().vaam_->query( query, answers )
 				|| foundAnswers;
 			}
 		    }
 		}
 		return foundAnswers;
 	    }
-	    
+
 	private:
 	    Dict_t const* dict_;
 	    bool disposeDict_;
@@ -667,16 +667,16 @@ namespace fsdict {
 	/**
 	 * @brief Load a configuration from a configFile
 	 *
-	 * 
+	 *
 	 */
 	void readConfiguration( char const* configFile );
 
-	
+
 	/**
 	 * @brief Load a configuration from an existing INIConfig object
 	 */
 	void readConfiguration( INIConfig const& iniConf );
-	
+
 
 	/**
 	 * @brief initialise the hypothetic dictionary.
@@ -687,7 +687,7 @@ namespace fsdict {
 	 */
 	void initHypothetic( char const* patternFile );
 
-	
+
 	DictModule& addDictModule( std::wstring const& name, std::string const& dicFile, size_t cascadeRank = 0 );
 
         DictModule& addDictModule( std::wstring const& name, Dict_t const& dicRef, size_t cascadeRank = 0 );
@@ -701,7 +701,7 @@ namespace fsdict {
         AnnotatedDictModule& addAnnotatedDictModule( AnnotatedDictModule* newDM );
 
 	/**
-	 * @brief 
+	 * @brief
 	 */
 	void addExternalDictModule( iDictModule& extModule );
 
@@ -728,7 +728,7 @@ namespace fsdict {
 	 * @return true iff at least one answer was found
 	 */
 	bool query( std::wstring const& query, iResultReceiver* answers );
-	
+
 	//@} // END Lookup methods
 
     private:
@@ -753,7 +753,7 @@ namespace fsdict {
 	 * @brief Holds pointers to all conventional and external
 	 */
 	std::multimap< size_t, iDictModule* > allDictModules_;
-	
+
 
 	VaamDict_t dummyDic;
 	MSMatch< FW_BW > msMatch_;

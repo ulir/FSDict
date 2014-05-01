@@ -20,7 +20,7 @@ namespace fsdict {
 	/**
 	 * @brief The constructor
 	 */
-	StateHash(TransTable_t& trans);    
+	StateHash(TransTable_t& trans);
 
 	~StateHash();
 
@@ -28,7 +28,7 @@ namespace fsdict {
 	 * @brief Inserts a state into the hashtable. This method does not check for duplicates!
 	 *
 	 * This method does not check if an equivalent state is already in the hashtable - this must
-	 * be done before, using StateHash::findState(). 
+	 * be done before, using StateHash::findState().
 	 */
 	template< typename TempState >
 	void insert( const TempState& state, StateId_t compId ) {
@@ -48,8 +48,8 @@ namespace fsdict {
 	 *          Otherwise, 0 is returned.
 	 *
 	 * The comparison of a TempState and a state in the transTable is delegated to class TransTable, because the
-	 * comparison depends on the TransTable type. 
-	 * 
+	 * comparison depends on the TransTable type.
+	 *
 	 */
 	template< typename TempState >
 	size_t findState(const TempState& state) {
@@ -102,12 +102,12 @@ namespace fsdict {
 	 *
 	 * First the state object is translated into a natural number a simple way. The modulo operation
 	 * ensures that the returned number is smaller than the table size.
-	 */ 
+	 */
 	template< typename TempState >
 	int hashcode(const TempState& state) {
 	    int h = (state.isFinal())? 0 : Global::maxNrOfChars;
 	    h += state.getAnnotation();
-	    
+
 	    for( typename TempState::const_TransIterator it = state.transBegin();
 		 it != state.transEnd();
 		 ++it ) {
@@ -118,7 +118,7 @@ namespace fsdict {
 
     }; // class StateHash
 
-    
+
     template< typename TransTable_t >
     StateHash< TransTable_t >::StateHash( TransTable_t& trans ) : trans_( trans ) {
 	try {
@@ -133,7 +133,7 @@ namespace fsdict {
     template< typename TransTable_t >
     StateHash< TransTable_t >::~StateHash() {
 	ChainLink* cur = 0;
-	ChainLink* next = 0; 
+	ChainLink* next = 0;
 	for( size_t i=0; i < tableSize_ ; ++i ) {
 	    cur = table_[i];
 	    while( cur != 0 ) {

@@ -16,9 +16,9 @@ add_subdirectory(Pattern)
 add_subdirectory(Vaam)
 add_subdirectory(Val)
 
-SET(FILES_FOR_LIB   
+SET(FILES_FOR_LIB
   UTF8Locale/UTF8Locale.cxx
-  Alphabet/Alphabet.cxx 
+  Alphabet/Alphabet.cxx
   LevDEA/LevDEA.cxx
   LevDEA/AutData.cxx
   DictSearch/DictSearch.cxx
@@ -39,16 +39,15 @@ ADD_LIBRARY( csl_static STATIC ${FILES_FOR_LIB} )
 #TARGET_LINK_LIBRARIES( csl Pattern )
 #TARGET_LINK_LIBRARIES( csl DictSearch )
 
-install( 
+install(
   TARGETS csl csl_static
   DESTINATION lib
   )
 
-INSTALL(DIRECTORY . 
+INSTALL(DIRECTORY .
 	DESTINATION include/fsdict/
 	FILES_MATCHING
- 	PATTERN "*.h"
- 	PATTERN "*.tcc"
- 	PATTERN "*CMake*" EXCLUDE
+	PATTERN "*.h"
+	PATTERN "*.tcc"
+	PATTERN "*CMake*" EXCLUDE
  )
-

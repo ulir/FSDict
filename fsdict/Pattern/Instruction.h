@@ -32,7 +32,7 @@ namespace fsdict {
 	bool operator==( Instruction const& other ) const;
 
 	//@} // constructors/destructors/operators
-	
+
 	/**
 	 * @name Serialization
 	 */
@@ -56,21 +56,21 @@ namespace fsdict {
 	//@{
 
 	/**
-	 * @brief prints a string-representation of the instruction to stdout or to another std::wstream 
+	 * @brief prints a string-representation of the instruction to stdout or to another std::wstream
 	 * specified as argument.
 	 */
-	void print(  std::wostream& os = std::wcout ) const;	
+	void print(  std::wostream& os = std::wcout ) const;
 
 	std::wstring toString() const;
 
 	/**
-	 * @brief Converts a string as produced by {@link toString()} back into the data structure 
+	 * @brief Converts a string as produced by {@link toString()} back into the data structure
 	 */
 	size_t parseFromString( std::wstring const& str, size_t offset = 0 );
 
 	//@} // Serialization
 
-	
+
 	/**
 	 * @name Usage of the trace
 	 */
@@ -105,7 +105,7 @@ namespace fsdict {
 	Status status_;
 
     }; // class Instruction
-    
+
 
 } // eon
 

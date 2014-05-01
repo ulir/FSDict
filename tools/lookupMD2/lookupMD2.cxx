@@ -17,14 +17,14 @@ int main( int argc, char** argv ) {
 	MinDic2 mdic;
 	mdic.loadFromFile( argv[1] );
 
-	
+
 	std::wstring query;
 	while( std::getline( std::wcin, query ).good() ) {
 	    // is this really necessary ??
 	    if ( query.length() > Global::lengthOfLongStr ) {
 		throw exceptions::badInput( "fsdict::lookupMD2: Maximum length of input line violated (set by Global::lengthOfLongStr)" );
 	    }
-	    
+
 	    int ann = 0;
 	    if( mdic.lookup( query.c_str(), &ann ) ) {
 		std::wcout<<ann<<std::endl;
@@ -34,7 +34,7 @@ int main( int argc, char** argv ) {
 	if( errno == EILSEQ ) {
 	    throw exceptions::badInput( "fsdict::lookupMD2: Input encodig error" );
 	}
-	
+
     } catch( exceptions::fsdictException& ex ) {
 	std::wcout<<"lookupMD: "<<ex.what()<<std::endl;
 	exit( 1 );

@@ -10,7 +10,7 @@
 namespace fsdict {
 
     /**
-     * Class FBDic ("Foward-Backward-Dictionary") covers a dictionary and its reversed variant in one 
+     * Class FBDic ("Foward-Backward-Dictionary") covers a dictionary and its reversed variant in one
      * object and also, more importantly, in one binary file on the hard disk.
      *
      * @author: Uli Reffle
@@ -31,7 +31,7 @@ namespace fsdict {
 	//@}
 
 
-    
+
 	/**
 	 * @name Access separate dictionaries
 	 */
@@ -53,7 +53,7 @@ namespace fsdict {
 
 	/**
 	 * @name Compile a new dictionary
-	 * 
+	 *
 	 */
 	//@{
 
@@ -66,7 +66,7 @@ namespace fsdict {
 
 	/**
 	 * @brief prepares the object for construction of a new FBDic
-	 * Call before calling addToken() for the first time. 
+	 * Call before calling addToken() for the first time.
 	 */
 	void initConstruction();
 
@@ -77,7 +77,7 @@ namespace fsdict {
 
 	/**
 	 * @brief Finalize the construction
-	 * Call after calling addToken() for the last time. 
+	 * Call after calling addToken() for the last time.
 	 */
 	void finishConstruction();
 
@@ -94,13 +94,13 @@ namespace fsdict {
 	 * @param a file containing a compiled FBDic. (often: *.fbdic)
 	 */
 	inline void loadFromFile( const char* binFile );
-	
+
 	/**
 	 * @brief Load a compiled FBDic from an open file stream.
 	 * @param fi a c-style file pointer.
 	 */
 	inline void loadFromStream( FILE* fi );
-	
+
 	/**
 	 * @brief dump FBDic automaton to a file in binary form.
 	 * @param binFile File to write the automaton into.

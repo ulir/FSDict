@@ -14,7 +14,7 @@ sub new {
 	warn "MinDic: provide argument 'dicFile' as arguments for the constructor.\n";
 	return undef;
     }
-    
+
     my $binary = "/mounts/data/proj/impact/software/uli/$ENV{CPU}/bin/lookupMD $self->{dicFile}";
 
     open2( $self->{BINARY_OUT}, $self->{BINARY_IN}, $binary ) or die "Perl::MinDic: $!";

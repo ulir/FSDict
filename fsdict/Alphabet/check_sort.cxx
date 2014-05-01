@@ -22,13 +22,13 @@ int main(int argc, char** argv) {
     char* temp;
 
     int line_count = 0;
-    while(fgets(line,Global::lexline_length,handle)) { 
+    while(fgets(line,Global::lexline_length,handle)) {
 	line[strlen((char*)line)-1] = 0; // delete newline
       ++line_count;
 //      std::cerr<<"line: '"<<line<<"'"<<std::endl;
-      
 
- 	if(alph.strcmp((uchar*)line,(uchar*)last_line) < 0) {
+
+	if(alph.strcmp((uchar*)line,(uchar*)last_line) < 0) {
 	    std::cout<<":"<<last_line<<":"<<line;
 	    std::cout<<"Sort error in line "<<line_count<<std::endl;
 	    return 1;

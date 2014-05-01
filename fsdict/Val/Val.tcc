@@ -2,7 +2,7 @@ namespace fsdict {
 
     Val::Val( MinDic_t const& baseDic, char const* patternFile ) :
 	patternGraph_( PatternGraph::FORWARD, PatternGraph::INDEX_RIGHT ),
-	caseMode_( Global::asIs ),	
+	caseMode_( Global::asIs ),
 	minNrOfPatterns_( 0 ),
 	maxNrOfPatterns_( Val::INFINITE )
 	{
@@ -33,7 +33,7 @@ namespace fsdict {
 	}
 
 	interpretations_ = interpretations;
-	
+
 	size_t depth = 1; // depth 0 was initialized above
 	PatternGraph::State patternPos = patternGraph_.getRoot();
 	patternPos.walk( Global::wordBeginMarker );
@@ -43,12 +43,12 @@ namespace fsdict {
 	stack_.push_back( StackItem() );
 	stack_.back().push_back( Position( baseDic_->getRootState() ) );
 	applyPatterns( 0, patternPos );
-	
+
 
 
 	// for all chars of the query word
 	for( std::wstring::const_iterator c = query_.begin(); c != query_.end(); ++c, ++depth ) {
-	    
+
 	    StackItem const& last = stack_.back(); // this is stack_.at( depth - 1 )
 	    stack_.push_back( StackItem() );
 	    StackItem& cur = stack_.back();        // this is stack_.at( depth )
@@ -58,7 +58,7 @@ namespace fsdict {
 	    size_t count = 0;
 	    for( StackItem::const_iterator pos = last.begin(); pos != last.end(); ++pos, ++count ) {
 		if( pos->dicPos_.hasTransition( *c ) ) {
-		    cur.push_back( 
+		    cur.push_back(
 			Position(
 			    pos->dicPos_.getTransTarget( *c ),
 			    pos->nrOfPatternsApplied_,
@@ -67,7 +67,7 @@ namespace fsdict {
 			);
 		}
 	    }
-	    
+
 	    patternPos.walk( *c );
 
 	    applyPatterns( depth, patternPos );
@@ -83,7 +83,7 @@ namespace fsdict {
 	    //std::wcerr << "lad=" << cur.lookAheadDepth_ << std::endl;
 
 	    //std::wcout << "sizeof_bucket=" << cur.size() << std::endl;
-	    
+
 	} // for all chars of the query word
 
 
@@ -91,9 +91,9 @@ namespace fsdict {
 
 	    patternPos.walk( Global::wordEndMarker );
 	    applyPatterns( depth - 1, patternPos );
-	    
+
 	    if( stack_.back().lookAheadDepth_ == 0 ) {  // we are not in the lookahead-phase
-		
+
 		// report matches
 		bool foundAnswers = false;
 		// for all positions
@@ -110,33 +110,33 @@ namespace fsdict {
 		    ++count;
 		} // for all positions
 		return foundAnswers;
-	    } // not in lookahead phase 
+	    } // not in lookahead phase
 	    else return false;
 	} // reached end of word
 	else return false;
 
     } // method query
-    
+
     void Val::applyPatterns( size_t depth, PatternGraph::State const& patternPos ) const {
 	if( patternPos.isFinal() ) {
 	    // for all patterns fitting a suffix of the current path
 	    for( PatternGraph::Replacements_t::const_iterator leftSide = patternPos.getReplacements().begin();
 		 leftSide != patternPos.getReplacements().end();
 		 ++leftSide ) {
-		    
+
 		size_t sizeOfRightSide = patternGraph_.stripped_at( leftSide->second ).getRight().length();
-		    
+
 		// for all exisitng positions of the stackItem (tracked back rightside)
-		// If we are dealing with an empty right side, new positions might be added to this StackItem - 
+		// If we are dealing with an empty right side, new positions might be added to this StackItem -
 		// So we don't use iterators here, they might become invalid during the process!
 		size_t nrOfOldPositions = stack_.at( depth - sizeOfRightSide ).size();
 		for( size_t i = 0; i < nrOfOldPositions; ++i ) {
 		    Position& pos = stack_.at( depth - sizeOfRightSide ).at( i );
-			
+
 		    // check if maxNrOfPatterns_ is reached already
 		    if( ( maxNrOfPatterns_ != Val::INFINITE ) && ( pos.getNrOfPatternsApplied() == maxNrOfPatterns_ ) )
 			continue;
-			
+
 		    MinDic_t::State newDicPos = pos.dicPos_.getTransTarget( patternGraph_.stripped_at( leftSide->second ).getLeft().c_str() );
 		    if( newDicPos.isValid() )  {
 			//std::wcerr << "Apply Pattern " << patternGraph_.at( leftSide->second ).toString() << std::endl;
@@ -161,14 +161,14 @@ namespace fsdict {
 	interpretation.setLevDistance( 0 );
 	interpretation.setBaseWordScore( baseWordScore );
 
-	interpretation.setWord( query_ ); 
+	interpretation.setWord( query_ );
 	// find out what baseWord we're talking about by applying the pattern to the query
 	std::wstring word = query_;
 	interpretation.getInstruction().applyTo( &word, -1 );
-	interpretation.setBaseWord( word ); 
+	interpretation.setBaseWord( word );
 
 	if( wasUpperCase_ ) {
-	    
+
 	    std::wstring tmp = interpretation.getBaseWord();
 	    tmp.at( 0 ) = std::toupper( tmp.at( 0 ), fsdict::UTF8Locale::Instance() );
 	    interpretation.setBaseWord( tmp );
@@ -178,7 +178,7 @@ namespace fsdict {
 	    interpretation.setWord( tmp );
 	}
 
- 	interpretations_->receive( interpretation );
+	interpretations_->receive( interpretation );
    }
 
     int Val::reportMatch_rec( const Position* cur, Interpretation* interpretation ) const {
@@ -194,10 +194,10 @@ namespace fsdict {
 	if( ! cur->posPattern_.empty() ) {
 	    interpretation->getInstruction().push_back( cur->posPattern_ );
 	    interpretation->getInstruction().back().setPosition( cur->posPattern_.getPosition() - lengthDiff );
-	    lengthDiff += cur->posPattern_.getRight().size() - cur->posPattern_.getLeft().size(); 
+	    lengthDiff += cur->posPattern_.getRight().size() - cur->posPattern_.getLeft().size();
 	}
 	return lengthDiff;
     }
 
-    
+
 } // eon

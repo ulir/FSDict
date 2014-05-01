@@ -5,7 +5,7 @@ namespace fsdict {
 
     PatternWeights::PatternWeights() : smartMerge_( false ) {
     }
-    
+
     void PatternWeights::clear() {
 	patternWeights_.clear();
 	defaultWeights_.clear();
@@ -15,19 +15,19 @@ namespace fsdict {
 	patternWeights_.clear();
     }
 
-    
+
     double PatternWeights::getWeight( const fsdict::Pattern& pattern ) const {
 	// try and find it in the list of explicitly defined weights
 	std::map< fsdict::Pattern, double >::const_iterator it = patternWeights_.find( pattern );
 	if( it != patternWeights_.end() )
 	    return it->second;
-	
+
 	// Smart merge filter
 	if( smartMerge_ ) {
 	    if( pattern.getLeft().size() > 0 && ( pattern.getRight().find( pattern.getLeft() ) != std::wstring::npos )  ) return UNDEF;
 	    if( pattern.getRight().size() > 0 && ( pattern.getLeft().find( pattern.getRight() ) != std::wstring::npos )  ) return UNDEF;
 	}
-	
+
 	// otherwise, return default value for the respective pattern type (which might be UNDEF as well)
 	return getDefault( PatternType( pattern.getLeft().size(), pattern.getRight().size() ) );
     }
@@ -66,15 +66,15 @@ namespace fsdict {
 	fi.imbue( UTF8Locale::Instance() );
 	fi.open( patternFile );
 	if( ! fi ) {
-	    std::string message = 
+	    std::string message =
 		std::string( "PatternWeights::Could not open pattern file: " ) +
 		patternFile;
-		
+
 	    throw exceptions::badFileHandle( message );
 	}
-	
+
 	std::wstring line;
-	
+
 	size_t patternCount = 0;
 	while( getline( fi, line ).good() ) {
 	    size_t delimPos = line.find( Pattern::leftRightDelimiter_ );
@@ -83,7 +83,7 @@ namespace fsdict {
 		throw exceptions::badInput( "PatternWeights: Invalid line in pattern file" );
 	    }
 
-	    
+
 	    // std::wcout << "left side is " << line.substr( 0, delimPos ) << std::endl;
 	    // std::wcout << "right side is " << line.substr( delimPos + 1, weightDelimPos - delimPos -1 ) << std::endl;
 	    // std::wcout << "weight is " << line.substr( weightDelimPos+1 ).c_str() << std::endl;
@@ -95,11 +95,11 @@ namespace fsdict {
 		throw exceptions::badInput( "fsdict::PatternWeights: Could not parse double number." );
 	    }
 
-	    patternWeights_[ Pattern( line.substr( 0, delimPos ), 
+	    patternWeights_[ Pattern( line.substr( 0, delimPos ),
 				      line.substr( delimPos + 1, weightDelimPos - delimPos - 1 ) ) ]
 		= weight;
-	    
-		    
+
+
 	    ++patternCount;
 	}
 	if( errno == EILSEQ ) { // catch encoding error
@@ -111,11 +111,11 @@ namespace fsdict {
 	// std::wofstream fo;
 	// fo.imbue( UTF8Locale::Instance() );
 	// fo.open( "/tmp/patterns.xml" );
-	
+
 	// writeToXML( fo );
 	// fo.close();
     } // loadFromFile
-    
+
     void PatternWeights::writeToFile( const char* patternFile ) const {
 	std::wofstream fo;
 	fo.imbue( UTF8Locale::Instance() );
@@ -138,21 +138,21 @@ namespace fsdict {
 
     void PatternWeights::writeToXML( std::wostream& os ) const {
 	time_t t = time(NULL);
-	
+
 	os << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << std::endl
 	   << "<patternWeights>" << std::endl
 	   << "<head>" << std::endl
 	   << "<created_at>" << asctime(localtime(&t)) << "</created_at>" << std::endl
 	   << "</head>" << std::endl;
-	    
+
 	for( fsdict::PatternWeights::const_PatternIterator it = patternsBegin(); it != patternsEnd(); ++it ) {
-	    os << "<pattern left=\"" << it->first.getLeft() << "\" right=\"" << it->first.getRight() 
+	    os << "<pattern left=\"" << it->first.getLeft() << "\" right=\"" << it->first.getRight()
 	       << "\" prob=\"" << it->second << "\"/>" << std::endl;
 	}
-	
+
 	os << "</patternWeights>" << std::endl;
     }
-    
+
     void PatternWeights::writeToXML( char const* xmlFile ) const {
 	std::wofstream fo;
 	fo.imbue( std::locale( "" ) );
@@ -164,7 +164,7 @@ namespace fsdict {
 	fo.close();
     }
 
-    
+
     void PatternWeights::sortToVector( std::vector< std::pair< fsdict::Pattern, double > >* vec ) const {
 	if( ! vec->empty() ) throw exceptions::fsdictException( "fsdict::PatternWeights::sortToVector: output vector not empty." );
         for( std::map< fsdict::Pattern, double >::const_iterator it = patternWeights_.begin(); it != patternWeights_.end(); ++it ) {
@@ -172,7 +172,7 @@ namespace fsdict {
 	}
 	std::sort( vec->begin(), vec->end(), sortBySecond< std::pair< fsdict::Pattern, double > > );
     }
-    
+
     void PatternWeights::print( std::wostream& str ) const{
 	str << "*** PatternWEights::DebugPrint ***" << std::endl;
 	std::vector< std::pair< fsdict::Pattern, double > > histPatternCountSorted;
@@ -184,7 +184,7 @@ namespace fsdict {
 	    str << it->first.getLeft() << Pattern::leftRightDelimiter_ << it->first.getRight() << "#" << it->second << std::endl;
 //	    if( it - histPatternCountSorted.begin() > 30 )break;
 	}
-	
+
 	str << "Default settings:" << std::endl;
 	for(std::map< PatternType, double >::const_iterator defaultIt = defaultWeights_.begin(); defaultIt != defaultWeights_.end(); defaultIt++){
 	    str << "<" <<  defaultIt->first.first << ',' << defaultIt->first.second << "> : " << defaultIt->second << std::endl;
