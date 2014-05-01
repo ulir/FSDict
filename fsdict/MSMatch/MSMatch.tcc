@@ -4,28 +4,20 @@
 namespace fsdict {
 
     template<>
-    inline MSMatch< STANDARD >::MSMatch( size_t k, const char* minDicFile ) :
+    inline MSMatch< STANDARD >::MSMatch( size_t k ) :
 	k_( k )
     {
 	initialize();
-	if( minDicFile ) {
-	    dictFW_ = new MinDic<>( minDicFile );
-	}
 
 	dictBW_ = 0;
 	levDEASecond_ = new LevDEA( k_ );
     }
 
     template<>
-    inline MSMatch< FW_BW >::MSMatch( size_t k, const char* fbDicFile ) :
+    inline MSMatch< FW_BW >::MSMatch( size_t k ) :
 	k_( k )
     {
 	initialize();
-	if( fbDicFile ) {
-	    fbDic_ = new FBDic<>( fbDicFile );
-	    dictFW_ =  &( fbDic_->getFWDic() );
-	    dictBW_ = &( fbDic_->getBWDic() );
-	}
 	levDEAFirst_ = new LevDEA( 0 );
 	levDEASecond_ = new LevDEA( 0 );
     }
@@ -38,9 +30,6 @@ namespace fsdict {
 
     template<>
     inline MSMatch< FW_BW >::~MSMatch() {
-	if( fbDic_ ) delete( fbDic_ );
-	if( levDEAFirst_ ) delete( levDEAFirst_ );
-	if( levDEASecond_ ) delete( levDEASecond_ );
     }
 
     template< MSMatchMode Mode >
@@ -51,6 +40,12 @@ namespace fsdict {
 	levDEAFirst_ = 0;
 	levDEASecond_ = 0;
 	caseMode_ = Global::asIs;
+    }
+
+    template<>
+    inline void MSMatch< STANDARD >::setMinDic( MinDic_t const& minDic ) {
+	dictFW_ =  &( minDic );
+	dictBW_ = 0;
     }
 
     template<>

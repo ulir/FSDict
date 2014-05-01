@@ -4,7 +4,6 @@ cmake_minimum_required(VERSION 2.6)
 
 ADD_CUSTOM_TARGET(MinDic DEPENDS fsdict compileMD lookupMD extractMD   )
 ADD_CUSTOM_TARGET(FBDic DEPENDS fsdict compileFBDic lookupFBDic extractFBDic   )
-#ADD_CUSTOM_TARGET(DictSearch DEPENDS fsdict MinDic FBDic)
 
 ADD_CUSTOM_TARGET(Vaam DEPENDS fsdict MinDic FBDic )
 

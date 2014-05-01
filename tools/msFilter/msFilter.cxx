@@ -31,7 +31,10 @@ int main( int argc, char const** argv ) {
 
     try {
 //	MSMatch< FW_BW > matcher( atoi( opt.getArgument( 0 ).c_str() ), opt.getArgument( 1 ).c_str() );
-	MSMatch< STANDARD > matcher( atoi( opt.getArgument( 0 ).c_str() ), opt.getArgument( 1 ).c_str() );
+
+	MinDic<> dic( opt.getArgument( 1 ).c_str() );
+	MSMatch< STANDARD > matcher( atoi( opt.getArgument( 0 ).c_str() ) );
+	matcher.setMinDic( dic );
 
 	ResultSet list;
 

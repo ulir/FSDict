@@ -41,7 +41,6 @@ or
 fsdict::FBDic<> fbDic;
 fbDic.loadFromFile( "path-to/some.fbdic" );
 @endcode
-Some modules (like fsdict::DictSearch) also allow to pass a filename and load the automaton internally.
 
 @section compile compile a fsdict::FBDic automaton from a .lex file at runtime
 @code

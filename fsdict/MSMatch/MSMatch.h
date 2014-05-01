@@ -46,7 +46,7 @@ namespace fsdict {
 	 * @param k the levenshtein threshold: MSMatch will extract candidates with distance lower or equal to \c k
 	 * @param FBDicFile a path specifying a file with a compiled FBDic
 	 */
-	inline MSMatch( size_t k = 0, const char* FBDicFile = 0 );
+	inline MSMatch( size_t k = 0 );
 
 	inline ~MSMatch();
 
@@ -62,6 +62,8 @@ namespace fsdict {
 	inline static size_t getMaximumDistance() {
 	    return 3;
 	}
+
+	inline void setMinDic( MinDic_t const& minDic );
 
 	inline void setFBDic( FBDic<> const& fbDic );
 
