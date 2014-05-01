@@ -381,12 +381,12 @@ namespace fsdict {
 	float cells_MB = (float)( sizeOfUsedCells_ * sizeof( Cell_t ) ) / 1000000;
 
 	printf( "**********\nTransTable Analysis\n**********\nCells:\t%lu (%.3f MB)\nStates:\t%lu\nTransitions:\t%lu\nAnnotations:\t%lu\nEmpty:\t%lu(%2.2f%%)\n\n",
-		sizeOfUsedCells_,
+		static_cast< unsigned long >( sizeOfUsedCells_ ),
 		cells_MB,
-		states,
-		transitions,
-		annotations,
-		empty,
+		static_cast< unsigned long >( states ),
+		static_cast< unsigned long >( transitions ),
+		static_cast< unsigned long >( annotations ),
+		static_cast< unsigned long >( empty ),
 		emptyRatio
 	    );
     }

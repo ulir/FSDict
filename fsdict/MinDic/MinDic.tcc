@@ -376,7 +376,7 @@ namespace fsdict {
 
 		TransTable_t::doAnalysis();
 		printf( "**********\nMinDic Analysis\n**********\nnr of keys:\t%lu\nannotation array: %.3f MB\n\n",
-			nrOfKeys_,
+			static_cast< unsigned long>( nrOfKeys_ ),
 			annotations_MB
 			);
 

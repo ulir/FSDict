@@ -297,7 +297,7 @@ namespace fsdict {
 
 		TransTable_t::doAnalysis();
 		printf( "**********\nMinDic2 Analysis\n**********\nnr of keys:\t%lu\n\n",
-			nrOfKeys_
+			static_cast< unsigned long >( nrOfKeys_ )
 			);
 
 

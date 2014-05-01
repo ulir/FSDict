@@ -454,13 +454,13 @@ namespace fsdict {
 	float susoStrings_MB = (float)( header_.getLengthOfSusoStrings() * sizeof( wchar_t ) ) / 1000000;
 
 	printf( "**********\nTransTable Analysis\n**********\nCells:\t%lu (%.3f MB)\nStates:\t%lu\nTransitions:\t%lu\nEmpty:\t%lu (%2.2f%%)\nsusoString: %lu chars (%.3f MB)\n\n",
-		sizeOfUsedCells_,
+		static_cast< unsigned long >( sizeOfUsedCells_ ),
 		cells_MB,
-		states,
-		transitions,
-		empty,
+		static_cast< unsigned long >( states ),
+		static_cast< unsigned long >( transitions ),
+		static_cast< unsigned long >( empty ),
 		emptyRatio,
-		header_.getLengthOfSusoStrings(),
+		static_cast< unsigned long >( header_.getLengthOfSusoStrings() ),
 		susoStrings_MB
 	    );
     }
