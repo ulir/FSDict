@@ -12,7 +12,7 @@ Highlights
 
 Documentation
 ============
-Please find documentation of the latest release [here](http://ulir.github.io/FSDict/v0.1.1/api/).
+Please find documentation of the latest release [here](http://ulir.github.io/FSDict/v0.2.0/api/).
 
 
 How to build
