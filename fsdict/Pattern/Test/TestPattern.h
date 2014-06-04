@@ -25,8 +25,8 @@ namespace fsdict {
 	CPPUNIT_TEST( testPosPattern );
 	CPPUNIT_TEST( testInstruction );
 	CPPUNIT_TEST( testInterpretation );
-	CPPUNIT_TEST( testPatternProbabilities );
-	CPPUNIT_TEST( testPatternGraph );
+	// CPPUNIT_TEST( testPatternProbabilities );
+	// CPPUNIT_TEST( testPatternGraph );
 	CPPUNIT_TEST_SUITE_END();
     public:
 
@@ -56,6 +56,17 @@ namespace fsdict {
 	testPatternGraph();
     }
 
+    void populatePatternSet( PatternSet& patternSet ) {
+	patternSet.push_back( Pattern( L"a", L"x" ) );
+	patternSet.push_back( Pattern( L"ei", L"ey" ) );
+	patternSet.push_back( Pattern( L"k", L"h" ) );
+	patternSet.push_back( Pattern( L"t", L"th" ) );
+	patternSet.push_back( Pattern( L"t", L"x" ) );
+	patternSet.push_back( Pattern( L"xy", L"x y" ) );
+
+    }
+
+
     /**
      * test the basic methods of class Pattern.
      */
@@ -73,7 +84,7 @@ namespace fsdict {
 
     void TestPattern::testPatternSet() {
 	PatternSet pSet;
-	pSet.loadPatterns( "../fsdict/Pattern/Test/small.patterns.txt" );
+	populatePatternSet( pSet );
 
 	PatternSet::const_iterator pat = pSet.begin();
 
@@ -104,7 +115,7 @@ namespace fsdict {
 	CPPUNIT_ASSERT( pp1.getPosition() == 3 );
 
 	std::wstring str = pp1.toString();
-	CPPUNIT_ASSERT( str == L"(left_right,3)" );
+	CPPUNIT_ASSERT( str == L"(left:right,3)" );
 
 	PosPattern pp2;
 	pp2.parseFromString( str );
@@ -113,7 +124,7 @@ namespace fsdict {
 	CPPUNIT_ASSERT( pp2.getPosition() == 3 );
 
 	// if posPattern is not at the beginning of the str
-	str = L"bliblablu(left_right,3)bla";
+	str = L"bliblablu(left:right,3)bla";
 
 	PosPattern pp3;
 	size_t end_of_pp = pp3.parseFromString( str, 9 );
@@ -123,7 +134,7 @@ namespace fsdict {
 	CPPUNIT_ASSERT( end_of_pp == 23 );
 
 	// in a realistic Instruction
-	str = L"[(left_right,3)(le_ri,42)]";
+	str = L"[(left:right,3)(le:ri,42)]";
 
 	PosPattern pp4;
 	end_of_pp = pp4.parseFromString( str, 1 );
@@ -156,7 +167,7 @@ namespace fsdict {
 	CPPUNIT_ASSERT( instr.at( 1 ).getPosition() == 42 );
 
 	std::wstring str = instr.toString();
-	CPPUNIT_ASSERT( str == L"[(left_right,3)(le_ri,42)]" );
+	CPPUNIT_ASSERT( str == L"[(left:right,3)(le:ri,42)]" );
 
 	Instruction instr2;
 	instr2.parseFromString( str, 0 );
@@ -183,7 +194,7 @@ namespace fsdict {
 	interp.setLevDistance( 1 );
 
 	std::wstring str = interp.toString();
-	CPPUNIT_ASSERT( str == L"theil:teil+[(t_th,0)],dist=1" );
+	CPPUNIT_ASSERT( str == L"theil:teil+[(t:th,0)],dist=1" );
 
 	interp.clear();
 	interp.parseFromString( str, 0 );
@@ -221,7 +232,7 @@ namespace fsdict {
 
     void TestPattern::testPatternGraph() {
 	PatternGraph pg;
-	pg.loadPatterns( "../fsdict/Val/Test/small.patterns.txt" );
+	populatePatternSet( pg );
 
 	// implicit copy constructor
 	PatternGraph::State st = pg.getRoot();
@@ -243,9 +254,8 @@ namespace fsdict {
 
 	/////  Forward, index right
 	PatternGraph pg2( PatternGraph::FORWARD, PatternGraph::INDEX_RIGHT );
-	pg2.loadPatterns( "../fsdict/Val/Test/small.patterns.txt" );
+	populatePatternSet( pg2 );
 	pg2.toDot();
-
 	st = pg2.getRoot();
 
 

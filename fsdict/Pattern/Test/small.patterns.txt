@@ -1,6 +1,0 @@
-a:x
-ei:ey
-k:h
-t:th
-t:x
-xy:x y
