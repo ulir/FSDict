@@ -12,7 +12,7 @@
 
 COMPILER='g++ -O3 -I.'
 #COMPILER='g++ -ggdb -I.'
-LIBSOURCES='csl/Alphabet/Alphabet.cxx csl/LevDEA/LevDEA.cxx  csl/UTF8Locale/UTF8Locale.cxx'
+LIBSOURCES='fsdict/Alphabet/Alphabet.cxx fsdict/LevDEA/LevDEA.cxx fsdict/LevDEA/AutData.cxx  fsdict/UTF8Locale/UTF8Locale.cxx'
 
 BINDIR='build/bin'
 mkdir -vp $BINDIR
